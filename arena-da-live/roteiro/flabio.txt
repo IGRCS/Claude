@@ -1,0 +1,256 @@
+ROTEIRO DE GRAVAÇÃO — FLABIO (tema eleicao)
+
+Total: 32 falas = 39 clipes de áudio.
+Leia/gere os clipes NESTA ORDEM, com uma pausa de pelo menos 2 segundos entre um clipe e outro,
+e sem pausas longas (mais de 1 s) dentro de um mesmo clipe. Detalhes no final deste arquivo.
+
+============================================================
+GOLPES COMUNS
+============================================================
+
+F-ataque-01
+  Fala completa: Cadê a picanha, Lule? O [NOME] cansou de esperar!
+  CLIPE (antes do nome) F-ataque-01-a: Cadê a picanha, Lule? O
+  CLIPE (depois do nome) F-ataque-01-b: cansou de esperar!
+
+F-ataque-02
+  Fala completa: Essa é pela picanha que nunca chegou! Valeu, [NOME]!
+  CLIPE (antes do nome) F-ataque-02-a: Essa é pela picanha que nunca chegou! Valeu,
+
+F-ataque-03
+  Fala completa: O [NOME] mandou um presente mais caro que a dúzia de ovo!
+  CLIPE (antes do nome) F-ataque-03-a: O
+  CLIPE (depois do nome) F-ataque-03-b: mandou um presente mais caro que a dúzia de ovo!
+
+F-ataque-04
+  Fala completa: Vai taxar esse presente também, Lule? O [NOME] mandou sem imposto!
+  CLIPE (antes do nome) F-ataque-04-a: Vai taxar esse presente também, Lule? O
+  CLIPE (depois do nome) F-ataque-04-b: mandou sem imposto!
+
+F-ataque-05
+  Fala completa: Taxa das blusinhas? Aqui é taxa de soco! Valeu, [NOME]!
+  CLIPE (antes do nome) F-ataque-05-a: Taxa das blusinhas? Aqui é taxa de soco! Valeu,
+
+F-ataque-06
+  Fala completa: Faz o L agora, Lule! L de LEVOU! Valeu, [NOME]!
+  CLIPE (antes do nome) F-ataque-06-a: Faz o L agora, Lule! L de LEVOU! Valeu,
+
+F-ataque-07
+  Fala completa: Bora, vovô! Hora da soneca! Valeu, [NOME]!
+  CLIPE (antes do nome) F-ataque-07-a: Bora, vovô! Hora da soneca! Valeu,
+
+F-ataque-08
+  Fala completa: Chama a Janja pra te defender, Lule! O [NOME] mandou mais um!
+  CLIPE (antes do nome) F-ataque-08-a: Chama a Janja pra te defender, Lule! O
+  CLIPE (depois do nome) F-ataque-08-b: mandou mais um!
+
+F-ataque-09
+  Fala completa: Pega o Aerolule e foge, Lule! Presente do [NOME]!
+  CLIPE (antes do nome) F-ataque-09-a: Pega o Aerolule e foge, Lule! Presente do
+
+F-ataque-10
+  Fala completa: Acabou a mamata! Valeu, [NOME]!
+  CLIPE (antes do nome) F-ataque-10-a: Acabou a mamata! Valeu,
+
+F-ataque-11
+  Fala completa: Seis por um? Aqui é seis socos por um presente do [NOME]!
+  CLIPE (antes do nome) F-ataque-11-a: Seis por um? Aqui é seis socos por um presente do
+
+F-ataque-12
+  Fala completa: Imposto? Só se for imposto de pancada! Valeu, [NOME]!
+  CLIPE (antes do nome) F-ataque-12-a: Imposto? Só se for imposto de pancada! Valeu,
+
+F-ataque-13
+  Fala completa: Isso aqui é privatização do soco! Valeu, [NOME]!
+  CLIPE (antes do nome) F-ataque-13-a: Isso aqui é privatização do soco! Valeu,
+
+F-ataque-14  (picante)
+  Fala completa: Esse golpe é pelos aposentados do INSS! Manda mais, [NOME]!
+  CLIPE (antes do nome) F-ataque-14-a: Esse golpe é pelos aposentados do INSS! Manda mais,
+
+F-ataque-15  (picante)
+  Fala completa: Toma, caloteiro da esperança! Patrocínio do [NOME]!
+  CLIPE (antes do nome) F-ataque-15-a: Toma, caloteiro da esperança! Patrocínio do
+
+F-ataque-16  (picante)
+  Fala completa: Nem o filhão vai te ajudar agora! Golpe do [NOME]!
+  CLIPE (antes do nome) F-ataque-16-a: Nem o filhão vai te ajudar agora! Golpe do
+
+============================================================
+GOLPES ESPECIAIS
+============================================================
+
+F-especial-01
+  Fala completa: [NOME] liberou o golpe Dark Horse!
+  CLIPE (depois do nome) F-especial-01-b: liberou o golpe Dark Horse!
+
+F-especial-02
+  Fala completa: Golpe da Motociata! Acelera, [NOME]!
+  CLIPE (antes do nome) F-especial-02-a: Golpe da Motociata! Acelera,
+
+F-especial-03
+  Fala completa: Modo Mito ativado pelo [NOME]!
+  CLIPE (antes do nome) F-especial-03-a: Modo Mito ativado pelo
+
+F-especial-04
+  Fala completa: Sem Lei Rouanet, só patrocínio do [NOME]!
+  CLIPE (antes do nome) F-especial-04-a: Sem Lei Rouanet, só patrocínio do
+
+F-especial-05
+  Fala completa: Golpe especial do agro! Valeu, [NOME]!
+  CLIPE (antes do nome) F-especial-05-a: Golpe especial do agro! Valeu,
+
+F-especial-06
+  Fala completa: Golpe da economia liberal: corta gasto e corta você! Valeu, [NOME]!
+  CLIPE (antes do nome) F-especial-06-a: Golpe da economia liberal: corta gasto e corta você! Valeu,
+
+F-especial-07  (picante)
+  Fala completa: O [NOME] mandou o golpe do Pix sem taxa!
+  CLIPE (antes do nome) F-especial-07-a: O
+  CLIPE (depois do nome) F-especial-07-b: mandou o golpe do Pix sem taxa!
+
+============================================================
+SUPER GOLPES
+============================================================
+
+F-super-01
+  Fala completa: Acabou a mamata! Super golpe do [NOME]!
+  CLIPE (antes do nome) F-super-01-a: Acabou a mamata! Super golpe do
+
+F-super-02
+  Fala completa: MEGA GOLPE DO ZERO UM! Valeu, [NOME]!
+  CLIPE (antes do nome) F-super-02-a: MEGA GOLPE DO ZERO UM! Valeu,
+
+F-super-03  (picante)
+  Fala completa: SUPER GOLPE! O [NOME] mandou mais que patrocínio de filme!
+  CLIPE (antes do nome) F-super-03-a: SUPER GOLPE! O
+  CLIPE (depois do nome) F-super-03-b: mandou mais que patrocínio de filme!
+
+F-super-04  (picante)
+  Fala completa: O [NOME] tá pagando mais que banqueiro! Obrigado, patrão!
+  CLIPE (antes do nome) F-super-04-a: O
+  CLIPE (depois do nome) F-super-04-b: tá pagando mais que banqueiro! Obrigado, patrão!
+
+============================================================
+VITÓRIA DO ROUND
+============================================================
+
+F-vitoria-01
+  Fala completa: Nocaute! Acabou a mamata!
+  CLIPE F-vitoria-01: Nocaute! Acabou a mamata!
+
+F-vitoria-02
+  Fala completa: Venci! Agora pode taxar a derrota, Lule!
+  CLIPE F-vitoria-02: Venci! Agora pode taxar a derrota, Lule!
+
+F-vitoria-03
+  Fala completa: Ganhei o round! E sem precisar ir em debate!
+  CLIPE F-vitoria-03: Ganhei o round! E sem precisar ir em debate!
+
+F-vitoria-04
+  Fala completa: Nocaute! Picanha agora só na minha churrasqueira!
+  CLIPE F-vitoria-04: Nocaute! Picanha agora só na minha churrasqueira!
+
+F-vitoria-05
+  Fala completa: Mais um round pro Zero Um!
+  CLIPE F-vitoria-05: Mais um round pro Zero Um!
+
+============================================================
+COMO GRAVAR E ME ENVIAR
+============================================================
+
+OPÇÃO A (um arquivo só): cole o "BLOCO PARA COLAR" abaixo no gerador, com pelo menos 2 segundos de silêncio
+  entre os parágrafos, e me mande o áudio inteiro. Eu separo nos silêncios e confiro se deu exatamente
+  39 clipes; se o número não bater, eu aviso antes de usar.
+OPÇÃO B (vários arquivos): um arquivo por clipe, com o nome igual ao ID (ex.: F-ataque-01-a.mp3).
+
+DICAS:
+- Os clipes "antes do nome" terminam como se a frase fosse continuar (sem entonação de final). Os "depois" começam
+  já no meio da frase. Se o gerador deixar, peça entonação natural de quem vai citar um nome em seguida.
+- Se o gerador pronunciar algo errado (ex.: "Flabio", "Lule", "L"), pode reescrever no texto só para a voz
+  (ex.: "éle", "Flábio"). Eu uso a ordem/ID dos clipes, não o texto.
+- Use uma voz de personagem. Não imite a voz real de nenhum candidato: o TSE proíbe áudio sintético que
+  imite a voz de pessoas reais em conteúdo eleitoral.
+
+============================================================
+BLOCO PARA COLAR NO GERADOR DE VOZ (39 clipes, um por parágrafo, na ordem)
+============================================================
+
+Cadê a picanha, Lule? O
+
+cansou de esperar!
+
+Essa é pela picanha que nunca chegou! Valeu,
+
+O
+
+mandou um presente mais caro que a dúzia de ovo!
+
+Vai taxar esse presente também, Lule? O
+
+mandou sem imposto!
+
+Taxa das blusinhas? Aqui é taxa de soco! Valeu,
+
+Faz o L agora, Lule! L de LEVOU! Valeu,
+
+Bora, vovô! Hora da soneca! Valeu,
+
+Chama a Janja pra te defender, Lule! O
+
+mandou mais um!
+
+Pega o Aerolule e foge, Lule! Presente do
+
+Acabou a mamata! Valeu,
+
+Seis por um? Aqui é seis socos por um presente do
+
+Imposto? Só se for imposto de pancada! Valeu,
+
+Isso aqui é privatização do soco! Valeu,
+
+Esse golpe é pelos aposentados do INSS! Manda mais,
+
+Toma, caloteiro da esperança! Patrocínio do
+
+Nem o filhão vai te ajudar agora! Golpe do
+
+liberou o golpe Dark Horse!
+
+Golpe da Motociata! Acelera,
+
+Modo Mito ativado pelo
+
+Sem Lei Rouanet, só patrocínio do
+
+Golpe especial do agro! Valeu,
+
+Golpe da economia liberal: corta gasto e corta você! Valeu,
+
+O
+
+mandou o golpe do Pix sem taxa!
+
+Acabou a mamata! Super golpe do
+
+MEGA GOLPE DO ZERO UM! Valeu,
+
+SUPER GOLPE! O
+
+mandou mais que patrocínio de filme!
+
+O
+
+tá pagando mais que banqueiro! Obrigado, patrão!
+
+Nocaute! Acabou a mamata!
+
+Venci! Agora pode taxar a derrota, Lule!
+
+Ganhei o round! E sem precisar ir em debate!
+
+Nocaute! Picanha agora só na minha churrasqueira!
+
+Mais um round pro Zero Um!
+

@@ -1,0 +1,987 @@
+[
+  {
+    "id": "L-ataque-01",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Companheiro {nome} mandou, e esse soco é pelo povo!",
+    "clipes": [
+      {
+        "id": "L-ataque-01-a",
+        "texto": "Companheiro",
+        "posicao": "antes"
+      },
+      {
+        "id": "L-ataque-01-b",
+        "texto": "mandou, e esse soco é pelo povo!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-02",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Faz o L, {nome}! L de LAPADA!",
+    "clipes": [
+      {
+        "id": "L-ataque-02-a",
+        "texto": "Faz o L,",
+        "posicao": "antes"
+      },
+      {
+        "id": "L-ataque-02-b",
+        "texto": "L de LAPADA!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-03",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Aqui não tem como fugir do debate, {rival}! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-03-a",
+        "texto": "Aqui não tem como fugir do debate, Flabio! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-04",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Fugiu da Band, mas não foge do soco do {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-04-a",
+        "texto": "Fugiu da Band, mas não foge do soco do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-05",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Arregão! Esse foi patrocinado pelo {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-05-a",
+        "texto": "Arregão! Esse foi patrocinado pelo",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-06",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Dark Horse? Vai é virar cavalo paraguaio! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-06-a",
+        "texto": "Dark Horse? Vai é virar cavalo paraguaio! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-07",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Zero Um? Zero chance! Obrigado, {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-07-a",
+        "texto": "Zero Um? Zero chance! Obrigado,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-08",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Fim da escala seis por um: seis socos e nenhuma folga! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-08-a",
+        "texto": "Fim da escala seis por um: seis socos e nenhuma folga! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-09",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Esse soco é isento até cinco mil! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-09-a",
+        "texto": "Esse soco é isento até cinco mil! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-10",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "O {nome} mandou picanha, e eu mandei o soco!",
+    "clipes": [
+      {
+        "id": "L-ataque-10-a",
+        "texto": "O",
+        "posicao": "antes"
+      },
+      {
+        "id": "L-ataque-10-b",
+        "texto": "mandou picanha, e eu mandei o soco!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-11",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Esse é pelo Brasil soberano! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-11-a",
+        "texto": "Esse é pelo Brasil soberano! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-12",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Vai chorar pro Tio Sam, {rival}? Golpe do {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-12-a",
+        "texto": "Vai chorar pro Tio Sam, Flabio? Golpe do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-13",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": true,
+    "original": "Só precisava de uma luz, {rival}? Toma essa luz, cortesia do {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-13-a",
+        "texto": "Só precisava de uma luz, Flabio? Toma essa luz, cortesia do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-14",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": true,
+    "original": "Esse soco o Banco Master não cobre! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-14-a",
+        "texto": "Esse soco o Banco Master não cobre! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-15",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": true,
+    "original": "Pede patrocínio pro banqueiro agora, {rival}! Golpe do {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-15-a",
+        "texto": "Pede patrocínio pro banqueiro agora, Flabio! Golpe do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-16",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": true,
+    "original": "Cuidado com a tornozeleira, {rival}! Esse foi do {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-16-a",
+        "texto": "Cuidado com a tornozeleira, Flabio! Esse foi do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-ataque-17",
+    "lado": 0,
+    "categoria": "ataque",
+    "picante": true,
+    "original": "Rachadinha não! Aqui o soco é inteirinho! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "L-ataque-17-a",
+        "texto": "Rachadinha não! Aqui o soco é inteirinho! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-especial-01",
+    "lado": 0,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Golpe especial do companheiro {nome}! Segura, {rival}!",
+    "clipes": [
+      {
+        "id": "L-especial-01-a",
+        "texto": "Golpe especial do companheiro",
+        "posicao": "antes"
+      },
+      {
+        "id": "L-especial-01-b",
+        "texto": "Segura, Flabio!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-especial-02",
+    "lado": 0,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Taxação dos super-ricos! Quem tem mais, apanha mais! Obrigado, {nome}!",
+    "clipes": [
+      {
+        "id": "L-especial-02-a",
+        "texto": "Taxação dos super-ricos! Quem tem mais, apanha mais! Obrigado,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-especial-03",
+    "lado": 0,
+    "categoria": "especial",
+    "picante": false,
+    "original": "{nome} liberou o Golpe do Pré-Sal!",
+    "clipes": [
+      {
+        "id": "L-especial-03-b",
+        "texto": "liberou o Golpe do Pré-Sal!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-especial-04",
+    "lado": 0,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Picanha voadora, patrocínio do {nome}!",
+    "clipes": [
+      {
+        "id": "L-especial-04-a",
+        "texto": "Picanha voadora, patrocínio do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-especial-05",
+    "lado": 0,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Isso é o Bolsa Soco, {rival}! Cortesia do {nome}!",
+    "clipes": [
+      {
+        "id": "L-especial-05-a",
+        "texto": "Isso é o Bolsa Soco, Flabio! Cortesia do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-especial-06",
+    "lado": 0,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Golpe Tarifa Zero! Esse o {nome} pagou pra todo mundo!",
+    "clipes": [
+      {
+        "id": "L-especial-06-a",
+        "texto": "Golpe Tarifa Zero! Esse o",
+        "posicao": "antes"
+      },
+      {
+        "id": "L-especial-06-b",
+        "texto": "pagou pra todo mundo!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-especial-07",
+    "lado": 0,
+    "categoria": "especial",
+    "picante": true,
+    "original": "Com o {nome} no meu time, nem o Banco Master te salva!",
+    "clipes": [
+      {
+        "id": "L-especial-07-a",
+        "texto": "Com o",
+        "posicao": "antes"
+      },
+      {
+        "id": "L-especial-07-b",
+        "texto": "no meu time, nem o Banco Master te salva!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-super-01",
+    "lado": 0,
+    "categoria": "super",
+    "picante": false,
+    "original": "SUPER GOLPE! O {nome} fez o L gigante!",
+    "clipes": [
+      {
+        "id": "L-super-01-a",
+        "texto": "SUPER GOLPE! O",
+        "posicao": "antes"
+      },
+      {
+        "id": "L-super-01-b",
+        "texto": "fez o L gigante!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-super-02",
+    "lado": 0,
+    "categoria": "super",
+    "picante": false,
+    "original": "Quarto mandato de soco! Valeu demais, {nome}!",
+    "clipes": [
+      {
+        "id": "L-super-02-a",
+        "texto": "Quarto mandato de soco! Valeu demais,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "L-super-03",
+    "lado": 0,
+    "categoria": "super",
+    "picante": false,
+    "original": "{nome}, meu companheiro! Esse foi o golpe do século!",
+    "clipes": [
+      {
+        "id": "L-super-03-b",
+        "texto": "meu companheiro! Esse foi o golpe do século!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-super-04",
+    "lado": 0,
+    "categoria": "super",
+    "picante": false,
+    "original": "O {nome} mandou tanto presente que dá pra fazer churrasco pro Brasil inteiro!",
+    "clipes": [
+      {
+        "id": "L-super-04-a",
+        "texto": "O",
+        "posicao": "antes"
+      },
+      {
+        "id": "L-super-04-b",
+        "texto": "mandou tanto presente que dá pra fazer churrasco pro Brasil inteiro!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "L-vitoria-01",
+    "lado": 0,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Nocaute! Hoje tem picanha pra todo mundo!",
+    "clipes": [
+      {
+        "id": "L-vitoria-01",
+        "texto": "Nocaute! Hoje tem picanha pra todo mundo!",
+        "posicao": "inteira"
+      }
+    ]
+  },
+  {
+    "id": "L-vitoria-02",
+    "lado": 0,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Faz o L, minha gente! Venci o round!",
+    "clipes": [
+      {
+        "id": "L-vitoria-02",
+        "texto": "Faz o L, minha gente! Venci o round!",
+        "posicao": "inteira"
+      }
+    ]
+  },
+  {
+    "id": "L-vitoria-03",
+    "lado": 0,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Esse round foi mais fácil que debate sem adversário!",
+    "clipes": [
+      {
+        "id": "L-vitoria-03",
+        "texto": "Esse round foi mais fácil que debate sem adversário!",
+        "posicao": "inteira"
+      }
+    ]
+  },
+  {
+    "id": "L-vitoria-04",
+    "lado": 0,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Venci! Pode chamar de quarto round, quarto mandato!",
+    "clipes": [
+      {
+        "id": "L-vitoria-04",
+        "texto": "Venci! Pode chamar de quarto round, quarto mandato!",
+        "posicao": "inteira"
+      }
+    ]
+  },
+  {
+    "id": "L-vitoria-05",
+    "lado": 0,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Ganhei o round, companheiros! Agora é picanha e cervejinha!",
+    "clipes": [
+      {
+        "id": "L-vitoria-05",
+        "texto": "Ganhei o round, companheiros! Agora é picanha e cervejinha!",
+        "posicao": "inteira"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-01",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Cadê a picanha, {rival}? O {nome} cansou de esperar!",
+    "clipes": [
+      {
+        "id": "F-ataque-01-a",
+        "texto": "Cadê a picanha, Lule? O",
+        "posicao": "antes"
+      },
+      {
+        "id": "F-ataque-01-b",
+        "texto": "cansou de esperar!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-02",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Essa é pela picanha que nunca chegou! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-02-a",
+        "texto": "Essa é pela picanha que nunca chegou! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-03",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "O {nome} mandou um presente mais caro que a dúzia de ovo!",
+    "clipes": [
+      {
+        "id": "F-ataque-03-a",
+        "texto": "O",
+        "posicao": "antes"
+      },
+      {
+        "id": "F-ataque-03-b",
+        "texto": "mandou um presente mais caro que a dúzia de ovo!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-04",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Vai taxar esse presente também, {rival}? O {nome} mandou sem imposto!",
+    "clipes": [
+      {
+        "id": "F-ataque-04-a",
+        "texto": "Vai taxar esse presente também, Lule? O",
+        "posicao": "antes"
+      },
+      {
+        "id": "F-ataque-04-b",
+        "texto": "mandou sem imposto!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-05",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Taxa das blusinhas? Aqui é taxa de soco! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-05-a",
+        "texto": "Taxa das blusinhas? Aqui é taxa de soco! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-06",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Faz o L agora, {rival}! L de LEVOU! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-06-a",
+        "texto": "Faz o L agora, Lule! L de LEVOU! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-07",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Bora, vovô! Hora da soneca! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-07-a",
+        "texto": "Bora, vovô! Hora da soneca! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-08",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Chama a Janja pra te defender, {rival}! O {nome} mandou mais um!",
+    "clipes": [
+      {
+        "id": "F-ataque-08-a",
+        "texto": "Chama a Janja pra te defender, Lule! O",
+        "posicao": "antes"
+      },
+      {
+        "id": "F-ataque-08-b",
+        "texto": "mandou mais um!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-09",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Pega o Aerolule e foge, {rival}! Presente do {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-09-a",
+        "texto": "Pega o Aerolule e foge, Lule! Presente do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-10",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Acabou a mamata! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-10-a",
+        "texto": "Acabou a mamata! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-11",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Seis por um? Aqui é seis socos por um presente do {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-11-a",
+        "texto": "Seis por um? Aqui é seis socos por um presente do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-12",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Imposto? Só se for imposto de pancada! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-12-a",
+        "texto": "Imposto? Só se for imposto de pancada! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-13",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": false,
+    "original": "Isso aqui é privatização do soco! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-13-a",
+        "texto": "Isso aqui é privatização do soco! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-14",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": true,
+    "original": "Esse golpe é pelos aposentados do INSS! Manda mais, {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-14-a",
+        "texto": "Esse golpe é pelos aposentados do INSS! Manda mais,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-15",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": true,
+    "original": "Toma, caloteiro da esperança! Patrocínio do {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-15-a",
+        "texto": "Toma, caloteiro da esperança! Patrocínio do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-ataque-16",
+    "lado": 1,
+    "categoria": "ataque",
+    "picante": true,
+    "original": "Nem o filhão vai te ajudar agora! Golpe do {nome}!",
+    "clipes": [
+      {
+        "id": "F-ataque-16-a",
+        "texto": "Nem o filhão vai te ajudar agora! Golpe do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-especial-01",
+    "lado": 1,
+    "categoria": "especial",
+    "picante": false,
+    "original": "{nome} liberou o golpe Dark Horse!",
+    "clipes": [
+      {
+        "id": "F-especial-01-b",
+        "texto": "liberou o golpe Dark Horse!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "F-especial-02",
+    "lado": 1,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Golpe da Motociata! Acelera, {nome}!",
+    "clipes": [
+      {
+        "id": "F-especial-02-a",
+        "texto": "Golpe da Motociata! Acelera,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-especial-03",
+    "lado": 1,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Modo Mito ativado pelo {nome}!",
+    "clipes": [
+      {
+        "id": "F-especial-03-a",
+        "texto": "Modo Mito ativado pelo",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-especial-04",
+    "lado": 1,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Sem Lei Rouanet, só patrocínio do {nome}!",
+    "clipes": [
+      {
+        "id": "F-especial-04-a",
+        "texto": "Sem Lei Rouanet, só patrocínio do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-especial-05",
+    "lado": 1,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Golpe especial do agro! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-especial-05-a",
+        "texto": "Golpe especial do agro! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-especial-06",
+    "lado": 1,
+    "categoria": "especial",
+    "picante": false,
+    "original": "Golpe da economia liberal: corta gasto e corta você! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-especial-06-a",
+        "texto": "Golpe da economia liberal: corta gasto e corta você! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-especial-07",
+    "lado": 1,
+    "categoria": "especial",
+    "picante": true,
+    "original": "O {nome} mandou o golpe do Pix sem taxa!",
+    "clipes": [
+      {
+        "id": "F-especial-07-a",
+        "texto": "O",
+        "posicao": "antes"
+      },
+      {
+        "id": "F-especial-07-b",
+        "texto": "mandou o golpe do Pix sem taxa!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "F-super-01",
+    "lado": 1,
+    "categoria": "super",
+    "picante": false,
+    "original": "Acabou a mamata! Super golpe do {nome}!",
+    "clipes": [
+      {
+        "id": "F-super-01-a",
+        "texto": "Acabou a mamata! Super golpe do",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-super-02",
+    "lado": 1,
+    "categoria": "super",
+    "picante": false,
+    "original": "MEGA GOLPE DO ZERO UM! Valeu, {nome}!",
+    "clipes": [
+      {
+        "id": "F-super-02-a",
+        "texto": "MEGA GOLPE DO ZERO UM! Valeu,",
+        "posicao": "antes"
+      }
+    ]
+  },
+  {
+    "id": "F-super-03",
+    "lado": 1,
+    "categoria": "super",
+    "picante": true,
+    "original": "SUPER GOLPE! O {nome} mandou mais que patrocínio de filme!",
+    "clipes": [
+      {
+        "id": "F-super-03-a",
+        "texto": "SUPER GOLPE! O",
+        "posicao": "antes"
+      },
+      {
+        "id": "F-super-03-b",
+        "texto": "mandou mais que patrocínio de filme!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "F-super-04",
+    "lado": 1,
+    "categoria": "super",
+    "picante": true,
+    "original": "O {nome} tá pagando mais que banqueiro! Obrigado, patrão!",
+    "clipes": [
+      {
+        "id": "F-super-04-a",
+        "texto": "O",
+        "posicao": "antes"
+      },
+      {
+        "id": "F-super-04-b",
+        "texto": "tá pagando mais que banqueiro! Obrigado, patrão!",
+        "posicao": "depois"
+      }
+    ]
+  },
+  {
+    "id": "F-vitoria-01",
+    "lado": 1,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Nocaute! Acabou a mamata!",
+    "clipes": [
+      {
+        "id": "F-vitoria-01",
+        "texto": "Nocaute! Acabou a mamata!",
+        "posicao": "inteira"
+      }
+    ]
+  },
+  {
+    "id": "F-vitoria-02",
+    "lado": 1,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Venci! Agora pode taxar a derrota, {rival}!",
+    "clipes": [
+      {
+        "id": "F-vitoria-02",
+        "texto": "Venci! Agora pode taxar a derrota, Lule!",
+        "posicao": "inteira"
+      }
+    ]
+  },
+  {
+    "id": "F-vitoria-03",
+    "lado": 1,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Ganhei o round! E sem precisar ir em debate!",
+    "clipes": [
+      {
+        "id": "F-vitoria-03",
+        "texto": "Ganhei o round! E sem precisar ir em debate!",
+        "posicao": "inteira"
+      }
+    ]
+  },
+  {
+    "id": "F-vitoria-04",
+    "lado": 1,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Nocaute! Picanha agora só na minha churrasqueira!",
+    "clipes": [
+      {
+        "id": "F-vitoria-04",
+        "texto": "Nocaute! Picanha agora só na minha churrasqueira!",
+        "posicao": "inteira"
+      }
+    ]
+  },
+  {
+    "id": "F-vitoria-05",
+    "lado": 1,
+    "categoria": "vitoria",
+    "picante": false,
+    "original": "Mais um round pro Zero Um!",
+    "clipes": [
+      {
+        "id": "F-vitoria-05",
+        "texto": "Mais um round pro Zero Um!",
+        "posicao": "inteira"
+      }
+    ]
+  }
+]
