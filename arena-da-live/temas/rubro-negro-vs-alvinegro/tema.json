@@ -1,0 +1,124 @@
+{
+  "nome": "Rubro-negro x Alvinegro",
+  "titulo": "CLÁSSICO NA ARENA",
+  "subtitulo": "Mande presente e defenda suas cores!",
+  "aviso": "Jogo de humor • Personagens fictícios • Sem vínculo com clubes",
+  "avisoIA": "",
+  "mapa": true,
+  "cores": { "fundo1": "#1a0b0d", "fundo2": "#05060f", "destaque": "#ffd400" },
+  "narrador": {
+    "voz": {
+      "edge": { "voz": "pt-BR-FranciscaNeural", "tom": "+0%", "velocidade": "+8%" },
+      "google": { "taxa": 1 },
+      "navegador": { "tom": 1.1, "velocidade": 1.1 }
+    },
+    "frases": {
+      "inicioRound": [
+        "Round {round}! Clássico na arena!",
+        "Round {round}! Rubro-negro contra alvinegro! Rola a bola!"
+      ],
+      "empate": [
+        "Empate! Vai pros pênaltis no próximo round!",
+        "Empate! Clássico é clássico!"
+      ]
+    }
+  },
+  "lados": [
+    {
+      "nome": "RUBRO-NEGRO",
+      "cor": "#d01f2e",
+      "corTexto": "#ffffff",
+      "presentes": [
+        { "rotulo": "Rosa", "emoji": "🌹", "nomes": ["Rose", "Rosa"], "ids": ["5655"] }
+      ],
+      "palavras": ["1", "rubro", "rubronegro", "rubro-negro", "#rubronegro"],
+      "dicaChat": "1",
+      "personagem": {
+        "escala": 1,
+        "imagens": {
+          "parado": "img/rubro-parado.png",
+          "soco": "img/rubro-soco.png",
+          "especial": "img/rubro-especial.png",
+          "apanhando": "img/rubro-apanhando.png",
+          "nocaute": "img/rubro-nocaute.png",
+          "vitoria": "img/rubro-vitoria.png"
+        }
+      },
+      "voz": {
+        "edge": { "voz": "pt-BR-AntonioNeural", "tom": "-6%", "velocidade": "+6%" },
+        "google": { "taxa": 0.85 },
+        "navegador": { "tom": 0.85, "velocidade": 1.05 }
+      },
+      "frases": {
+        "ataque": [
+          "É gol! Quer dizer, é soco! Valeu, {nome}!",
+          "Cheirinho de nocaute! Obrigado, {nome}!",
+          "Chora, alvinegro! O {nome} mandou!",
+          "Esse soco foi de letra! Valeu, {nome}!",
+          "Aqui é raça, amor e paixão! Valeu, {nome}!",
+          "O {nome} pediu e eu cobrei o pênalti na sua cara!"
+        ],
+        "especial": [
+          "Golpe de bicicleta do {nome}!",
+          "Gol de placa patrocinado pelo {nome}!"
+        ],
+        "super": [
+          "GOLAÇO! SUPER GOLPE DO {nome}!",
+          "O {nome} contratou o craque do ano! SUPER GOLPE!"
+        ],
+        "vitoria": [
+          "Nocaute! Rubro-negro campeão!",
+          "Venci! Pode pedir música no Fantástico!"
+        ]
+      }
+    },
+    {
+      "nome": "ALVINEGRO",
+      "cor": "#e9e9e9",
+      "corTexto": "#111111",
+      "presentes": [
+        { "rotulo": "TikTok", "emoji": "🎵", "nomes": ["TikTok"], "ids": ["5269"] }
+      ],
+      "palavras": ["2", "alvi", "alvinegro", "#alvinegro"],
+      "dicaChat": "2",
+      "personagem": {
+        "escala": 1,
+        "imagens": {
+          "parado": "img/alvi-parado.png",
+          "soco": "img/alvi-soco.png",
+          "especial": "img/alvi-especial.png",
+          "apanhando": "img/alvi-apanhando.png",
+          "nocaute": "img/alvi-nocaute.png",
+          "vitoria": "img/alvi-vitoria.png"
+        }
+      },
+      "voz": {
+        "edge": { "voz": "pt-BR-AntonioNeural", "tom": "+2%", "velocidade": "+10%" },
+        "google": { "taxa": 0.9 },
+        "navegador": { "tom": 1, "velocidade": 1.1 }
+      },
+      "frases": {
+        "ataque": [
+          "Toma esse chute de três dedos! Valeu, {nome}!",
+          "Aqui é alvinegro de coração! Valeu, {nome}!",
+          "O {nome} mandou e o VAR confirmou!",
+          "Chora, rubro-negro! Esse foi do {nome}!",
+          "Sem cheirinho, só pancada! Valeu, {nome}!",
+          "Esse soco foi no ângulo! Obrigado, {nome}!"
+        ],
+        "especial": [
+          "Golpe de falta no ângulo do {nome}!",
+          "Contra-ataque mortal! Valeu, {nome}!"
+        ],
+        "super": [
+          "GOLAÇO DE BICICLETA! SUPER GOLPE DO {nome}!",
+          "O {nome} trouxe a torcida inteira! SUPER GOLPE!"
+        ],
+        "vitoria": [
+          "Nocaute! Alvinegro campeão!",
+          "Venci! Vai ter que me engolir!"
+        ]
+      }
+    }
+  ]
+}

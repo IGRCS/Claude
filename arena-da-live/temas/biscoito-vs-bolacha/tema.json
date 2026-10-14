@@ -1,0 +1,131 @@
+{
+  "nome": "Biscoito x Bolacha",
+  "titulo": "BISCOITO x BOLACHA",
+  "subtitulo": "A maior treta do Brasil! Escolha seu lado!",
+  "aviso": "Jogo de humor • Personagens fictícios",
+  "avisoIA": "",
+  "mapa": true,
+  "cores": { "fundo1": "#2a1407", "fundo2": "#05060f", "destaque": "#ffcf33" },
+  "narrador": {
+    "voz": {
+      "edge": { "voz": "pt-BR-FranciscaNeural", "tom": "+0%", "velocidade": "+8%" },
+      "google": { "taxa": 1 },
+      "navegador": { "tom": 1.1, "velocidade": 1.1 }
+    },
+    "frases": {
+      "inicioRound": [
+        "Round {round}! Biscoito contra bolacha! A maior treta do Brasil!",
+        "Round {round}! Escolha seu lado: comente 1 ou 2!",
+        "Round {round}! Que vença o mais crocante!"
+      ],
+      "empate": [
+        "Empate! Ou seja: é tudo a mesma coisa!",
+        "Empate! Os dois viraram farelo!"
+      ]
+    }
+  },
+  "lados": [
+    {
+      "nome": "BISCOITO",
+      "cor": "#ff8a00",
+      "corTexto": "#ffffff",
+      "presentes": [
+        { "rotulo": "Rosa", "emoji": "🌹", "nomes": ["Rose", "Rosa"], "ids": ["5655"] }
+      ],
+      "palavras": ["1", "biscoito", "time biscoito", "#biscoito"],
+      "dicaChat": "1",
+      "personagem": {
+        "escala": 1,
+        "imagens": {
+          "parado": "img/biscoito-parado.png",
+          "soco": "img/biscoito-soco.png",
+          "especial": "img/biscoito-especial.png",
+          "apanhando": "img/biscoito-apanhando.png",
+          "nocaute": "img/biscoito-nocaute.png",
+          "vitoria": "img/biscoito-vitoria.png"
+        }
+      },
+      "voz": {
+        "edge": { "voz": "pt-BR-AntonioNeural", "tom": "+6%", "velocidade": "+8%" },
+        "google": { "taxa": 0.9 },
+        "navegador": { "tom": 1, "velocidade": 1.05 }
+      },
+      "frases": {
+        "ataque": [
+          "Tá escrito BISCOITO no pacote! Lê direito! Valeu, {nome}!",
+          "Esse soco veio recheado, cortesia do {nome}!",
+          "Bolacha é o que você vai levar agora! Valeu, {nome}!",
+          "O {nome} mandou e eu esfarelei a {rival}!",
+          "Biscoito de polvilho na sua cara! Obrigado, {nome}!",
+          "Molha no café e chora, {rival}! Valeu, {nome}!",
+          "O {nome} é dos meus! Aqui é biscoito, meu rei!"
+        ],
+        "especial": [
+          "Golpe Recheado Triplo do {nome}!",
+          "{nome} abriu o pacote inteiro!",
+          "Golpe do Biscoito Champanhe! Chique demais, {nome}!"
+        ],
+        "super": [
+          "SUPER GOLPE! O {nome} mandou um caminhão de biscoito!",
+          "O {nome} comprou a fábrica inteira! SUPER BISCOITO!"
+        ],
+        "vitoria": [
+          "Nocaute! Biscoito é biscoito e acabou!",
+          "Venci! Pode guardar a bolacha na lata!",
+          "Esfarelei! Vitória do biscoito!"
+        ]
+      }
+    },
+    {
+      "nome": "BOLACHA",
+      "cor": "#2f6fe0",
+      "corTexto": "#ffffff",
+      "presentes": [
+        { "rotulo": "TikTok", "emoji": "🎵", "nomes": ["TikTok"], "ids": ["5269"] }
+      ],
+      "palavras": ["2", "bolacha", "time bolacha", "#bolacha"],
+      "dicaChat": "2",
+      "personagem": {
+        "escala": 1,
+        "imagens": {
+          "parado": "img/bolacha-parado.png",
+          "soco": "img/bolacha-soco.png",
+          "especial": "img/bolacha-especial.png",
+          "apanhando": "img/bolacha-apanhando.png",
+          "nocaute": "img/bolacha-nocaute.png",
+          "vitoria": "img/bolacha-vitoria.png"
+        }
+      },
+      "voz": {
+        "edge": { "voz": "pt-BR-AntonioNeural", "tom": "-8%", "velocidade": "+0%" },
+        "google": { "taxa": 0.82 },
+        "navegador": { "tom": 0.8, "velocidade": 1 }
+      },
+      "frases": {
+        "ataque": [
+          "Biscoito é de polvilho, meu! Valeu, {nome}!",
+          "Toma essa, farofa! O {nome} mandou!",
+          "Aqui é bolacha, e bolacha bate forte! Valeu, {nome}!",
+          "O {nome} mandou e eu te quebrei no meio, {rival}!",
+          "Vou te esfarelar no leite! Obrigado, {nome}!",
+          "Fala bolacha e para de passar vergonha! Golpe do {nome}!",
+          "Bolacha Maria na sua cara, {rival}! Cortesia do {nome}!"
+        ],
+        "especial": [
+          "Golpe Água e Sal do {nome}!",
+          "{nome} liberou a bolacha recheada gigante!",
+          "Golpe Maisena! Leve, mas dói! Valeu, {nome}!"
+        ],
+        "super": [
+          "SUPER GOLPE! O {nome} mandou um pacote família!",
+          "MEGA BOLACHA do {nome}! Ninguém segura!"
+        ],
+        "vitoria": [
+          "Nocaute! É bolacha e ponto final!",
+          "Venci! Vai virar farelo no café!",
+          "Bolacha campeã! Valeu, galera!"
+        ]
+      }
+    }
+  ]
+}

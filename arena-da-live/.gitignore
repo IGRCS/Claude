@@ -1,0 +1,5 @@
+node_modules/
+dados/
+config.json
+config.json.tmp
+*.log

@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" href="data:,">
+  <title>Arena da Live — Painel</title>
+  <link rel="stylesheet" href="/comum/fontes.css">
+  <link rel="stylesheet" href="painel.css">
+</head>
+<body>
+  <header id="cabecalho">
+    <h1>🥊 Arena da Live <small>painel</small></h1>
+    <div id="status-conexao" class="chip">desconectado</div>
+    <div id="status-servidor" class="chip">servidor…</div>
+  </header>
+
+  <main>
+    <section class="card" id="card-previa">
+      <h2>Prévia da tela</h2>
+      <div id="previa-caixa"><iframe id="previa" src="/overlay/?mudo=1" title="Prévia"></iframe></div>
+      <div class="linha">
+        <input id="url-overlay" readonly>
+        <button id="copiar-url" class="secundario">Copiar</button>
+      </div>
+      <p class="dica">No OBS / TikTok LIVE Studio: adicione uma fonte <b>Navegador</b> (ou "Link") com esse endereço, tamanho <b>1080 × 1920</b>.</p>
+    </section>
+
+    <section class="card" id="card-conexao">
+      <h2>1. Conectar na live</h2>
+      <label>Seu @ do TikTok <input id="tiktok-usuario" placeholder="ex.: meuperfil"></label>
+      <label>Como conectar
+        <select id="tiktok-fonte">
+          <option value="conector">Direto no TikTok (recomendado)</option>
+          <option value="tikfinity">Pelo TikFinity aberto no PC (plano B)</option>
+        </select>
+      </label>
+      <div class="linha">
+        <button data-cmd="conectar" class="primario">Conectar</button>
+        <button data-cmd="desconectar" class="secundario">Desconectar</button>
+      </div>
+      <p id="conexao-detalhe" class="dica"></p>
+      <p class="dica">Você precisa estar <b>ao vivo</b> para conectar. Se cair, o programa tenta de novo sozinho.</p>
+    </section>
+
+    <section class="card" id="card-luta">
+      <h2>2. Luta</h2>
+      <div id="resumo-luta" class="resumo"></div>
+      <div class="grade-botoes">
+        <button data-cmd="iniciar" class="primario">▶ Iniciar / próximo</button>
+        <button data-cmd="pausar">⏸ Pausar</button>
+        <button data-cmd="retomar">⏯ Retomar</button>
+        <button data-cmd="encerrarRound">⏹ Encerrar round</button>
+        <button data-cmd="reiniciarRound">↺ Reiniciar round</button>
+        <button data-cmd="zerarTudo" class="perigo" data-confirmar="Zerar placar, mapa e times?">🗑 Zerar tudo</button>
+      </div>
+      <h3>Ajuste manual de pontos</h3>
+      <div class="grade-ajuste">
+        <span class="nome-lado" data-lado="0"></span>
+        <button data-ajuste="0" data-pontos="-10">−10</button>
+        <button data-ajuste="0" data-pontos="10">+10</button>
+        <span class="nome-lado" data-lado="1"></span>
+        <button data-ajuste="1" data-pontos="-10">−10</button>
+        <button data-ajuste="1" data-pontos="10">+10</button>
+      </div>
+    </section>
+
+    <section class="card" id="card-tema">
+      <h2>3. Tema (personagens)</h2>
+      <div class="linha">
+        <select id="tema-escolha"></select>
+        <button id="ativar-tema" class="primario">Ativar</button>
+        <button data-cmd="recarregarTemas" class="secundario" title="Use depois de editar arquivos dos temas">Recarregar</button>
+      </div>
+      <p class="dica">Trocar de tema zera o placar.</p>
+      <ul id="avisos-temas" class="avisos"></ul>
+      <h3>Troca automática agendada</h3>
+      <label class="check"><input type="checkbox" id="ag-ativa"> Ativada</label>
+      <label>Quando <input type="datetime-local" id="ag-quando"></label>
+      <div class="linha">
+        <label>De <select id="ag-de"></select></label>
+        <label>Para <select id="ag-para"></select></label>
+      </div>
+      <button id="salvar-agendamento" class="primario">Salvar agendamento</button>
+      <p id="ag-status" class="destaque"></p>
+    </section>
+
+    <section class="card" id="card-voz">
+      <h2>4. Falas e voz</h2>
+      <label class="check"><input type="checkbox" data-config="falas.ativas"> Bonecos falam o nome de quem mandou presente</label>
+      <label class="check"><input type="checkbox" data-config="falas.picantes"> Piadas picantes (desmarque para só as leves)</label>
+      <label>Voz
+        <select data-config="voz.motor">
+          <option value="auto">Automática (Edge e, se falhar, Google)</option>
+          <option value="edge">Só Microsoft Edge (vozes neurais)</option>
+          <option value="google">Só Google Tradutor</option>
+          <option value="navegador">Voz do próprio navegador</option>
+          <option value="desligado">Sem voz (só balão)</option>
+        </select>
+      </label>
+      <label>Volume da voz <input type="range" min="0" max="1" step="0.05" data-config="voz.volume" data-tipo="numero"></label>
+      <label>Intervalo mínimo entre falas do mesmo lutador (s) <input type="number" min="0" max="60" data-config="falas.intervaloMinimoSeg" data-tipo="numero"></label>
+      <label>Máximo de falas na fila <input type="number" min="1" max="10" data-config="falas.maxFila" data-tipo="numero"></label>
+      <div class="linha">
+        <button data-testar="0" class="secundario nome-lado-botao" data-lado="0">Testar voz 1</button>
+        <button data-testar="1" class="secundario nome-lado-botao" data-lado="1">Testar voz 2</button>
+        <button data-testar="narrador" class="secundario">Testar narrador</button>
+      </div>
+      <p id="voz-status" class="dica"></p>
+    </section>
+
+    <section class="card" id="card-regras">
+      <h2>5. Regras</h2>
+      <div class="grade-campos">
+        <label>Duração do round (s) <input type="number" min="10" max="3600" data-config="regras.duracaoRoundSeg" data-tipo="numero"></label>
+        <label>Intervalo entre rounds (s) <input type="number" min="3" max="120" data-config="regras.intervaloSeg" data-tipo="numero"></label>
+        <label>Vida de cada lutador <input type="number" min="10" max="1000000" data-config="regras.vidaMax" data-tipo="numero"></label>
+        <label>Golpe especial a partir de (moedas) <input type="number" min="1" data-config="regras.especialAPartirDe" data-tipo="numero"></label>
+        <label>Super golpe a partir de (moedas) <input type="number" min="1" data-config="regras.superAPartirDe" data-tipo="numero"></label>
+        <label>Curtidas por ponto (0 = desliga) <input type="number" min="0" data-config="regras.curtidasPorPonto" data-tipo="numero"></label>
+        <label>Pontos para conquistar um estado <input type="number" min="1" data-config="regras.pontosPorEstado" data-tipo="numero"></label>
+        <label>Multiplicador de pontos <input type="number" min="0.1" step="0.1" data-config="regras.multiplicador" data-tipo="numero"></label>
+      </div>
+      <label>Presente de quem ainda não escolheu lado
+        <select data-config="regras.presenteSemTime">
+          <option value="mais-fraco">Ajuda o lado que está perdendo</option>
+          <option value="aleatorio">Vai para um lado sorteado</option>
+          <option value="ignorar">Não conta (só presentes do lado e quem comentou 1/2)</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" data-config="regras.autoIniciar"> O primeiro presente já começa o round</label>
+      <h3>Tela e som</h3>
+      <label class="check"><input type="checkbox" data-config="tela.mostrarMapa"> Mostrar mapa do Brasil</label>
+      <label class="check"><input type="checkbox" data-config="tela.mostrarCamera"> Mostrar moldura da câmera</label>
+      <label class="check"><input type="checkbox" data-config="tela.mostrarAviso"> Mostrar aviso de humor no rodapé</label>
+      <label class="check"><input type="checkbox" data-config="som.efeitos"> Efeitos sonoros (socos, sino)</label>
+      <label>Volume dos efeitos <input type="range" min="0" max="1" step="0.05" data-config="som.volume" data-tipo="numero"></label>
+    </section>
+
+    <section class="card" id="card-simular">
+      <h2>6. Testar sem live (simulação)</h2>
+      <div class="grade-sim">
+        <div class="col-sim" data-lado="0">
+          <h3 class="nome-lado" data-lado="0"></h3>
+          <button data-sim="presente" data-tamanho="pequeno" data-lado="0">Presente do lado (combo)</button>
+          <button data-sim="presente" data-tamanho="medio" data-lado="0">Presente médio (30)</button>
+          <button data-sim="presente" data-tamanho="especial" data-lado="0">Golpe especial (99)</button>
+          <button data-sim="presente" data-tamanho="super" data-lado="0">Super golpe (500)</button>
+          <button data-sim="entrar" data-lado="0">Alguém comenta "1"</button>
+          <button data-sim="curtidas" data-lado="0">Chuva de curtidas</button>
+        </div>
+        <div class="col-sim" data-lado="1">
+          <h3 class="nome-lado" data-lado="1"></h3>
+          <button data-sim="presente" data-tamanho="pequeno" data-lado="1">Presente do lado (combo)</button>
+          <button data-sim="presente" data-tamanho="medio" data-lado="1">Presente médio (30)</button>
+          <button data-sim="presente" data-tamanho="especial" data-lado="1">Golpe especial (99)</button>
+          <button data-sim="presente" data-tamanho="super" data-lado="1">Super golpe (500)</button>
+          <button data-sim="entrar" data-lado="1">Alguém comenta "2"</button>
+          <button data-sim="curtidas" data-lado="1">Chuva de curtidas</button>
+        </div>
+      </div>
+      <div class="linha">
+        <button data-sim="estado" class="secundario">Alguém comenta um estado</button>
+        <button data-sim="seguir" class="secundario">Alguém segue</button>
+        <button id="sim-auto" class="primario">▶ Simulação automática</button>
+      </div>
+    </section>
+
+    <section class="card largo" id="card-log">
+      <h2>Últimos presentes recebidos</h2>
+      <p class="dica">Use esta lista para descobrir o <b>nome</b> e o <b>ID</b> exatos de um presente e colocar no <code>tema.json</code>.</p>
+      <div class="tabela-caixa">
+        <table>
+          <thead><tr><th>Hora</th><th>Quem</th><th>Presente</th><th>ID</th><th>Moedas</th><th>Qtd</th><th>Lado</th><th>Pontos</th></tr></thead>
+          <tbody id="log"></tbody>
+        </table>
+      </div>
+      <details id="catalogo-caixa">
+        <summary>Catálogo de presentes da sua live (<span id="catalogo-conta">aparece depois de conectar</span>)</summary>
+        <div class="tabela-caixa">
+          <table>
+            <thead><tr><th></th><th>Presente</th><th>ID</th><th>Moedas</th></tr></thead>
+            <tbody id="catalogo"></tbody>
+          </table>
+        </div>
+      </details>
+    </section>
+  </main>
+
+  <div id="toast"></div>
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="painel.js"></script>
+</body>
+</html>
