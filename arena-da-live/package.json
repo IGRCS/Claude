@@ -9,7 +9,8 @@
     "start": "node src/servidor.js",
     "test": "node --test test/*.test.js",
     "bonecos": "node ferramentas/gerar-bonecos.mjs",
-    "roteiro": "node ferramentas/roteiro-falas.mjs"
+    "roteiro": "node ferramentas/roteiro-falas.mjs",
+    "importar-audios": "node ferramentas/importar-audios.mjs"
   },
   "engines": {
     "node": ">=20"

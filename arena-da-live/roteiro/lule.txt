@@ -1,265 +1,43 @@
-ROTEIRO DE GRAVAÇÃO — LULE (tema eleicao)
-
-Total: 33 falas = 41 clipes de áudio.
-Leia/gere os clipes NESTA ORDEM, com uma pausa de pelo menos 2 segundos entre um clipe e outro,
-e sem pausas longas (mais de 1 s) dentro de um mesmo clipe. Detalhes no final deste arquivo.
-
-============================================================
-GOLPES COMUNS
-============================================================
-
-L-ataque-01
-  Fala completa: Companheiro [NOME] mandou, e esse soco é pelo povo!
-  CLIPE (antes do nome) L-ataque-01-a: Companheiro
-  CLIPE (depois do nome) L-ataque-01-b: mandou, e esse soco é pelo povo!
-
-L-ataque-02
-  Fala completa: Faz o L, [NOME]! L de LAPADA!
-  CLIPE (antes do nome) L-ataque-02-a: Faz o L,
-  CLIPE (depois do nome) L-ataque-02-b: L de LAPADA!
-
-L-ataque-03
-  Fala completa: Aqui não tem como fugir do debate, Flabio! Valeu, [NOME]!
-  CLIPE (antes do nome) L-ataque-03-a: Aqui não tem como fugir do debate, Flabio! Valeu,
-
-L-ataque-04
-  Fala completa: Fugiu da Band, mas não foge do soco do [NOME]!
-  CLIPE (antes do nome) L-ataque-04-a: Fugiu da Band, mas não foge do soco do
-
-L-ataque-05
-  Fala completa: Arregão! Esse foi patrocinado pelo [NOME]!
-  CLIPE (antes do nome) L-ataque-05-a: Arregão! Esse foi patrocinado pelo
-
-L-ataque-06
-  Fala completa: Dark Horse? Vai é virar cavalo paraguaio! Valeu, [NOME]!
-  CLIPE (antes do nome) L-ataque-06-a: Dark Horse? Vai é virar cavalo paraguaio! Valeu,
-
-L-ataque-07
-  Fala completa: Zero Um? Zero chance! Obrigado, [NOME]!
-  CLIPE (antes do nome) L-ataque-07-a: Zero Um? Zero chance! Obrigado,
-
-L-ataque-08
-  Fala completa: Fim da escala seis por um: seis socos e nenhuma folga! Valeu, [NOME]!
-  CLIPE (antes do nome) L-ataque-08-a: Fim da escala seis por um: seis socos e nenhuma folga! Valeu,
-
-L-ataque-09
-  Fala completa: Esse soco é isento até cinco mil! Valeu, [NOME]!
-  CLIPE (antes do nome) L-ataque-09-a: Esse soco é isento até cinco mil! Valeu,
-
-L-ataque-10
-  Fala completa: O [NOME] mandou picanha, e eu mandei o soco!
-  CLIPE (antes do nome) L-ataque-10-a: O
-  CLIPE (depois do nome) L-ataque-10-b: mandou picanha, e eu mandei o soco!
-
-L-ataque-11
-  Fala completa: Esse é pelo Brasil soberano! Valeu, [NOME]!
-  CLIPE (antes do nome) L-ataque-11-a: Esse é pelo Brasil soberano! Valeu,
-
-L-ataque-12
-  Fala completa: Vai chorar pro Tio Sam, Flabio? Golpe do [NOME]!
-  CLIPE (antes do nome) L-ataque-12-a: Vai chorar pro Tio Sam, Flabio? Golpe do
-
-L-ataque-13  (picante)
-  Fala completa: Só precisava de uma luz, Flabio? Toma essa luz, cortesia do [NOME]!
-  CLIPE (antes do nome) L-ataque-13-a: Só precisava de uma luz, Flabio? Toma essa luz, cortesia do
-
-L-ataque-14  (picante)
-  Fala completa: Esse soco o Banco Master não cobre! Valeu, [NOME]!
-  CLIPE (antes do nome) L-ataque-14-a: Esse soco o Banco Master não cobre! Valeu,
-
-L-ataque-15  (picante)
-  Fala completa: Pede patrocínio pro banqueiro agora, Flabio! Golpe do [NOME]!
-  CLIPE (antes do nome) L-ataque-15-a: Pede patrocínio pro banqueiro agora, Flabio! Golpe do
-
-L-ataque-16  (picante)
-  Fala completa: Cuidado com a tornozeleira, Flabio! Esse foi do [NOME]!
-  CLIPE (antes do nome) L-ataque-16-a: Cuidado com a tornozeleira, Flabio! Esse foi do
-
-L-ataque-17  (picante)
-  Fala completa: Rachadinha não! Aqui o soco é inteirinho! Valeu, [NOME]!
-  CLIPE (antes do nome) L-ataque-17-a: Rachadinha não! Aqui o soco é inteirinho! Valeu,
-
-============================================================
-GOLPES ESPECIAIS
-============================================================
-
-L-especial-01
-  Fala completa: Golpe especial do companheiro [NOME]! Segura, Flabio!
-  CLIPE (antes do nome) L-especial-01-a: Golpe especial do companheiro
-  CLIPE (depois do nome) L-especial-01-b: Segura, Flabio!
-
-L-especial-02
-  Fala completa: Taxação dos super-ricos! Quem tem mais, apanha mais! Obrigado, [NOME]!
-  CLIPE (antes do nome) L-especial-02-a: Taxação dos super-ricos! Quem tem mais, apanha mais! Obrigado,
-
-L-especial-03
-  Fala completa: [NOME] liberou o Golpe do Pré-Sal!
-  CLIPE (depois do nome) L-especial-03-b: liberou o Golpe do Pré-Sal!
-
-L-especial-04
-  Fala completa: Picanha voadora, patrocínio do [NOME]!
-  CLIPE (antes do nome) L-especial-04-a: Picanha voadora, patrocínio do
-
-L-especial-05
-  Fala completa: Isso é o Bolsa Soco, Flabio! Cortesia do [NOME]!
-  CLIPE (antes do nome) L-especial-05-a: Isso é o Bolsa Soco, Flabio! Cortesia do
-
-L-especial-06
-  Fala completa: Golpe Tarifa Zero! Esse o [NOME] pagou pra todo mundo!
-  CLIPE (antes do nome) L-especial-06-a: Golpe Tarifa Zero! Esse o
-  CLIPE (depois do nome) L-especial-06-b: pagou pra todo mundo!
-
-L-especial-07  (picante)
-  Fala completa: Com o [NOME] no meu time, nem o Banco Master te salva!
-  CLIPE (antes do nome) L-especial-07-a: Com o
-  CLIPE (depois do nome) L-especial-07-b: no meu time, nem o Banco Master te salva!
-
-============================================================
-SUPER GOLPES
-============================================================
-
-L-super-01
-  Fala completa: SUPER GOLPE! O [NOME] fez o L gigante!
-  CLIPE (antes do nome) L-super-01-a: SUPER GOLPE! O
-  CLIPE (depois do nome) L-super-01-b: fez o L gigante!
-
-L-super-02
-  Fala completa: Quarto mandato de soco! Valeu demais, [NOME]!
-  CLIPE (antes do nome) L-super-02-a: Quarto mandato de soco! Valeu demais,
-
-L-super-03
-  Fala completa: [NOME], meu companheiro! Esse foi o golpe do século!
-  CLIPE (depois do nome) L-super-03-b: meu companheiro! Esse foi o golpe do século!
-
-L-super-04
-  Fala completa: O [NOME] mandou tanto presente que dá pra fazer churrasco pro Brasil inteiro!
-  CLIPE (antes do nome) L-super-04-a: O
-  CLIPE (depois do nome) L-super-04-b: mandou tanto presente que dá pra fazer churrasco pro Brasil inteiro!
-
-============================================================
-VITÓRIA DO ROUND
-============================================================
-
-L-vitoria-01
-  Fala completa: Nocaute! Hoje tem picanha pra todo mundo!
-  CLIPE L-vitoria-01: Nocaute! Hoje tem picanha pra todo mundo!
-
-L-vitoria-02
-  Fala completa: Faz o L, minha gente! Venci o round!
-  CLIPE L-vitoria-02: Faz o L, minha gente! Venci o round!
-
-L-vitoria-03
-  Fala completa: Esse round foi mais fácil que debate sem adversário!
-  CLIPE L-vitoria-03: Esse round foi mais fácil que debate sem adversário!
-
-L-vitoria-04
-  Fala completa: Venci! Pode chamar de quarto round, quarto mandato!
-  CLIPE L-vitoria-04: Venci! Pode chamar de quarto round, quarto mandato!
-
-L-vitoria-05
-  Fala completa: Ganhei o round, companheiros! Agora é picanha e cervejinha!
-  CLIPE L-vitoria-05: Ganhei o round, companheiros! Agora é picanha e cervejinha!
-
-============================================================
-COMO GRAVAR E ME ENVIAR
-============================================================
-
-OPÇÃO A (um arquivo só): cole o "BLOCO PARA COLAR" abaixo no gerador, com pelo menos 2 segundos de silêncio
-  entre os parágrafos, e me mande o áudio inteiro. Eu separo nos silêncios e confiro se deu exatamente
-  41 clipes; se o número não bater, eu aviso antes de usar.
-OPÇÃO B (vários arquivos): um arquivo por clipe, com o nome igual ao ID (ex.: L-ataque-01-a.mp3).
-
-DICAS:
-- Os clipes "antes do nome" terminam como se a frase fosse continuar (sem entonação de final). Os "depois" começam
-  já no meio da frase. Se o gerador deixar, peça entonação natural de quem vai citar um nome em seguida.
-- Se o gerador pronunciar algo errado (ex.: "Flabio", "Lule", "L"), pode reescrever no texto só para a voz
-  (ex.: "éle", "Flábio"). Eu uso a ordem/ID dos clipes, não o texto.
-- Use uma voz de personagem. Não imite a voz real de nenhum candidato: o TSE proíbe áudio sintético que
-  imite a voz de pessoas reais em conteúdo eleitoral.
-
-============================================================
-BLOCO PARA COLAR NO GERADOR DE VOZ (41 clipes, um por parágrafo, na ordem)
-============================================================
-
-Companheiro
-
-mandou, e esse soco é pelo povo!
-
-Faz o L,
-
-L de LAPADA!
-
-Aqui não tem como fugir do debate, Flabio! Valeu,
-
-Fugiu da Band, mas não foge do soco do
-
-Arregão! Esse foi patrocinado pelo
-
-Dark Horse? Vai é virar cavalo paraguaio! Valeu,
-
-Zero Um? Zero chance! Obrigado,
-
-Fim da escala seis por um: seis socos e nenhuma folga! Valeu,
-
-Esse soco é isento até cinco mil! Valeu,
-
-O
-
-mandou picanha, e eu mandei o soco!
-
-Esse é pelo Brasil soberano! Valeu,
-
-Vai chorar pro Tio Sam, Flabio? Golpe do
-
-Só precisava de uma luz, Flabio? Toma essa luz, cortesia do
-
-Esse soco o Banco Master não cobre! Valeu,
-
-Pede patrocínio pro banqueiro agora, Flabio! Golpe do
-
-Cuidado com a tornozeleira, Flabio! Esse foi do
-
-Rachadinha não! Aqui o soco é inteirinho! Valeu,
-
-Golpe especial do companheiro
-
-Segura, Flabio!
-
-Taxação dos super-ricos! Quem tem mais, apanha mais! Obrigado,
-
-liberou o Golpe do Pré-Sal!
-
-Picanha voadora, patrocínio do
-
-Isso é o Bolsa Soco, Flabio! Cortesia do
-
-Golpe Tarifa Zero! Esse o
-
-pagou pra todo mundo!
-
-Com o
-
-no meu time, nem o Banco Master te salva!
-
-SUPER GOLPE! O
-
-fez o L gigante!
-
-Quarto mandato de soco! Valeu demais,
-
-meu companheiro! Esse foi o golpe do século!
-
-O
-
-mandou tanto presente que dá pra fazer churrasco pro Brasil inteiro!
-
-Nocaute! Hoje tem picanha pra todo mundo!
-
-Faz o L, minha gente! Venci o round!
-
-Esse round foi mais fácil que debate sem adversário!
-
-Venci! Pode chamar de quarto round, quarto mandato!
-
-Ganhei o round, companheiros! Agora é picanha e cervejinha!
+ROTEIRO DE GRAVAÇÃO — LULE (tema eleicao) — 33 falas
+
+== GOLPES COMUNS ==
+L-ataque-01: Companheiro, esse soco é pelo povo!
+L-ataque-02: Faz o L! L de lapada!
+L-ataque-03: Aqui não tem como fugir do debate, Flabio!
+L-ataque-04: Fugiu da Band, mas não foge desse soco!
+L-ataque-05: Arregão! Esse foi patrocinado pela galera!
+L-ataque-06: Dark Horse? Vai é virar cavalo paraguaio!
+L-ataque-07: Zero Um? Zero chance!
+L-ataque-08: Fim da escala seis por um: seis socos e nenhuma folga!
+L-ataque-09: Esse soco é isento até cinco mil!
+L-ataque-10: Mandaram picanha, e eu mandei o soco!
+L-ataque-11: Esse é pelo Brasil soberano!
+L-ataque-12: Vai chorar pro Tio Sam, Flabio?
+L-ataque-13 (picante): Só precisava de uma luz, Flabio? Toma essa luz!
+L-ataque-14 (picante): Esse soco o Banco Master não cobre!
+L-ataque-15 (picante): Pede patrocínio pro banqueiro agora, Flabio!
+L-ataque-16 (picante): Cuidado com a tornozeleira, Flabio!
+L-ataque-17 (picante): Rachadinha não! Aqui o soco é inteirinho!
+
+== GOLPES ESPECIAIS ==
+L-especial-01: Golpe especial dos companheiros! Segura, Flabio!
+L-especial-02: Taxação dos super-ricos! Quem tem mais, apanha mais!
+L-especial-03: Liberaram o Golpe do Pré-Sal!
+L-especial-04: Picanha voadora!
+L-especial-05: Isso é o Bolsa Soco, Flabio!
+L-especial-06: Golpe Tarifa Zero! Esse é por conta da casa!
+L-especial-07 (picante): Com essa torcida, nem o Banco Master te salva!
+
+== SUPER GOLPES ==
+L-super-01: Super golpe! Fizeram o L gigante!
+L-super-02: Quarto mandato de soco!
+L-super-03: Meus companheiros! Esse foi o golpe do século!
+L-super-04: Com tanto presente, dá pra fazer churrasco pro Brasil inteiro!
+
+== VITÓRIA DO ROUND ==
+L-vitoria-01: Nocaute! Hoje tem picanha pra todo mundo!
+L-vitoria-02: Faz o L, minha gente! Venci o round!
+L-vitoria-03: Esse round foi mais fácil que debate sem adversário!
+L-vitoria-04: Venci! Pode chamar de quarto round, quarto mandato!
+L-vitoria-05: Ganhei o round, companheiros! Agora é picanha e cervejinha!
 

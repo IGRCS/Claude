@@ -138,12 +138,21 @@
     tema.lados.forEach((l, i) => {
       document.documentElement.style.setProperty(`--cor${i}`, l.cor);
       $$(`.nome-lado[data-lado="${i}"]`).forEach((el) => (el.textContent = l.nome));
+      ajustarTopo();
       $$(`.nome-lado-botao[data-lado="${i}"]`).forEach((el) => (el.textContent = `Testar voz ${l.nome}`));
     });
   }
 
+  // altura do cabeçalho fixo (a prévia gruda logo abaixo dele)
+  const ajustarTopo = () => document.documentElement.style.setProperty('--altura-topo', `${$('#cabecalho').offsetHeight + 12}px`);
+  addEventListener('resize', ajustarTopo);
+  ajustarTopo();
+
   function resumo(e) {
     if (!tema) return;
+    const fasesTopo = { aguardando: 'aguardando 1º presente', lutando: 'lutando', pausado: '⏸ pausado', intervalo: 'intervalo' };
+    const st = Math.ceil((e.restanteMs || 0) / 1000);
+    $('#resumo-topo').innerHTML = `<span style="color:${esc(tema.lados[0].cor)}">${esc(tema.lados[0].nome)} ${e.lados[0].pontosRound}</span> × <span style="color:${esc(tema.lados[1].cor)}">${e.lados[1].pontosRound} ${esc(tema.lados[1].nome)}</span> · R${e.round} · ${pad(Math.floor(st / 60))}:${pad(st % 60)} · ${fasesTopo[e.fase] ?? e.fase}`;
     const fases = { aguardando: 'aguardando', lutando: 'lutando', pausado: 'pausado', intervalo: 'intervalo' };
     const s = Math.ceil((e.restanteMs || 0) / 1000);
     const lado = (i) => `<div class="lado-resumo"><b style="color:${esc(tema.lados[i].cor)}">${esc(tema.lados[i].nome)}</b>${e.lados[i].pontosRound} pts • vida ${e.lados[i].vida}<br>rounds ${e.lados[i].rounds} • 👥 ${e.lados[i].membros}</div>`;

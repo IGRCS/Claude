@@ -1,121 +1,72 @@
-// Gera o roteiro de gravação das falas de um tema (para você produzir uma voz melhor).
+// Gera o roteiro de gravação das falas de um tema (para produzir uma voz melhor fora do programa).
 //   npm run roteiro                 (tema "eleicao")
 //   npm run roteiro -- outro-tema
-// Cada fala vira clipes numerados. Falas com {nome} são quebradas em duas partes (antes / depois do nome):
-// o nome de quem mandou o presente continua sendo falado pela voz do programa, no meio.
+// Uma fala = um áudio, sem o nome de quem mandou o presente (o nome aparece só no balão).
+// Saída em roteiro/: <lado>.txt (lista com IDs) e <lado>-partes.txt (blocos de até LIMITE caracteres).
 
-import { readFile, mkdir, writeFile } from 'node:fs/promises';
+import { readFile, mkdir, writeFile, rm } from 'node:fs/promises';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { lerFrase, falaSemNome } from '../src/narrador.js';
 
 const raiz = join(dirname(fileURLToPath(import.meta.url)), '..');
 const temaId = process.argv[2] || 'eleicao';
+const LIMITE = Number(process.env.LIMITE || 500);
 const tema = JSON.parse(await readFile(join(raiz, 'temas', temaId, 'tema.json'), 'utf8'));
 
 const CATEGORIAS = [['ataque', 'GOLPES COMUNS'], ['especial', 'GOLPES ESPECIAIS'], ['super', 'SUPER GOLPES'], ['vitoria', 'VITÓRIA DO ROUND']];
 const capitalizar = (s) => s.charAt(0) + s.slice(1).toLowerCase();
-const limpar = (s) => s.replace(/\s+/g, ' ').replace(/\s+([,.!?])/g, '$1').trim();
 
 const manifesto = [];
-const saidas = [];
-tema.lados.forEach((lado, i) => {
+const arquivos = [];
+for (const [i, lado] of tema.lados.entries()) {
   const prefixo = i === 0 ? 'L' : 'F';
   const rival = capitalizar(tema.lados[1 - i].nome);
-  const nomeLado = capitalizar(lado.nome);
-  const linhas = [`ROTEIRO DE GRAVAÇÃO — ${lado.nome} (tema ${temaId})`, ''];
-  const bloco = [];
-  for (const [cat, titulo] of CATEGORIAS) {
-    linhas.push('='.repeat(60), titulo, '='.repeat(60), '');
-    (lado.frases[cat] ?? []).forEach((f, n) => {
-      const bruto = typeof f === 'string' ? f : f.t;
-      const picante = typeof f === 'object' && f.picante;
-      const texto = bruto.replace(/\{rival\}/g, rival).replace(/\{lutador\}/g, nomeLado);
+  const base = capitalizar(lado.nome).toLowerCase();
+  const falas = [];
+  for (const [cat] of CATEGORIAS) {
+    (lado.frases?.[cat] ?? []).forEach((bruto, n) => {
+      const f = lerFrase(bruto);
+      const texto = (f.voz ?? falaSemNome(f.t)).replace(/\{rival\}/g, rival).replace(/\{lutador\}/g, capitalizar(lado.nome));
       const id = `${prefixo}-${cat}-${String(n + 1).padStart(2, '0')}`;
-      const partes = texto.split('{nome}');
-      if (partes.length > 2) throw new Error(`${id}: mais de um {nome}`);
-      const clipes = [];
-      if (partes.length === 1) clipes.push({ id, texto: limpar(partes[0]), posicao: 'inteira' });
-      else {
-        // a pontuação logo depois do nome ("{nome}!") pertence ao nome, não ao clipe seguinte
-        const depois = limpar(partes[1].replace(/^[\s!?.,;:]+/, ''));
-        if (limpar(partes[0])) clipes.push({ id: `${id}-a`, texto: limpar(partes[0]), posicao: 'antes' });
-        if (/\p{L}/u.test(depois)) clipes.push({ id: `${id}-b`, texto: depois, posicao: 'depois' });
-      }
-      manifesto.push({ id, lado: i, categoria: cat, picante: Boolean(picante), original: bruto, clipes });
-      linhas.push(`${id}${picante ? '  (picante)' : ''}`);
-      linhas.push(`  Fala completa: ${texto.replace('{nome}', '[NOME]')}`);
-      for (const c of clipes) {
-        const rot = c.posicao === 'inteira' ? 'CLIPE' : c.posicao === 'antes' ? 'CLIPE (antes do nome)' : 'CLIPE (depois do nome)';
-        linhas.push(`  ${rot} ${c.id}: ${c.texto}`);
-        bloco.push(c.texto);
-      }
-      linhas.push('');
+      falas.push({ id, lado: i, categoria: cat, indice: n, picante: f.picante, texto });
     });
   }
-  const total = manifesto.filter((m) => m.lado === i).reduce((s, m) => s + m.clipes.length, 0);
-  const cab = [
-    linhas[0], '',
-    `Total: ${manifesto.filter((m) => m.lado === i).length} falas = ${total} clipes de áudio.`,
-    'Leia/gere os clipes NESTA ORDEM, com uma pausa de pelo menos 2 segundos entre um clipe e outro,',
-    'e sem pausas longas (mais de 1 s) dentro de um mesmo clipe. Detalhes no final deste arquivo.',
-    '', ...linhas.slice(2),
-  ];
-  const rodape = [
-    '='.repeat(60), 'COMO GRAVAR E ME ENVIAR', '='.repeat(60), '',
-    'OPÇÃO A (um arquivo só): cole o "BLOCO PARA COLAR" abaixo no gerador, com pelo menos 2 segundos de silêncio',
-    '  entre os parágrafos, e me mande o áudio inteiro. Eu separo nos silêncios e confiro se deu exatamente',
-    `  ${total} clipes; se o número não bater, eu aviso antes de usar.`,
-    'OPÇÃO B (vários arquivos): um arquivo por clipe, com o nome igual ao ID (ex.: ' + `${prefixo}-ataque-01-a.mp3).`,
-    '',
-    'DICAS:',
-    '- Os clipes "antes do nome" terminam como se a frase fosse continuar (sem entonação de final). Os "depois" começam',
-    '  já no meio da frase. Se o gerador deixar, peça entonação natural de quem vai citar um nome em seguida.',
-    '- Se o gerador pronunciar algo errado (ex.: "Flabio", "Lule", "L"), pode reescrever no texto só para a voz',
-    '  (ex.: "éle", "Flábio"). Eu uso a ordem/ID dos clipes, não o texto.',
-    '- Use uma voz de personagem. Não imite a voz real de nenhum candidato: o TSE proíbe áudio sintético que',
-    '  imite a voz de pessoas reais em conteúdo eleitoral.',
-    '',
-  ];
-  const colar = [
-    '='.repeat(60), `BLOCO PARA COLAR NO GERADOR DE VOZ (${total} clipes, um por parágrafo, na ordem)`, '='.repeat(60), '',
-    ...bloco.flatMap((t) => [t, '']),
-  ];
-  saidas.push([`${nomeLado.toLowerCase()}.txt`, [...cab, ...rodape, ...colar].join('\n')]);
-});
+  manifesto.push(...falas);
 
-// Bloco único para colar no gerador de voz: um clipe por parágrafo, na ordem do roteiro.
-for (const [i, lado] of tema.lados.entries()) {
-  const textos = manifesto.filter((m) => m.lado === i).flatMap((m) => m.clipes.map((c) => c.texto));
-  const base = capitalizar(lado.nome).toLowerCase();
-  saidas.push([`${base}-bloco.txt`, textos.join('\n\n')]);
-  saidas.push([`${base}-bloco-com-pausa.txt`, textos.join('\n<break time="1.5s"/>\n')]);
-}
+  // lista com IDs
+  const lista = [`ROTEIRO DE GRAVAÇÃO — ${lado.nome} (tema ${temaId}) — ${falas.length} falas`, ''];
+  for (const [cat, titulo] of CATEGORIAS) {
+    const doGrupo = falas.filter((f) => f.categoria === cat);
+    if (!doGrupo.length) continue;
+    lista.push(`== ${titulo} ==`);
+    for (const f of doGrupo) lista.push(`${f.id}${f.picante ? ' (picante)' : ''}: ${f.texto}`);
+    lista.push('');
+  }
+  arquivos.push([`${base}.txt`, lista.join('\n')]);
 
-// Versão em partes de até LIMITE caracteres (geradores de voz com limite por texto). Cada parte termina num clipe inteiro.
-const LIMITE = Number(process.env.LIMITE || 500);
-const partesManifesto = {};
-for (const [i, lado] of tema.lados.entries()) {
-  const clipes = manifesto.filter((m) => m.lado === i).flatMap((m) => m.clipes);
+  // blocos de até LIMITE caracteres, sem cortar falas
   const partes = [];
   let atual = [];
-  const tam = (lista) => lista.map((c) => c.texto).join('\n\n').length;
-  for (const c of clipes) {
-    if (c.texto.length > LIMITE) throw new Error(`${c.id} tem mais de ${LIMITE} caracteres`);
-    if (atual.length && tam([...atual, c]) > LIMITE) { partes.push(atual); atual = []; }
-    atual.push(c);
+  const tamanho = (l) => l.map((f) => f.texto).join('\n\n').length;
+  for (const f of falas) {
+    if (atual.length && tamanho([...atual, f]) > LIMITE) {
+      partes.push(atual);
+      atual = [];
+    }
+    atual.push(f);
   }
   if (atual.length) partes.push(atual);
-  const base = capitalizar(lado.nome).toLowerCase();
-  partesManifesto[base] = partes.map((p) => p.map((c) => c.id));
-  const txt = partes.map((p, n) => {
-    const corpo = p.map((c) => c.texto).join('\n\n');
-    return `######## PARTE ${n + 1} de ${partes.length} — ${p.length} clipes, ${corpo.length} caracteres ########\n\n${corpo}\n`;
-  }).join('\n');
-  saidas.push([`${base}-partes.txt`, txt]);
+  const txt = partes
+    .map((p, n) => `######## ${lado.nome} — PARTE ${n + 1} de ${partes.length} — falas ${p[0].id} até ${p.at(-1).id} (${p.length} falas, ${tamanho(p)} caracteres) ########\n\n${p.map((f) => f.texto).join('\n\n')}\n`)
+    .join('\n');
+  arquivos.push([`${base}-partes.txt`, txt]);
 }
-await mkdir(join(raiz, 'roteiro'), { recursive: true });
-await writeFile(join(raiz, 'roteiro', 'partes.json'), JSON.stringify(partesManifesto, null, 2) + '\n');
-for (const [arq, texto] of saidas) await writeFile(join(raiz, 'roteiro', arq), texto + '\n');
-await writeFile(join(raiz, 'roteiro', `manifesto-${temaId}.json`), JSON.stringify(manifesto, null, 2) + '\n');
-console.log(`Roteiros em roteiro/: ${saidas.map((s) => s[0]).join(', ')} (+ manifesto-${temaId}.json)`);
-console.log(`Falas: ${manifesto.length} | clipes: ${manifesto.reduce((s, m) => s + m.clipes.length, 0)}`);
+
+const pasta = join(raiz, 'roteiro');
+await rm(pasta, { recursive: true, force: true });
+await mkdir(pasta, { recursive: true });
+for (const [arq, texto] of arquivos) await writeFile(join(pasta, arq), texto + '\n');
+await writeFile(join(pasta, `manifesto-${temaId}.json`), JSON.stringify(manifesto, null, 2) + '\n');
+console.log(`Roteiro em roteiro/: ${arquivos.map((a) => a[0]).join(', ')}`);
+console.log(`${manifesto.length} falas (${tema.lados.map((l, i) => `${l.nome}: ${manifesto.filter((m) => m.lado === i).length}`).join(', ')})`);

@@ -27,6 +27,7 @@ export const CONFIG_PADRAO = {
   falas: {
     ativas: true,
     picantes: true, // false = só as piadas leves
+    falarNome: false, // true = a voz fala o nome de quem mandou (por voz sintética); false = nome só no balão
     intervaloMinimoSeg: 3, // tempo mínimo entre falas do mesmo lutador (golpes comuns)
     falarPresentesAPartirDe: 1, // pontos mínimos de um envio comum para o boneco falar
     maxFila: 4,

@@ -51,7 +51,7 @@ test('o tema da eleição nunca fala o nome real dos candidatos', () => {
     ...Object.values(tema.narrador.frases).flat().map(texto),
   ];
   for (const t of tudo) assert.doesNotMatch(t, proibido, `"${t}"`);
-  assert.ok(tema.lados.every((l) => l.frases.ataque.some((f) => typeof f === 'string')), 'precisa ter frases leves');
+  assert.ok(tema.lados.every((l) => l.frases.ataque.some((f) => typeof f === 'string' || !f.picante)), 'precisa ter frases leves');
 });
 
 test('validação aponta erros claros', () => {
@@ -60,4 +60,17 @@ test('validação aponta erros claros', () => {
   const t = validarTema('x', { lados: [{ nome: 'A' }, { nome: 'B' }] });
   assert.ok(t.lados[0].frases.ataque.length > 0, 'frases genéricas quando o tema não traz');
   assert.deepEqual(t.lados[1].palavras, ['2']);
+});
+
+test('eleição: toda frase de golpe tem versão falada sem o nome e sem nome real', () => {
+  const tema = temas.get('eleicao');
+  for (const lado of tema.lados) {
+    for (const cat of ['ataque', 'especial', 'super']) {
+      for (const f of lado.frases[cat]) {
+        assert.ok(typeof f === 'object' && f.voz, `${lado.nome}/${cat}: falta "voz" em "${texto(f)}"`);
+        assert.doesNotMatch(f.voz, /\{nome\}/);
+        assert.doesNotMatch(f.voz, /lula|fl[aá]vio|bolsonaro|\bjair\b/i);
+      }
+    }
+  }
 });

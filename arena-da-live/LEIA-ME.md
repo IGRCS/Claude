@@ -95,10 +95,25 @@ Quando chega um presente, o lutador do lado **fala uma frase com o nome da pesso
   ou acusação (ex.: "Fulano Ladrão") viram **"alguém"**. A lista fica em `config.json` → `filtro.palavrasBloqueadas`.
 - No tema da eleição, se alguém se chamar "Flávio" ou "Lula", o boneco fala "Flabio"/"Lule" (`substituicoesNoNome`).
 
+### Usar uma voz gravada (gerada em outro site)
+
+Por padrão a voz **não fala o nome** de quem mandou o presente: o nome aparece no balão e a voz diz uma
+versão da frase sem o nome (assim dá para usar áudios gravados, que não sabem o nome de cada pessoa).
+Para o nome voltar a ser falado (com a voz sintética), marque no painel "Falar o nome de quem mandou".
+
+Para trocar a voz pela sua:
+1. `npm run roteiro` gera em `roteiro/` a lista de falas de cada lutador com um **ID** por fala
+   (ex.: `L-ataque-01`) e versões em partes de até 500 caracteres.
+2. Gere **um arquivo de áudio por fala**, com o nome igual ao ID (ex.: `L-ataque-01.mp3`). Use uma voz de
+   personagem, nunca a imitação da voz de uma pessoa real.
+3. Coloque todos numa pasta e rode `npm run importar-audios -- caminho/da/pasta`. Pronto: as frases que têm
+   áudio passam a tocar o arquivo; as que não têm continuam com a voz sintética.
+
 ## 6. Testar sem estar ao vivo
 
-Painel → **"6. Testar sem live"**: botões de presente pequeno, médio, especial, super, curtidas, e
-**"▶ Simulação automática"** (uma live falsa rodando sozinha). Ótimo para ajustar o OBS antes.
+A **barra fixa no topo do painel** tem os botões de luta (iniciar, pausar…) e de teste de cada lado:
+presente em combo, 30 moedas, especial, super, alguém comentando 1/2, curtidas, e **"▶ Simulação automática"**
+(uma live falsa rodando sozinha). Ótimo para ajustar o OBS antes.
 
 ## 7. Trocar personagens, frases e presentes
 

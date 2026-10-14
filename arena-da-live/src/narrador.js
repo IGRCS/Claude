@@ -20,10 +20,29 @@ export function nomeDoPresente(nome) {
   return NOMES_PRESENTES[chave] ?? String(nome ?? 'presente');
 }
 
-// Uma frase pode ser só texto ou { "t": "texto", "picante": true }
-function lerFrase(f) {
-  if (typeof f === 'string') return { t: f, picante: false };
-  return { t: String(f?.t ?? f?.texto ?? ''), picante: Boolean(f?.picante) };
+// Uma frase pode ser só texto ou um objeto:
+//   { "t": "texto do balão com {nome}", "voz": "versão falada, sem o nome", "audio": "audio/ID.mp3", "picante": true }
+export function lerFrase(f) {
+  if (typeof f === 'string') return { t: f, voz: null, audio: null, picante: false };
+  return {
+    t: String(f?.t ?? f?.texto ?? ''),
+    voz: f?.voz ? String(f.voz) : null,
+    audio: f?.audio ? String(f.audio) : null,
+    picante: Boolean(f?.picante),
+  };
+}
+
+// Para temas sem a versão "voz": tira o nome da frase do jeito mais natural possível.
+export function falaSemNome(t) {
+  return String(t)
+    .replace(/\b(do|de|da)\s+\{nome\}/gi, 'da galera')
+    .replace(/\b(pelo|pela)\s+\{nome\}/gi, 'pela galera')
+    .replace(/(^|[.!?]\s+)O\s+\{nome\}/g, '$1A galera')
+    .replace(/,\s*\{nome\}(?=\s*[!?.])/g, '')
+    .replace(/^\{nome\}[,!]?\s*/, '')
+    .replace(/\{nome\}/g, 'galera')
+    .replace(/\s{2,}/g, ' ')
+    .trim();
 }
 
 // "Valeu, {nome}!" -> partes [{t:'Valeu, '},{t:'Ana',destaque:true},{t:'!'}]
@@ -92,7 +111,7 @@ export class Narrador {
     const memoria = Math.max(1, Math.min(8, Math.floor(permitidas.length * 0.6)));
     while (recentes.length > memoria) recentes.shift();
     this.recentes.set(chave, recentes);
-    return escolhida.f.t;
+    return escolhida.f;
   }
 
   varsBase(lado) {
@@ -103,10 +122,16 @@ export class Narrador {
     };
   }
 
-  criarFala(quem, modelo, vars, prioridade) {
-    const { texto, partes } = montarFrase(modelo, vars);
+  // texto/partes vão para o balão (com o nome); "falado" é o que a voz diz (sem o nome, salvo se ligado).
+  criarFala(quem, frase, vars, prioridade) {
+    const f = lerFrase(frase);
+    const { texto, partes } = montarFrase(f.t, vars);
+    const falarNome = Boolean(this.falas.falarNome);
+    const modeloFalado = falarNome ? f.t : f.voz ?? falaSemNome(f.t);
+    const falado = montarFrase(modeloFalado, { ...vars, nome: vars.nome ?? '' }).texto;
     const perfil = quem === 'narrador' ? this.tema.narrador?.voz : this.tema.lados[quem]?.voz;
-    return { id: `f${proximoId++}`, quem, texto, partes, prioridade, voz: perfil ?? {} };
+    const gravado = f.audio && !falarNome ? (/^https?:/.test(f.audio) ? f.audio : `${this.tema.base}${f.audio}`) : null;
+    return { id: `f${proximoId++}`, quem, texto, partes, falado, gravado, prioridade, voz: perfil ?? {} };
   }
 
   // Chamado a cada golpe. Devolve uma fala ou null (quando não é hora de falar).

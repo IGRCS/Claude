@@ -5,7 +5,11 @@
   "aviso": "Jogo de humor com personagens fictícios • Não é pesquisa nem enquete eleitoral",
   "avisoIA": "Imagens e vozes sintéticas (IA)",
   "mapa": true,
-  "cores": { "fundo1": "#1d0f38", "fundo2": "#04050d", "destaque": "#ffd400" },
+  "cores": {
+    "fundo1": "#1d0f38",
+    "fundo2": "#04050d",
+    "destaque": "#ffd400"
+  },
   "substituicoesNoNome": {
     "lula": "Lule",
     "lulinha": "Lulinho",
@@ -15,9 +19,18 @@
   },
   "narrador": {
     "voz": {
-      "edge": { "voz": "pt-BR-FranciscaNeural", "tom": "+0%", "velocidade": "+8%" },
-      "google": { "taxa": 1 },
-      "navegador": { "tom": 1.1, "velocidade": 1.1 }
+      "edge": {
+        "voz": "pt-BR-FranciscaNeural",
+        "tom": "+0%",
+        "velocidade": "+8%"
+      },
+      "google": {
+        "taxa": 1
+      },
+      "navegador": {
+        "tom": 1.1,
+        "velocidade": 1.1
+      }
     },
     "frases": {
       "inicioRound": [
@@ -37,9 +50,25 @@
       "cor": "#e53935",
       "corTexto": "#ffffff",
       "presentes": [
-        { "rotulo": "Rosa", "emoji": "🌹", "nomes": ["Rose", "Rosa"], "ids": ["5655"] }
+        {
+          "rotulo": "Rosa",
+          "emoji": "🌹",
+          "nomes": [
+            "Rose",
+            "Rosa"
+          ],
+          "ids": [
+            "5655"
+          ]
+        }
       ],
-      "palavras": ["1", "lule", "time lule", "#lule", "vermelho"],
+      "palavras": [
+        "1",
+        "lule",
+        "time lule",
+        "#lule",
+        "vermelho"
+      ],
       "dicaChat": "1",
       "personagem": {
         "escala": 1,
@@ -53,44 +82,143 @@
         }
       },
       "voz": {
-        "edge": { "voz": "pt-BR-AntonioNeural", "tom": "-14%", "velocidade": "-6%" },
-        "google": { "taxa": 0.8 },
-        "navegador": { "tom": 0.7, "velocidade": 0.95 }
+        "edge": {
+          "voz": "pt-BR-AntonioNeural",
+          "tom": "-14%",
+          "velocidade": "-6%"
+        },
+        "google": {
+          "taxa": 0.8
+        },
+        "navegador": {
+          "tom": 0.7,
+          "velocidade": 0.95
+        }
       },
       "frases": {
         "ataque": [
-          "Companheiro {nome} mandou, e esse soco é pelo povo!",
-          "Faz o L, {nome}! L de LAPADA!",
-          "Aqui não tem como fugir do debate, {rival}! Valeu, {nome}!",
-          "Fugiu da Band, mas não foge do soco do {nome}!",
-          "Arregão! Esse foi patrocinado pelo {nome}!",
-          "Dark Horse? Vai é virar cavalo paraguaio! Valeu, {nome}!",
-          "Zero Um? Zero chance! Obrigado, {nome}!",
-          "Fim da escala seis por um: seis socos e nenhuma folga! Valeu, {nome}!",
-          "Esse soco é isento até cinco mil! Valeu, {nome}!",
-          "O {nome} mandou picanha, e eu mandei o soco!",
-          "Esse é pelo Brasil soberano! Valeu, {nome}!",
-          "Vai chorar pro Tio Sam, {rival}? Golpe do {nome}!",
-          { "t": "Só precisava de uma luz, {rival}? Toma essa luz, cortesia do {nome}!", "picante": true },
-          { "t": "Esse soco o Banco Master não cobre! Valeu, {nome}!", "picante": true },
-          { "t": "Pede patrocínio pro banqueiro agora, {rival}! Golpe do {nome}!", "picante": true },
-          { "t": "Cuidado com a tornozeleira, {rival}! Esse foi do {nome}!", "picante": true },
-          { "t": "Rachadinha não! Aqui o soco é inteirinho! Valeu, {nome}!", "picante": true }
+          {
+            "t": "Companheiro {nome} mandou, e esse soco é pelo povo!",
+            "voz": "Companheiro, esse soco é pelo povo!"
+          },
+          {
+            "t": "Faz o L, {nome}! L de LAPADA!",
+            "voz": "Faz o L! L de lapada!"
+          },
+          {
+            "t": "Aqui não tem como fugir do debate, {rival}! Valeu, {nome}!",
+            "voz": "Aqui não tem como fugir do debate, {rival}!"
+          },
+          {
+            "t": "Fugiu da Band, mas não foge do soco do {nome}!",
+            "voz": "Fugiu da Band, mas não foge desse soco!"
+          },
+          {
+            "t": "Arregão! Esse foi patrocinado pelo {nome}!",
+            "voz": "Arregão! Esse foi patrocinado pela galera!"
+          },
+          {
+            "t": "Dark Horse? Vai é virar cavalo paraguaio! Valeu, {nome}!",
+            "voz": "Dark Horse? Vai é virar cavalo paraguaio!"
+          },
+          {
+            "t": "Zero Um? Zero chance! Obrigado, {nome}!",
+            "voz": "Zero Um? Zero chance!"
+          },
+          {
+            "t": "Fim da escala seis por um: seis socos e nenhuma folga! Valeu, {nome}!",
+            "voz": "Fim da escala seis por um: seis socos e nenhuma folga!"
+          },
+          {
+            "t": "Esse soco é isento até cinco mil! Valeu, {nome}!",
+            "voz": "Esse soco é isento até cinco mil!"
+          },
+          {
+            "t": "O {nome} mandou picanha, e eu mandei o soco!",
+            "voz": "Mandaram picanha, e eu mandei o soco!"
+          },
+          {
+            "t": "Esse é pelo Brasil soberano! Valeu, {nome}!",
+            "voz": "Esse é pelo Brasil soberano!"
+          },
+          {
+            "t": "Vai chorar pro Tio Sam, {rival}? Golpe do {nome}!",
+            "voz": "Vai chorar pro Tio Sam, {rival}?"
+          },
+          {
+            "t": "Só precisava de uma luz, {rival}? Toma essa luz, cortesia do {nome}!",
+            "picante": true,
+            "voz": "Só precisava de uma luz, {rival}? Toma essa luz!"
+          },
+          {
+            "t": "Esse soco o Banco Master não cobre! Valeu, {nome}!",
+            "picante": true,
+            "voz": "Esse soco o Banco Master não cobre!"
+          },
+          {
+            "t": "Pede patrocínio pro banqueiro agora, {rival}! Golpe do {nome}!",
+            "picante": true,
+            "voz": "Pede patrocínio pro banqueiro agora, {rival}!"
+          },
+          {
+            "t": "Cuidado com a tornozeleira, {rival}! Esse foi do {nome}!",
+            "picante": true,
+            "voz": "Cuidado com a tornozeleira, {rival}!"
+          },
+          {
+            "t": "Rachadinha não! Aqui o soco é inteirinho! Valeu, {nome}!",
+            "picante": true,
+            "voz": "Rachadinha não! Aqui o soco é inteirinho!"
+          }
         ],
         "especial": [
-          "Golpe especial do companheiro {nome}! Segura, {rival}!",
-          "Taxação dos super-ricos! Quem tem mais, apanha mais! Obrigado, {nome}!",
-          "{nome} liberou o Golpe do Pré-Sal!",
-          "Picanha voadora, patrocínio do {nome}!",
-          "Isso é o Bolsa Soco, {rival}! Cortesia do {nome}!",
-          "Golpe Tarifa Zero! Esse o {nome} pagou pra todo mundo!",
-          { "t": "Com o {nome} no meu time, nem o Banco Master te salva!", "picante": true }
+          {
+            "t": "Golpe especial do companheiro {nome}! Segura, {rival}!",
+            "voz": "Golpe especial dos companheiros! Segura, {rival}!"
+          },
+          {
+            "t": "Taxação dos super-ricos! Quem tem mais, apanha mais! Obrigado, {nome}!",
+            "voz": "Taxação dos super-ricos! Quem tem mais, apanha mais!"
+          },
+          {
+            "t": "{nome} liberou o Golpe do Pré-Sal!",
+            "voz": "Liberaram o Golpe do Pré-Sal!"
+          },
+          {
+            "t": "Picanha voadora, patrocínio do {nome}!",
+            "voz": "Picanha voadora!"
+          },
+          {
+            "t": "Isso é o Bolsa Soco, {rival}! Cortesia do {nome}!",
+            "voz": "Isso é o Bolsa Soco, {rival}!"
+          },
+          {
+            "t": "Golpe Tarifa Zero! Esse o {nome} pagou pra todo mundo!",
+            "voz": "Golpe Tarifa Zero! Esse é por conta da casa!"
+          },
+          {
+            "t": "Com o {nome} no meu time, nem o Banco Master te salva!",
+            "picante": true,
+            "voz": "Com essa torcida, nem o Banco Master te salva!"
+          }
         ],
         "super": [
-          "SUPER GOLPE! O {nome} fez o L gigante!",
-          "Quarto mandato de soco! Valeu demais, {nome}!",
-          "{nome}, meu companheiro! Esse foi o golpe do século!",
-          "O {nome} mandou tanto presente que dá pra fazer churrasco pro Brasil inteiro!"
+          {
+            "t": "SUPER GOLPE! O {nome} fez o L gigante!",
+            "voz": "Super golpe! Fizeram o L gigante!"
+          },
+          {
+            "t": "Quarto mandato de soco! Valeu demais, {nome}!",
+            "voz": "Quarto mandato de soco!"
+          },
+          {
+            "t": "{nome}, meu companheiro! Esse foi o golpe do século!",
+            "voz": "Meus companheiros! Esse foi o golpe do século!"
+          },
+          {
+            "t": "O {nome} mandou tanto presente que dá pra fazer churrasco pro Brasil inteiro!",
+            "voz": "Com tanto presente, dá pra fazer churrasco pro Brasil inteiro!"
+          }
         ],
         "vitoria": [
           "Nocaute! Hoje tem picanha pra todo mundo!",
@@ -106,9 +234,24 @@
       "cor": "#1fae55",
       "corTexto": "#ffffff",
       "presentes": [
-        { "rotulo": "TikTok", "emoji": "🎵", "nomes": ["TikTok"], "ids": ["5269"] }
+        {
+          "rotulo": "TikTok",
+          "emoji": "🎵",
+          "nomes": [
+            "TikTok"
+          ],
+          "ids": [
+            "5269"
+          ]
+        }
       ],
-      "palavras": ["2", "flabio", "time flabio", "#flabio", "verde"],
+      "palavras": [
+        "2",
+        "flabio",
+        "time flabio",
+        "#flabio",
+        "verde"
+      ],
       "dicaChat": "2",
       "personagem": {
         "escala": 1,
@@ -122,43 +265,139 @@
         }
       },
       "voz": {
-        "edge": { "voz": "pt-BR-AntonioNeural", "tom": "+4%", "velocidade": "+10%" },
-        "google": { "taxa": 0.9 },
-        "navegador": { "tom": 1, "velocidade": 1.1 }
+        "edge": {
+          "voz": "pt-BR-AntonioNeural",
+          "tom": "+4%",
+          "velocidade": "+10%"
+        },
+        "google": {
+          "taxa": 0.9
+        },
+        "navegador": {
+          "tom": 1,
+          "velocidade": 1.1
+        }
       },
       "frases": {
         "ataque": [
-          "Cadê a picanha, {rival}? O {nome} cansou de esperar!",
-          "Essa é pela picanha que nunca chegou! Valeu, {nome}!",
-          "O {nome} mandou um presente mais caro que a dúzia de ovo!",
-          "Vai taxar esse presente também, {rival}? O {nome} mandou sem imposto!",
-          "Taxa das blusinhas? Aqui é taxa de soco! Valeu, {nome}!",
-          "Faz o L agora, {rival}! L de LEVOU! Valeu, {nome}!",
-          "Bora, vovô! Hora da soneca! Valeu, {nome}!",
-          "Chama a Janja pra te defender, {rival}! O {nome} mandou mais um!",
-          "Pega o Aerolule e foge, {rival}! Presente do {nome}!",
-          "Acabou a mamata! Valeu, {nome}!",
-          "Seis por um? Aqui é seis socos por um presente do {nome}!",
-          "Imposto? Só se for imposto de pancada! Valeu, {nome}!",
-          "Isso aqui é privatização do soco! Valeu, {nome}!",
-          { "t": "Esse golpe é pelos aposentados do INSS! Manda mais, {nome}!", "picante": true },
-          { "t": "Toma, caloteiro da esperança! Patrocínio do {nome}!", "picante": true },
-          { "t": "Nem o filhão vai te ajudar agora! Golpe do {nome}!", "picante": true }
+          {
+            "t": "Cadê a picanha, {rival}? O {nome} cansou de esperar!",
+            "voz": "Cadê a picanha, {rival}? A galera cansou de esperar!"
+          },
+          {
+            "t": "Essa é pela picanha que nunca chegou! Valeu, {nome}!",
+            "voz": "Essa é pela picanha que nunca chegou!"
+          },
+          {
+            "t": "O {nome} mandou um presente mais caro que a dúzia de ovo!",
+            "voz": "Esse presente saiu mais caro que a dúzia de ovo!"
+          },
+          {
+            "t": "Vai taxar esse presente também, {rival}? O {nome} mandou sem imposto!",
+            "voz": "Vai taxar esse presente também, {rival}?"
+          },
+          {
+            "t": "Taxa das blusinhas? Aqui é taxa de soco! Valeu, {nome}!",
+            "voz": "Taxa das blusinhas? Aqui é taxa de soco!"
+          },
+          {
+            "t": "Faz o L agora, {rival}! L de LEVOU! Valeu, {nome}!",
+            "voz": "Faz o L agora, {rival}! L de levou!"
+          },
+          {
+            "t": "Bora, vovô! Hora da soneca! Valeu, {nome}!",
+            "voz": "Bora, vovô! Hora da soneca!"
+          },
+          {
+            "t": "Chama a Janja pra te defender, {rival}! O {nome} mandou mais um!",
+            "voz": "Chama a Janja pra te defender, {rival}!"
+          },
+          {
+            "t": "Pega o Aerolule e foge, {rival}! Presente do {nome}!",
+            "voz": "Pega o Aerolule e foge, {rival}!"
+          },
+          {
+            "t": "Acabou a mamata! Valeu, {nome}!",
+            "voz": "Acabou a mamata!"
+          },
+          {
+            "t": "Seis por um? Aqui é seis socos por um presente do {nome}!",
+            "voz": "Seis por um? Aqui é seis socos por um presente!"
+          },
+          {
+            "t": "Imposto? Só se for imposto de pancada! Valeu, {nome}!",
+            "voz": "Imposto? Só se for imposto de pancada!"
+          },
+          {
+            "t": "Isso aqui é privatização do soco! Valeu, {nome}!",
+            "voz": "Isso aqui é privatização do soco!"
+          },
+          {
+            "t": "Esse golpe é pelos aposentados do INSS! Manda mais, {nome}!",
+            "picante": true,
+            "voz": "Esse golpe é pelos aposentados do INSS!"
+          },
+          {
+            "t": "Toma, caloteiro da esperança! Patrocínio do {nome}!",
+            "picante": true,
+            "voz": "Toma, caloteiro da esperança!"
+          },
+          {
+            "t": "Nem o filhão vai te ajudar agora! Golpe do {nome}!",
+            "picante": true,
+            "voz": "Nem o filhão vai te ajudar agora!"
+          }
         ],
         "especial": [
-          "{nome} liberou o golpe Dark Horse!",
-          "Golpe da Motociata! Acelera, {nome}!",
-          "Modo Mito ativado pelo {nome}!",
-          "Sem Lei Rouanet, só patrocínio do {nome}!",
-          "Golpe especial do agro! Valeu, {nome}!",
-          "Golpe da economia liberal: corta gasto e corta você! Valeu, {nome}!",
-          { "t": "O {nome} mandou o golpe do Pix sem taxa!", "picante": true }
+          {
+            "t": "{nome} liberou o golpe Dark Horse!",
+            "voz": "Liberaram o golpe Dark Horse!"
+          },
+          {
+            "t": "Golpe da Motociata! Acelera, {nome}!",
+            "voz": "Golpe da Motociata! Acelera!"
+          },
+          {
+            "t": "Modo Mito ativado pelo {nome}!",
+            "voz": "Modo Mito ativado!"
+          },
+          {
+            "t": "Sem Lei Rouanet, só patrocínio do {nome}!",
+            "voz": "Sem Lei Rouanet, só patrocínio da galera!"
+          },
+          {
+            "t": "Golpe especial do agro! Valeu, {nome}!",
+            "voz": "Golpe especial do agro!"
+          },
+          {
+            "t": "Golpe da economia liberal: corta gasto e corta você! Valeu, {nome}!",
+            "voz": "Golpe da economia liberal: corta gasto e corta você!"
+          },
+          {
+            "t": "O {nome} mandou o golpe do Pix sem taxa!",
+            "picante": true,
+            "voz": "Golpe do Pix sem taxa!"
+          }
         ],
         "super": [
-          "Acabou a mamata! Super golpe do {nome}!",
-          "MEGA GOLPE DO ZERO UM! Valeu, {nome}!",
-          { "t": "SUPER GOLPE! O {nome} mandou mais que patrocínio de filme!", "picante": true },
-          { "t": "O {nome} tá pagando mais que banqueiro! Obrigado, patrão!", "picante": true }
+          {
+            "t": "Acabou a mamata! Super golpe do {nome}!",
+            "voz": "Acabou a mamata! Super golpe!"
+          },
+          {
+            "t": "MEGA GOLPE DO ZERO UM! Valeu, {nome}!",
+            "voz": "Mega golpe do Zero Um!"
+          },
+          {
+            "t": "SUPER GOLPE! O {nome} mandou mais que patrocínio de filme!",
+            "picante": true,
+            "voz": "Super golpe! Mais caro que patrocínio de filme!"
+          },
+          {
+            "t": "O {nome} tá pagando mais que banqueiro! Obrigado, patrão!",
+            "picante": true,
+            "voz": "Tão pagando mais que banqueiro! Obrigado, patrão!"
+          }
         ],
         "vitoria": [
           "Nocaute! Acabou a mamata!",

@@ -10,12 +10,50 @@
 </head>
 <body>
   <header id="cabecalho">
-    <h1>🥊 Arena da Live <small>painel</small></h1>
-    <div id="status-conexao" class="chip">desconectado</div>
-    <div id="status-servidor" class="chip">servidor…</div>
+    <div id="cabecalho-linha">
+      <h1>🥊 Arena da Live <small>painel</small></h1>
+      <div id="resumo-topo"></div>
+      <div id="status-conexao" class="chip">desconectado</div>
+      <div id="status-servidor" class="chip">servidor…</div>
+    </div>
+    <nav id="barra-rapida" aria-label="Controles rápidos">
+      <div class="grupo">
+        <span class="grupo-titulo">Luta</span>
+        <button data-cmd="iniciar" class="primario" title="Começa o round (ou pula o intervalo)">▶ Iniciar</button>
+        <button data-cmd="pausar">⏸ Pausar</button>
+        <button data-cmd="retomar">⏯ Retomar</button>
+        <button data-cmd="encerrarRound">⏹ Encerrar</button>
+        <button data-cmd="reiniciarRound">↺ Reiniciar</button>
+      </div>
+      <div class="grupo" data-lado="0">
+        <span class="grupo-titulo nome-lado" data-lado="0">Lado 1</span>
+        <button data-sim="presente" data-tamanho="pequeno" data-lado="0" title="Presente do lado, em combo">Combo</button>
+        <button data-sim="presente" data-tamanho="medio" data-lado="0" title="Presente de 30 moedas">30</button>
+        <button data-sim="presente" data-tamanho="especial" data-lado="0" title="Golpe especial (99 moedas)">Especial</button>
+        <button data-sim="presente" data-tamanho="super" data-lado="0" title="Super golpe (500 moedas)">Super</button>
+        <button data-sim="entrar" data-lado="0" title="Alguém comenta 1 e entra no time">Comenta 1</button>
+        <button data-sim="curtidas" data-lado="0" title="Chuva de curtidas">❤️</button>
+      </div>
+      <div class="grupo" data-lado="1">
+        <span class="grupo-titulo nome-lado" data-lado="1">Lado 2</span>
+        <button data-sim="presente" data-tamanho="pequeno" data-lado="1" title="Presente do lado, em combo">Combo</button>
+        <button data-sim="presente" data-tamanho="medio" data-lado="1" title="Presente de 30 moedas">30</button>
+        <button data-sim="presente" data-tamanho="especial" data-lado="1" title="Golpe especial (99 moedas)">Especial</button>
+        <button data-sim="presente" data-tamanho="super" data-lado="1" title="Super golpe (500 moedas)">Super</button>
+        <button data-sim="entrar" data-lado="1" title="Alguém comenta 2 e entra no time">Comenta 2</button>
+        <button data-sim="curtidas" data-lado="1" title="Chuva de curtidas">❤️</button>
+      </div>
+      <div class="grupo">
+        <span class="grupo-titulo">Teste</span>
+        <button data-sim="estado" class="secundario" title="Alguém comenta a sigla de um estado">Estado</button>
+        <button data-sim="seguir" class="secundario" title="Alguém segue a live">Seguir</button>
+        <button id="sim-auto" class="primario">▶ Simulação automática</button>
+      </div>
+    </nav>
   </header>
 
   <main>
+    <aside id="coluna-previa">
     <section class="card" id="card-previa">
       <h2>Prévia da tela</h2>
       <div id="previa-caixa"><iframe id="previa" src="/overlay/?mudo=1" title="Prévia"></iframe></div>
@@ -25,6 +63,8 @@
       </div>
       <p class="dica">No OBS / TikTok LIVE Studio: adicione uma fonte <b>Navegador</b> (ou "Link") com esse endereço, tamanho <b>1080 × 1920</b>.</p>
     </section>
+    </aside>
+    <div id="cards">
 
     <section class="card" id="card-conexao">
       <h2>1. Conectar na live</h2>
@@ -46,14 +86,6 @@
     <section class="card" id="card-luta">
       <h2>2. Luta</h2>
       <div id="resumo-luta" class="resumo"></div>
-      <div class="grade-botoes">
-        <button data-cmd="iniciar" class="primario">▶ Iniciar / próximo</button>
-        <button data-cmd="pausar">⏸ Pausar</button>
-        <button data-cmd="retomar">⏯ Retomar</button>
-        <button data-cmd="encerrarRound">⏹ Encerrar round</button>
-        <button data-cmd="reiniciarRound">↺ Reiniciar round</button>
-        <button data-cmd="zerarTudo" class="perigo" data-confirmar="Zerar placar, mapa e times?">🗑 Zerar tudo</button>
-      </div>
       <h3>Ajuste manual de pontos</h3>
       <div class="grade-ajuste">
         <span class="nome-lado" data-lado="0"></span>
@@ -63,6 +95,7 @@
         <button data-ajuste="1" data-pontos="-10">−10</button>
         <button data-ajuste="1" data-pontos="10">+10</button>
       </div>
+      <div class="linha"><button data-cmd="zerarTudo" class="perigo" data-confirmar="Zerar placar, mapa e times?">🗑 Zerar tudo</button></div>
     </section>
 
     <section class="card" id="card-tema">
@@ -87,8 +120,9 @@
 
     <section class="card" id="card-voz">
       <h2>4. Falas e voz</h2>
-      <label class="check"><input type="checkbox" data-config="falas.ativas"> Bonecos falam o nome de quem mandou presente</label>
+      <label class="check"><input type="checkbox" data-config="falas.ativas"> Bonecos falam quando chega presente (balão com o nome de quem mandou)</label>
       <label class="check"><input type="checkbox" data-config="falas.picantes"> Piadas picantes (desmarque para só as leves)</label>
+      <label class="check"><input type="checkbox" data-config="falas.falarNome"> Falar o nome de quem mandou (voz sintética). Desligado: o nome aparece só no balão</label>
       <label>Voz
         <select data-config="voz.motor">
           <option value="auto">Automática (Edge e, se falhar, Google)</option>
@@ -158,34 +192,6 @@
       <p class="dica">Melhor usar vídeo vertical ou quadrado (a moldura é 400 × 352).</p>
     </section>
 
-    <section class="card" id="card-simular">
-      <h2>6. Testar sem live (simulação)</h2>
-      <div class="grade-sim">
-        <div class="col-sim" data-lado="0">
-          <h3 class="nome-lado" data-lado="0"></h3>
-          <button data-sim="presente" data-tamanho="pequeno" data-lado="0">Presente do lado (combo)</button>
-          <button data-sim="presente" data-tamanho="medio" data-lado="0">Presente médio (30)</button>
-          <button data-sim="presente" data-tamanho="especial" data-lado="0">Golpe especial (99)</button>
-          <button data-sim="presente" data-tamanho="super" data-lado="0">Super golpe (500)</button>
-          <button data-sim="entrar" data-lado="0">Alguém comenta "1"</button>
-          <button data-sim="curtidas" data-lado="0">Chuva de curtidas</button>
-        </div>
-        <div class="col-sim" data-lado="1">
-          <h3 class="nome-lado" data-lado="1"></h3>
-          <button data-sim="presente" data-tamanho="pequeno" data-lado="1">Presente do lado (combo)</button>
-          <button data-sim="presente" data-tamanho="medio" data-lado="1">Presente médio (30)</button>
-          <button data-sim="presente" data-tamanho="especial" data-lado="1">Golpe especial (99)</button>
-          <button data-sim="presente" data-tamanho="super" data-lado="1">Super golpe (500)</button>
-          <button data-sim="entrar" data-lado="1">Alguém comenta "2"</button>
-          <button data-sim="curtidas" data-lado="1">Chuva de curtidas</button>
-        </div>
-      </div>
-      <div class="linha">
-        <button data-sim="estado" class="secundario">Alguém comenta um estado</button>
-        <button data-sim="seguir" class="secundario">Alguém segue</button>
-        <button id="sim-auto" class="primario">▶ Simulação automática</button>
-      </div>
-    </section>
 
     <section class="card largo" id="card-log">
       <h2>Últimos presentes recebidos</h2>
@@ -206,6 +212,7 @@
         </div>
       </details>
     </section>
+    </div>
   </main>
 
   <div id="toast"></div>

@@ -551,7 +551,7 @@
   function falarNavegador(f) {
     return new Promise((resolve) => {
       if (!('speechSynthesis' in window)) return resolve(false);
-      const u = new SpeechSynthesisUtterance(f.texto);
+      const u = new SpeechSynthesisUtterance(f.falado || f.texto);
       u.lang = 'pt-BR';
       const perfil = f.perfil?.navegador ?? {};
       u.pitch = Number(perfil.tom ?? 1);
@@ -564,6 +564,22 @@
       u.onend = () => { clearTimeout(fim); resolve(true); };
       u.onerror = () => { clearTimeout(fim); resolve(false); };
       speechSynthesis.speak(u);
+    });
+  }
+
+  // Áudio gravado (arquivo do tema) tem prioridade sobre a voz sintética.
+  function tocarGravado(f) {
+    return new Promise((resolve) => {
+      const audio = new Audio(f.gravado);
+      audio.volume = Math.max(0, Math.min(1, Number(cfg.voz?.volume ?? 0.9)));
+      const fim = setTimeout(() => { audio.pause(); resolve(true); }, 20_000);
+      audio.onended = () => { clearTimeout(fim); resolve(true); };
+      audio.onerror = () => { clearTimeout(fim); resolve(false); };
+      audio.play().catch((erro) => {
+        clearTimeout(fim);
+        if (erro?.name === 'NotAllowedError') pedirSom();
+        resolve(false);
+      });
     });
   }
 
@@ -628,8 +644,9 @@
       const inicio = performance.now();
       const motor = cfg.voz?.motor;
       let falou = false;
-      if (!MUDO && somLiberado && motor === 'navegador') falou = await falarNavegador(f);
-      else if (!MUDO && somLiberado && f.audio) falou = await falarAudio(f);
+      if (!MUDO && somLiberado && f.gravado) falou = await tocarGravado(f);
+      if (!falou && !MUDO && somLiberado && motor === 'navegador') falou = await falarNavegador(f);
+      else if (!falou && !MUDO && somLiberado && f.audio) falou = await falarAudio(f);
       const minimo = falou ? 600 : tempoDeLeitura(f.texto);
       const restante = minimo - (performance.now() - inicio);
       if (restante > 0) await espera(restante);

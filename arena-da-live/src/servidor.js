@@ -138,7 +138,7 @@ const falas = new Map();
 app.get('/voz/:id', async (req, res) => {
   const fala = falas.get(req.params.id);
   if (!fala) return res.status(404).end();
-  const r = await voz.sintetizar(fala.texto, fala.voz);
+  const r = await voz.sintetizar(fala.falado, fala.voz);
   if (!r) return res.status(503).end();
   res.set({ 'Content-Type': 'audio/mpeg', 'Cache-Control': 'no-store', 'X-Motor-Voz': r.motor });
   return res.send(r.audio);
@@ -203,15 +203,18 @@ function publicarFala(fala) {
   if (!fala) return;
   const motor = cfg().voz.motor;
   const comAudio = motor !== 'desligado' && motor !== 'navegador';
-  falas.set(fala.id, { texto: fala.texto, voz: fala.voz, criada: Date.now() });
-  if (comAudio) voz.sintetizar(fala.texto, fala.voz); // já começa a gerar o áudio
+  falas.set(fala.id, { falado: fala.falado, voz: fala.voz, criada: Date.now() });
+  // com áudio gravado não precisa gerar voz; sem ele, já começa a gerar
+  if (comAudio && !fala.gravado) voz.sintetizar(fala.falado, fala.voz);
   io.emit('fala', {
     id: fala.id,
     quem: fala.quem,
     texto: fala.texto,
+    falado: fala.falado,
     partes: fala.partes,
     prioridade: fala.prioridade,
-    audio: comAudio ? `/voz/${fala.id}` : null,
+    gravado: motor !== 'desligado' ? fala.gravado : null,
+    audio: comAudio && !fala.gravado ? `/voz/${fala.id}` : null,
     perfil: fala.voz,
     maxFila: cfg().falas.maxFila,
   });
@@ -407,7 +410,7 @@ const comandos = {
       telasAbertas: io.sockets.adapter.rooms.get('overlay')?.size ?? 0,
       motor,
       audio: motor !== 'desligado' && motor !== 'navegador' ? `/voz/${fala.id}` : null,
-      texto: fala.texto,
+      texto: fala.falado,
       perfil: fala.voz,
     };
   },

@@ -124,3 +124,31 @@ test('nomes de presentes em inglês viram português', () => {
   assert.equal(nomeDoPresente('Lion'), 'Leão');
   assert.equal(nomeDoPresente('Presente Novo'), 'Presente Novo');
 });
+
+test('a voz não fala o nome (só o balão mostra), a menos que "falarNome" esteja ligado', () => {
+  const { narrador } = montar();
+  const f = narrador.aoAtacar(ataque());
+  assert.match(f.texto, /Ana Paula/);
+  assert.equal(f.falado, 'Valeu! Toma, FLABIO!');
+  const { narrador: n2 } = montar({ falarNome: true });
+  assert.equal(n2.aoAtacar(ataque()).falado, 'Valeu, Ana Paula! Toma, FLABIO!');
+});
+
+test('frase com versão "voz" e áudio gravado', () => {
+  const { narrador } = montar();
+  const f = narrador.criarFala(0, { t: 'Valeu, {nome}!', voz: 'Valeu, {rival}!', audio: 'audio/L-ataque-01.mp3' }, { nome: 'Bia', rival: 'FLABIO' }, 1);
+  assert.equal(f.texto, 'Valeu, Bia!');
+  assert.equal(f.falado, 'Valeu, FLABIO!');
+  assert.equal(f.gravado, '/temas/t/audio/L-ataque-01.mp3');
+  const { narrador: n2 } = montar({ falarNome: true });
+  assert.equal(n2.criarFala(0, { t: 'Oi {nome}', audio: 'a.mp3' }, { nome: 'Bia' }, 1).gravado, null, 'com nome falado, o áudio fixo não serve');
+});
+
+test('falaSemNome tira o nome de forma natural', async () => {
+  const { falaSemNome } = await import('../src/narrador.js');
+  assert.equal(falaSemNome('Esse soco é cortesia do {nome}!'), 'Esse soco é cortesia da galera!');
+  assert.equal(falaSemNome('Valeu, {nome}! Toma essa!'), 'Valeu! Toma essa!');
+  assert.equal(falaSemNome('O {nome} mandou e eu bati!'), 'A galera mandou e eu bati!');
+  assert.equal(falaSemNome('{nome}, meu parceiro!'), 'meu parceiro!');
+  assert.equal(falaSemNome('Patrocinado pelo {nome}!'), 'Patrocinado pela galera!');
+});
