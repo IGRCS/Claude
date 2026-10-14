@@ -91,7 +91,30 @@ for (const [i, lado] of tema.lados.entries()) {
   saidas.push([`${base}-bloco-com-pausa.txt`, textos.join('\n<break time="1.5s"/>\n')]);
 }
 
+// Versão em partes de até LIMITE caracteres (geradores de voz com limite por texto). Cada parte termina num clipe inteiro.
+const LIMITE = Number(process.env.LIMITE || 500);
+const partesManifesto = {};
+for (const [i, lado] of tema.lados.entries()) {
+  const clipes = manifesto.filter((m) => m.lado === i).flatMap((m) => m.clipes);
+  const partes = [];
+  let atual = [];
+  const tam = (lista) => lista.map((c) => c.texto).join('\n\n').length;
+  for (const c of clipes) {
+    if (c.texto.length > LIMITE) throw new Error(`${c.id} tem mais de ${LIMITE} caracteres`);
+    if (atual.length && tam([...atual, c]) > LIMITE) { partes.push(atual); atual = []; }
+    atual.push(c);
+  }
+  if (atual.length) partes.push(atual);
+  const base = capitalizar(lado.nome).toLowerCase();
+  partesManifesto[base] = partes.map((p) => p.map((c) => c.id));
+  const txt = partes.map((p, n) => {
+    const corpo = p.map((c) => c.texto).join('\n\n');
+    return `######## PARTE ${n + 1} de ${partes.length} — ${p.length} clipes, ${corpo.length} caracteres ########\n\n${corpo}\n`;
+  }).join('\n');
+  saidas.push([`${base}-partes.txt`, txt]);
+}
 await mkdir(join(raiz, 'roteiro'), { recursive: true });
+await writeFile(join(raiz, 'roteiro', 'partes.json'), JSON.stringify(partesManifesto, null, 2) + '\n');
 for (const [arq, texto] of saidas) await writeFile(join(raiz, 'roteiro', arq), texto + '\n');
 await writeFile(join(raiz, 'roteiro', `manifesto-${temaId}.json`), JSON.stringify(manifesto, null, 2) + '\n');
 console.log(`Roteiros em roteiro/: ${saidas.map((s) => s[0]).join(', ')} (+ manifesto-${temaId}.json)`);
