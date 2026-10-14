@@ -1,7 +1,7 @@
 # 🥊 Arena da Live
 
 Jogo de luta para live do TikTok: **cada presente do público vira um golpe** do lutador escolhido.
-O boneco **fala o nome de quem mandou o presente** numa frase de zoeira, a vida do adversário cai,
+O boneco **fala uma frase de zoeira** (com voz gravada) e o **nome de quem mandou aparece no balão**, a vida do adversário cai,
 tem nocaute, rounds, mapa do Brasil sendo conquistado e ranking de quem mais apoiou.
 
 Vem com 3 temas prontos e troca de personagem com 1 clique:
@@ -84,10 +84,12 @@ conecte ele na sua live, e no painel escolha **"Pelo TikFinity aberto no PC"** �
 
 ## 5. Falas e voz dos bonecos
 
-Quando chega um presente, o lutador do lado **fala uma frase com o nome da pessoa** (balão + voz). Ex.:
+Quando chega um presente, o lutador do lado **fala uma frase de zoeira** e o balão mostra o nome da pessoa. Ex.:
 *"Cadê a picanha, LULE? O **Carlos** cansou de esperar!"* ou *"Esse soco o Banco Master não cobre! Valeu, **Ana**!"*
 
-- A voz usa as **vozes neurais do Microsoft Edge** (grátis, precisa de internet). Se falhar, usa a do **Google Tradutor**.
+- **No tema da eleição, as 65 falas dos lutadores já vêm com voz gravada** (33 do LULE e 32 do FLABIO,
+  em `temas/eleicao/audio/`). Funciona sem internet.
+- O **narrador** (início de round, empate) e os outros temas usam voz sintética: a voz usa as **vozes neurais do Microsoft Edge** (grátis, precisa de internet). Se falhar, usa a do **Google Tradutor**.
   Se as duas falharem, o balão aparece mesmo assim. Teste no painel: **"Testar voz"**.
 - **Piadas picantes** (Banco Master, tornozeleira, INSS, rachadinha…) podem ser desligadas com 1 clique:
   painel → "4. Falas e voz" → desmarque **"Piadas picantes"**. Ficam só as leves (picanha, Faz o L, arregão, 6x1…).

@@ -99,133 +99,176 @@
         "ataque": [
           {
             "t": "Companheiro {nome} mandou, e esse soco é pelo povo!",
-            "voz": "Companheiro, esse soco é pelo povo!"
+            "voz": "Companheiro, esse soco é pelo povo!",
+            "audio": "audio/L-ataque-01.mp3"
           },
           {
             "t": "Faz o L, {nome}! L de LAPADA!",
-            "voz": "Faz o L! L de lapada!"
+            "voz": "Faz o L! L de lapada!",
+            "audio": "audio/L-ataque-02.mp3"
           },
           {
             "t": "Aqui não tem como fugir do debate, {rival}! Valeu, {nome}!",
-            "voz": "Aqui não tem como fugir do debate, {rival}!"
+            "voz": "Aqui não tem como fugir do debate, {rival}!",
+            "audio": "audio/L-ataque-03.mp3"
           },
           {
             "t": "Fugiu da Band, mas não foge do soco do {nome}!",
-            "voz": "Fugiu da Band, mas não foge desse soco!"
+            "voz": "Fugiu da Band, mas não foge desse soco!",
+            "audio": "audio/L-ataque-04.mp3"
           },
           {
             "t": "Arregão! Esse foi patrocinado pelo {nome}!",
-            "voz": "Arregão! Esse foi patrocinado pela galera!"
+            "voz": "Arregão! Esse foi patrocinado pela galera!",
+            "audio": "audio/L-ataque-05.mp3"
           },
           {
             "t": "Dark Horse? Vai é virar cavalo paraguaio! Valeu, {nome}!",
-            "voz": "Dark Horse? Vai é virar cavalo paraguaio!"
+            "voz": "Dark Horse? Vai é virar cavalo paraguaio!",
+            "audio": "audio/L-ataque-06.mp3"
           },
           {
             "t": "Zero Um? Zero chance! Obrigado, {nome}!",
-            "voz": "Zero Um? Zero chance!"
+            "voz": "Zero Um? Zero chance!",
+            "audio": "audio/L-ataque-07.mp3"
           },
           {
             "t": "Fim da escala seis por um: seis socos e nenhuma folga! Valeu, {nome}!",
-            "voz": "Fim da escala seis por um: seis socos e nenhuma folga!"
+            "voz": "Fim da escala seis por um: seis socos e nenhuma folga!",
+            "audio": "audio/L-ataque-08.mp3"
           },
           {
             "t": "Esse soco é isento até cinco mil! Valeu, {nome}!",
-            "voz": "Esse soco é isento até cinco mil!"
+            "voz": "Esse soco é isento até cinco mil!",
+            "audio": "audio/L-ataque-09.mp3"
           },
           {
             "t": "O {nome} mandou picanha, e eu mandei o soco!",
-            "voz": "Mandaram picanha, e eu mandei o soco!"
+            "voz": "Mandaram picanha, e eu mandei o soco!",
+            "audio": "audio/L-ataque-10.mp3"
           },
           {
             "t": "Esse é pelo Brasil soberano! Valeu, {nome}!",
-            "voz": "Esse é pelo Brasil soberano!"
+            "voz": "Esse é pelo Brasil soberano!",
+            "audio": "audio/L-ataque-11.mp3"
           },
           {
             "t": "Vai chorar pro Tio Sam, {rival}? Golpe do {nome}!",
-            "voz": "Vai chorar pro Tio Sam, {rival}?"
+            "voz": "Vai chorar pro Tio Sam, {rival}?",
+            "audio": "audio/L-ataque-12.mp3"
           },
           {
             "t": "Só precisava de uma luz, {rival}? Toma essa luz, cortesia do {nome}!",
             "picante": true,
-            "voz": "Só precisava de uma luz, {rival}? Toma essa luz!"
+            "voz": "Só precisava de uma luz, {rival}? Toma essa luz!",
+            "audio": "audio/L-ataque-13.mp3"
           },
           {
             "t": "Esse soco o Banco Master não cobre! Valeu, {nome}!",
             "picante": true,
-            "voz": "Esse soco o Banco Master não cobre!"
+            "voz": "Esse soco o Banco Master não cobre!",
+            "audio": "audio/L-ataque-14.mp3"
           },
           {
             "t": "Pede patrocínio pro banqueiro agora, {rival}! Golpe do {nome}!",
             "picante": true,
-            "voz": "Pede patrocínio pro banqueiro agora, {rival}!"
+            "voz": "Pede patrocínio pro banqueiro agora, {rival}!",
+            "audio": "audio/L-ataque-15.mp3"
           },
           {
             "t": "Cuidado com a tornozeleira, {rival}! Esse foi do {nome}!",
             "picante": true,
-            "voz": "Cuidado com a tornozeleira, {rival}!"
+            "voz": "Cuidado com a tornozeleira, {rival}!",
+            "audio": "audio/L-ataque-16.mp3"
           },
           {
             "t": "Rachadinha não! Aqui o soco é inteirinho! Valeu, {nome}!",
             "picante": true,
-            "voz": "Rachadinha não! Aqui o soco é inteirinho!"
+            "voz": "Rachadinha não! Aqui o soco é inteirinho!",
+            "audio": "audio/L-ataque-17.mp3"
           }
         ],
         "especial": [
           {
             "t": "Golpe especial do companheiro {nome}! Segura, {rival}!",
-            "voz": "Golpe especial dos companheiros! Segura, {rival}!"
+            "voz": "Golpe especial dos companheiros! Segura, {rival}!",
+            "audio": "audio/L-especial-01.mp3"
           },
           {
             "t": "Taxação dos super-ricos! Quem tem mais, apanha mais! Obrigado, {nome}!",
-            "voz": "Taxação dos super-ricos! Quem tem mais, apanha mais!"
+            "voz": "Taxação dos super-ricos! Quem tem mais, apanha mais!",
+            "audio": "audio/L-especial-02.mp3"
           },
           {
             "t": "{nome} liberou o Golpe do Pré-Sal!",
-            "voz": "Liberaram o Golpe do Pré-Sal!"
+            "voz": "Liberaram o Golpe do Pré-Sal!",
+            "audio": "audio/L-especial-03.mp3"
           },
           {
             "t": "Picanha voadora, patrocínio do {nome}!",
-            "voz": "Picanha voadora!"
+            "voz": "Picanha voadora!",
+            "audio": "audio/L-especial-04.mp3"
           },
           {
             "t": "Isso é o Bolsa Soco, {rival}! Cortesia do {nome}!",
-            "voz": "Isso é o Bolsa Soco, {rival}!"
+            "voz": "Isso é o Bolsa Soco, {rival}!",
+            "audio": "audio/L-especial-05.mp3"
           },
           {
             "t": "Golpe Tarifa Zero! Esse o {nome} pagou pra todo mundo!",
-            "voz": "Golpe Tarifa Zero! Esse é por conta da casa!"
+            "voz": "Golpe Tarifa Zero! Esse é por conta da casa!",
+            "audio": "audio/L-especial-06.mp3"
           },
           {
             "t": "Com o {nome} no meu time, nem o Banco Master te salva!",
             "picante": true,
-            "voz": "Com essa torcida, nem o Banco Master te salva!"
+            "voz": "Com essa torcida, nem o Banco Master te salva!",
+            "audio": "audio/L-especial-07.mp3"
           }
         ],
         "super": [
           {
             "t": "SUPER GOLPE! O {nome} fez o L gigante!",
-            "voz": "Super golpe! Fizeram o L gigante!"
+            "voz": "Super golpe! Fizeram o L gigante!",
+            "audio": "audio/L-super-01.mp3"
           },
           {
             "t": "Quarto mandato de soco! Valeu demais, {nome}!",
-            "voz": "Quarto mandato de soco!"
+            "voz": "Quarto mandato de soco!",
+            "audio": "audio/L-super-02.mp3"
           },
           {
             "t": "{nome}, meu companheiro! Esse foi o golpe do século!",
-            "voz": "Meus companheiros! Esse foi o golpe do século!"
+            "voz": "Meus companheiros! Esse foi o golpe do século!",
+            "audio": "audio/L-super-03.mp3"
           },
           {
             "t": "O {nome} mandou tanto presente que dá pra fazer churrasco pro Brasil inteiro!",
-            "voz": "Com tanto presente, dá pra fazer churrasco pro Brasil inteiro!"
+            "voz": "Com tanto presente, dá pra fazer churrasco pro Brasil inteiro!",
+            "audio": "audio/L-super-04.mp3"
           }
         ],
         "vitoria": [
-          "Nocaute! Hoje tem picanha pra todo mundo!",
-          "Faz o L, minha gente! Venci o round!",
-          "Esse round foi mais fácil que debate sem adversário!",
-          "Venci! Pode chamar de quarto round, quarto mandato!",
-          "Ganhei o round, companheiros! Agora é picanha e cervejinha!"
+          {
+            "t": "Nocaute! Hoje tem picanha pra todo mundo!",
+            "audio": "audio/L-vitoria-01.mp3"
+          },
+          {
+            "t": "Faz o L, minha gente! Venci o round!",
+            "audio": "audio/L-vitoria-02.mp3"
+          },
+          {
+            "t": "Esse round foi mais fácil que debate sem adversário!",
+            "audio": "audio/L-vitoria-03.mp3"
+          },
+          {
+            "t": "Venci! Pode chamar de quarto round, quarto mandato!",
+            "audio": "audio/L-vitoria-04.mp3"
+          },
+          {
+            "t": "Ganhei o round, companheiros! Agora é picanha e cervejinha!",
+            "audio": "audio/L-vitoria-05.mp3"
+          }
         ]
       }
     },
@@ -282,129 +325,171 @@
         "ataque": [
           {
             "t": "Cadê a picanha, {rival}? O {nome} cansou de esperar!",
-            "voz": "Cadê a picanha, {rival}? A galera cansou de esperar!"
+            "voz": "Cadê a picanha, {rival}? A galera cansou de esperar!",
+            "audio": "audio/F-ataque-01.mp3"
           },
           {
             "t": "Essa é pela picanha que nunca chegou! Valeu, {nome}!",
-            "voz": "Essa é pela picanha que nunca chegou!"
+            "voz": "Essa é pela picanha que nunca chegou!",
+            "audio": "audio/F-ataque-02.mp3"
           },
           {
             "t": "O {nome} mandou um presente mais caro que a dúzia de ovo!",
-            "voz": "Esse presente saiu mais caro que a dúzia de ovo!"
+            "voz": "Esse presente saiu mais caro que a dúzia de ovo!",
+            "audio": "audio/F-ataque-03.mp3"
           },
           {
             "t": "Vai taxar esse presente também, {rival}? O {nome} mandou sem imposto!",
-            "voz": "Vai taxar esse presente também, {rival}?"
+            "voz": "Vai taxar esse presente também, {rival}?",
+            "audio": "audio/F-ataque-04.mp3"
           },
           {
             "t": "Taxa das blusinhas? Aqui é taxa de soco! Valeu, {nome}!",
-            "voz": "Taxa das blusinhas? Aqui é taxa de soco!"
+            "voz": "Taxa das blusinhas? Aqui é taxa de soco!",
+            "audio": "audio/F-ataque-05.mp3"
           },
           {
             "t": "Faz o L agora, {rival}! L de LEVOU! Valeu, {nome}!",
-            "voz": "Faz o L agora, {rival}! L de levou!"
+            "voz": "Faz o L agora, {rival}! L de levou!",
+            "audio": "audio/F-ataque-06.mp3"
           },
           {
             "t": "Bora, vovô! Hora da soneca! Valeu, {nome}!",
-            "voz": "Bora, vovô! Hora da soneca!"
+            "voz": "Bora, vovô! Hora da soneca!",
+            "audio": "audio/F-ataque-07.mp3"
           },
           {
             "t": "Chama a Janja pra te defender, {rival}! O {nome} mandou mais um!",
-            "voz": "Chama a Janja pra te defender, {rival}!"
+            "voz": "Chama a Janja pra te defender, {rival}!",
+            "audio": "audio/F-ataque-08.mp3"
           },
           {
             "t": "Pega o Aerolule e foge, {rival}! Presente do {nome}!",
-            "voz": "Pega o Aerolule e foge, {rival}!"
+            "voz": "Pega o Aerolule e foge, {rival}!",
+            "audio": "audio/F-ataque-09.mp3"
           },
           {
             "t": "Acabou a mamata! Valeu, {nome}!",
-            "voz": "Acabou a mamata!"
+            "voz": "Acabou a mamata!",
+            "audio": "audio/F-ataque-10.mp3"
           },
           {
             "t": "Seis por um? Aqui é seis socos por um presente do {nome}!",
-            "voz": "Seis por um? Aqui é seis socos por um presente!"
+            "voz": "Seis por um? Aqui é seis socos por um presente!",
+            "audio": "audio/F-ataque-11.mp3"
           },
           {
             "t": "Imposto? Só se for imposto de pancada! Valeu, {nome}!",
-            "voz": "Imposto? Só se for imposto de pancada!"
+            "voz": "Imposto? Só se for imposto de pancada!",
+            "audio": "audio/F-ataque-12.mp3"
           },
           {
             "t": "Isso aqui é privatização do soco! Valeu, {nome}!",
-            "voz": "Isso aqui é privatização do soco!"
+            "voz": "Isso aqui é privatização do soco!",
+            "audio": "audio/F-ataque-13.mp3"
           },
           {
             "t": "Esse golpe é pelos aposentados do INSS! Manda mais, {nome}!",
             "picante": true,
-            "voz": "Esse golpe é pelos aposentados do INSS!"
+            "voz": "Esse golpe é pelos aposentados do INSS!",
+            "audio": "audio/F-ataque-14.mp3"
           },
           {
             "t": "Toma, caloteiro da esperança! Patrocínio do {nome}!",
             "picante": true,
-            "voz": "Toma, caloteiro da esperança!"
+            "voz": "Toma, caloteiro da esperança!",
+            "audio": "audio/F-ataque-15.mp3"
           },
           {
             "t": "Nem o filhão vai te ajudar agora! Golpe do {nome}!",
             "picante": true,
-            "voz": "Nem o filhão vai te ajudar agora!"
+            "voz": "Nem o filhão vai te ajudar agora!",
+            "audio": "audio/F-ataque-16.mp3"
           }
         ],
         "especial": [
           {
             "t": "{nome} liberou o golpe Dark Horse!",
-            "voz": "Liberaram o golpe Dark Horse!"
+            "voz": "Liberaram o golpe Dark Horse!",
+            "audio": "audio/F-especial-01.mp3"
           },
           {
             "t": "Golpe da Motociata! Acelera, {nome}!",
-            "voz": "Golpe da Motociata! Acelera!"
+            "voz": "Golpe da Motociata! Acelera!",
+            "audio": "audio/F-especial-02.mp3"
           },
           {
             "t": "Modo Mito ativado pelo {nome}!",
-            "voz": "Modo Mito ativado!"
+            "voz": "Modo Mito ativado!",
+            "audio": "audio/F-especial-03.mp3"
           },
           {
             "t": "Sem Lei Rouanet, só patrocínio do {nome}!",
-            "voz": "Sem Lei Rouanet, só patrocínio da galera!"
+            "voz": "Sem Lei Rouanet, só patrocínio da galera!",
+            "audio": "audio/F-especial-04.mp3"
           },
           {
             "t": "Golpe especial do agro! Valeu, {nome}!",
-            "voz": "Golpe especial do agro!"
+            "voz": "Golpe especial do agro!",
+            "audio": "audio/F-especial-05.mp3"
           },
           {
             "t": "Golpe da economia liberal: corta gasto e corta você! Valeu, {nome}!",
-            "voz": "Golpe da economia liberal: corta gasto e corta você!"
+            "voz": "Golpe da economia liberal: corta gasto e corta você!",
+            "audio": "audio/F-especial-06.mp3"
           },
           {
             "t": "O {nome} mandou o golpe do Pix sem taxa!",
             "picante": true,
-            "voz": "Golpe do Pix sem taxa!"
+            "voz": "Golpe do Pix sem taxa!",
+            "audio": "audio/F-especial-07.mp3"
           }
         ],
         "super": [
           {
             "t": "Acabou a mamata! Super golpe do {nome}!",
-            "voz": "Acabou a mamata! Super golpe!"
+            "voz": "Acabou a mamata! Super golpe!",
+            "audio": "audio/F-super-01.mp3"
           },
           {
             "t": "MEGA GOLPE DO ZERO UM! Valeu, {nome}!",
-            "voz": "Mega golpe do Zero Um!"
+            "voz": "Mega golpe do Zero Um!",
+            "audio": "audio/F-super-02.mp3"
           },
           {
             "t": "SUPER GOLPE! O {nome} mandou mais que patrocínio de filme!",
             "picante": true,
-            "voz": "Super golpe! Mais caro que patrocínio de filme!"
+            "voz": "Super golpe! Mais caro que patrocínio de filme!",
+            "audio": "audio/F-super-03.mp3"
           },
           {
             "t": "O {nome} tá pagando mais que banqueiro! Obrigado, patrão!",
             "picante": true,
-            "voz": "Tão pagando mais que banqueiro! Obrigado, patrão!"
+            "voz": "Tão pagando mais que banqueiro! Obrigado, patrão!",
+            "audio": "audio/F-super-04.mp3"
           }
         ],
         "vitoria": [
-          "Nocaute! Acabou a mamata!",
-          "Venci! Agora pode taxar a derrota, {rival}!",
-          "Ganhei o round! E sem precisar ir em debate!",
-          "Nocaute! Picanha agora só na minha churrasqueira!",
-          "Mais um round pro Zero Um!"
+          {
+            "t": "Nocaute! Acabou a mamata!",
+            "audio": "audio/F-vitoria-01.mp3"
+          },
+          {
+            "t": "Venci! Agora pode taxar a derrota, {rival}!",
+            "audio": "audio/F-vitoria-02.mp3"
+          },
+          {
+            "t": "Ganhei o round! E sem precisar ir em debate!",
+            "audio": "audio/F-vitoria-03.mp3"
+          },
+          {
+            "t": "Nocaute! Picanha agora só na minha churrasqueira!",
+            "audio": "audio/F-vitoria-04.mp3"
+          },
+          {
+            "t": "Mais um round pro Zero Um!",
+            "audio": "audio/F-vitoria-05.mp3"
+          }
         ]
       }
     }
