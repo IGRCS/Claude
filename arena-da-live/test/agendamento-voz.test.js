@@ -78,3 +78,8 @@ test('voz: se tudo falha, devolve null e guarda o erro (o balão continua aparec
   assert.equal(await voz.sintetizar('oi', {}), null);
   assert.match(voz.status().ultimoErro, /google fora/);
 });
+
+test('config padrão traz o vídeo em loop desligado', async () => {
+  const { CONFIG_PADRAO } = await import('../src/config.js');
+  assert.deepEqual(CONFIG_PADRAO.tela.video, { ativo: false, arquivo: '', versao: 0, ajuste: 'cobrir', som: false });
+});

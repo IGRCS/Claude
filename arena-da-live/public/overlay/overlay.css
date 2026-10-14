@@ -678,6 +678,12 @@ body.transparente, body.transparente #palco { background: transparent !important
   letter-spacing: 2px;
   color: rgba(255, 255, 255, 0.25);
 }
+#camera { overflow: hidden; }
+#camera-video { display: none; position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #000; }
+#camera.com-video #camera-video { display: block; }
+#camera.com-video > span { display: none; }
+#camera.com-video.caber #camera-video { object-fit: contain; }
+#camera-selo { z-index: 2; }
 #camera-selo {
   position: absolute;
   top: 12px;

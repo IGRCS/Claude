@@ -137,6 +137,27 @@
       <label>Volume dos efeitos <input type="range" min="0" max="1" step="0.05" data-config="som.volume" data-tipo="numero"></label>
     </section>
 
+    <section class="card" id="card-video">
+      <h2>Vídeo em loop (moldura da câmera)</h2>
+      <p class="dica">Toca em repetição no lugar do "SUA CÂMERA AQUI". Formatos: mp4, webm, mov (até 500 MB).</p>
+      <input type="file" id="video-arquivo" accept="video/mp4,video/webm,video/quicktime,.mp4,.webm,.mov,.m4v">
+      <div class="linha">
+        <button id="video-enviar" class="primario">Enviar vídeo</button>
+        <button id="video-remover" class="perigo">Remover</button>
+      </div>
+      <progress id="video-progresso" value="0" max="100" hidden></progress>
+      <p id="video-status" class="dica">Nenhum vídeo enviado.</p>
+      <label class="check"><input type="checkbox" data-config="tela.video.ativo"> Mostrar o vídeo</label>
+      <label>Enquadramento
+        <select data-config="tela.video.ajuste">
+          <option value="cobrir">Preencher a moldura (corta as bordas)</option>
+          <option value="caber">Mostrar inteiro (pode sobrar faixa preta)</option>
+        </select>
+      </label>
+      <label class="check"><input type="checkbox" data-config="tela.video.som"> Tocar o som do vídeo (cuidado: mistura com a voz dos bonecos)</label>
+      <p class="dica">Melhor usar vídeo vertical ou quadrado (a moldura é 400 × 352).</p>
+    </section>
+
     <section class="card" id="card-simular">
       <h2>6. Testar sem live (simulação)</h2>
       <div class="grade-sim">

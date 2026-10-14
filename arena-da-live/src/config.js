@@ -36,7 +36,13 @@ export const CONFIG_PADRAO = {
     volume: 0.9,
   },
   som: { efeitos: true, volume: 0.6 },
-  tela: { mostrarMapa: true, mostrarCamera: true, mostrarAviso: true },
+  tela: {
+    mostrarMapa: true,
+    mostrarCamera: true,
+    mostrarAviso: true,
+    // vídeo em loop dentro da moldura da câmera (enviado pelo painel)
+    video: { ativo: false, arquivo: '', versao: 0, ajuste: 'cobrir', som: false },
+  },
   filtro: {
     nomeSubstituto: 'alguém',
     palavrasBloqueadas: PALAVRAS_BLOQUEADAS_PADRAO,

@@ -122,6 +122,10 @@
       else el.value = valor ?? '';
     }
 
+    const vid = d.config.tela.video ?? {};
+    $('#video-status').textContent = vid.arquivo
+      ? `Vídeo atual: ${vid.arquivo}${vid.ativo ? '' : ' (escondido)'}`
+      : 'Nenhum vídeo enviado.';
     const v = d.voz ?? {};
     $('#voz-status').textContent = v.ultimoMotor
       ? `Última voz gerada por: ${v.ultimoMotor === 'edge' ? 'Microsoft Edge' : 'Google'}${v.ultimoErro ? ` • último erro: ${v.ultimoErro}` : ''}`
@@ -222,6 +226,34 @@
       toast('Não consegui gerar a voz. Veja a mensagem de erro abaixo dos botões.', true);
     }
   }
+  // ---- vídeo em loop
+  $('#video-enviar').addEventListener('click', () => {
+    const arquivo = $('#video-arquivo').files[0];
+    if (!arquivo) return toast('Escolha um arquivo de vídeo primeiro.', true);
+    const barra = $('#video-progresso');
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', '/api/video');
+    xhr.setRequestHeader('x-nome', encodeURIComponent(arquivo.name));
+    barra.hidden = false;
+    barra.value = 0;
+    xhr.upload.onprogress = (e) => e.lengthComputable && (barra.value = (e.loaded / e.total) * 100);
+    xhr.onload = () => {
+      barra.hidden = true;
+      let r = {};
+      try { r = JSON.parse(xhr.responseText); } catch { /* resposta inesperada */ }
+      if (r.ok) { toast('Vídeo enviado! Já está tocando na tela.'); $('#video-arquivo').value = ''; }
+      else toast(r.erro || 'Falha ao enviar o vídeo.', true);
+    };
+    xhr.onerror = () => { barra.hidden = true; toast('Falha ao enviar o vídeo.', true); };
+    xhr.send(arquivo);
+  });
+  $('#video-remover').addEventListener('click', async () => {
+    if (!info?.config.tela.video?.arquivo) return toast('Não há vídeo enviado.', true);
+    if (!confirm('Remover o vídeo e voltar para a moldura da câmera?')) return;
+    const r = await cmd('removerVideo');
+    if (r.ok) toast('Vídeo removido.');
+  });
+
   $$('[data-testar]').forEach((b) =>
     b.addEventListener('click', async () => {
       const r = await cmd('testarVoz', { quem: b.dataset.testar });
@@ -242,10 +274,11 @@
   }
   for (const el of $$('[data-config]')) {
     el.addEventListener('change', async () => {
-      const [secao, campo] = el.dataset.config.split('.');
+      const [secao, ...caminho] = el.dataset.config.split('.');
       let valor = el.type === 'checkbox' ? el.checked : el.value;
       if (el.dataset.tipo === 'numero') valor = Number(valor);
-      const r = await cmd('salvarConfig', { secao, valores: { [campo]: valor } });
+      const valores = caminho.reduceRight((acc, chave) => ({ [chave]: acc }), valor);
+      const r = await cmd('salvarConfig', { secao, valores });
       delete el.dataset.sujo;
       if (r.ok) toast('Salvo!');
     });

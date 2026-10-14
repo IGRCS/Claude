@@ -47,6 +47,16 @@ A tela do jogo fica em **http://localhost:3000/overlay** (tamanho **1080 × 1920
 **Fique na câmera narrando!** Live só com o jogo rodando sozinho pode perder a monetização no TikTok
 (regra de "conteúdo automatizado/não original").
 
+### Vídeo em loop na moldura da câmera (UGC, anúncio, etc.)
+
+No painel, card **"Vídeo em loop"**: escolha o arquivo (mp4, webm ou mov, até 500 MB) → **Enviar vídeo**.
+Ele passa a tocar em repetição dentro da moldura, no lugar do "SUA CÂMERA AQUI". Dá para escolher se ele
+preenche a moldura (corta as bordas) ou aparece inteiro, esconder/mostrar sem apagar, ou **Remover**.
+Ideal: vídeo vertical ou quadrado (a moldura mede 400 × 352). O som vem **desligado** por padrão.
+Se o vídeo não tocar no OBS, converta para **mp4 (H.264)** ou use uma fonte "Mídia" do próprio OBS por cima.
+> Vídeo gravado em repetição pode ser marcado pelo TikTok como "conteúdo não original": mantenha-o pequeno
+> e continue aparecendo/falando na live. Se o vídeo for sobre candidatos e feito com IA, vale a regra do TSE (aviso + 72h).
+
 ## 3. Conectar na sua live
 
 1. Comece a live no TikTok.
