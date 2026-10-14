@@ -83,6 +83,14 @@ tema.lados.forEach((lado, i) => {
   saidas.push([`${nomeLado.toLowerCase()}.txt`, [...cab, ...rodape, ...colar].join('\n')]);
 });
 
+// Bloco único para colar no gerador de voz: um clipe por parágrafo, na ordem do roteiro.
+for (const [i, lado] of tema.lados.entries()) {
+  const textos = manifesto.filter((m) => m.lado === i).flatMap((m) => m.clipes.map((c) => c.texto));
+  const base = capitalizar(lado.nome).toLowerCase();
+  saidas.push([`${base}-bloco.txt`, textos.join('\n\n')]);
+  saidas.push([`${base}-bloco-com-pausa.txt`, textos.join('\n<break time="1.5s"/>\n')]);
+}
+
 await mkdir(join(raiz, 'roteiro'), { recursive: true });
 for (const [arq, texto] of saidas) await writeFile(join(raiz, 'roteiro', arq), texto + '\n');
 await writeFile(join(raiz, 'roteiro', `manifesto-${temaId}.json`), JSON.stringify(manifesto, null, 2) + '\n');
