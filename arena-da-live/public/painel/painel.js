@@ -9,6 +9,37 @@
   let info = null;
   let tema = null;
 
+  // ---------------------------------------------------------------- som da prévia
+  // A prévia pode tocar as vozes e os sons da luta (para testar sem abrir o OBS).
+  let somPrevia = true;
+  try { somPrevia = localStorage.getItem('arena:somPrevia') !== '0'; } catch {}
+  const iframePrevia = () => $('#previa');
+  function enviarSomPrevia() {
+    iframePrevia()?.contentWindow?.postMessage({ tipo: 'previa-som', ligado: somPrevia }, location.origin);
+  }
+  function mostrarSomPrevia() {
+    const b = $('#previa-som');
+    if (b) {
+      b.textContent = somPrevia ? '🔊 Som da prévia: ligado' : '🔇 Som da prévia: desligado';
+      b.classList.toggle('ligado', somPrevia);
+    }
+    const aviso = $('#previa-aviso');
+    if (aviso) {
+      const dobro = somPrevia && (info?.telasAbertas ?? 0) > 0;
+      aviso.hidden = !dobro;
+      aviso.textContent = dobro
+        ? 'A tela do OBS/LIVE Studio também está aberta. Se ouvir a voz em dobro, desligue o som da prévia.'
+        : '';
+    }
+  }
+  window.addEventListener('message', (e) => {
+    if (e.origin !== location.origin) return;
+    if (e.data?.tipo === 'previa-pronta') enviarSomPrevia();
+    if (e.data?.tipo === 'previa-som-bloqueado' && somPrevia) toast('Clique em qualquer botão do painel para liberar o som da prévia.');
+  });
+  // o navegador só libera som depois de um clique na página
+  document.addEventListener('pointerdown', () => somPrevia && enviarSomPrevia(), { capture: true });
+
   // ---------------------------------------------------------------- utilidades
   let toastTimer = null;
   function toast(msg, erro = false) {
@@ -98,6 +129,7 @@
 
   function preencher(d) {
     info = d;
+    mostrarSomPrevia();
     statusConexao(d.conexao);
     const usuario = $('#tiktok-usuario');
     if (!editando(usuario)) usuario.value = d.config.tiktok.usuario ?? '';
@@ -155,8 +187,8 @@
     $('#resumo-topo').innerHTML = `<span style="color:${esc(tema.lados[0].cor)}">${esc(tema.lados[0].nome)} ${e.lados[0].pontosRound}</span> × <span style="color:${esc(tema.lados[1].cor)}">${e.lados[1].pontosRound} ${esc(tema.lados[1].nome)}</span> · R${e.round} · ${pad(Math.floor(st / 60))}:${pad(st % 60)} · ${fasesTopo[e.fase] ?? e.fase}`;
     const fases = { aguardando: 'aguardando', lutando: 'lutando', pausado: 'pausado', intervalo: 'intervalo' };
     const s = Math.ceil((e.restanteMs || 0) / 1000);
-    const lado = (i) => `<div class="lado-resumo"><b style="color:${esc(tema.lados[i].cor)}">${esc(tema.lados[i].nome)}</b>${e.lados[i].pontosRound} pts • vida ${e.lados[i].vida}<br>rounds ${e.lados[i].rounds} • 👥 ${e.lados[i].membros}</div>`;
-    $('#resumo-luta').innerHTML = `${lado(0)}<div class="meio-resumo">R${e.round}<br>${pad(Math.floor(s / 60))}:${pad(s % 60)}<br><small>${fases[e.fase]}</small></div>${lado(1)}`;
+    const lado = (i) => `<div class="lado-resumo"><b style="color:${esc(tema.lados[i].cor)}">${esc(tema.lados[i].nome)}</b><span class="pts">${e.lados[i].pontosRound}<small> pts</small></span><span class="mini">❤ ${e.lados[i].vida} · 🏆 ${e.lados[i].rounds} · 👥 ${e.lados[i].membros}</span></div>`;
+    $('#resumo-luta').innerHTML = `${lado(0)}<div class="meio-resumo">R${e.round}<span class="relogio">${pad(Math.floor(s / 60))}:${pad(s % 60)}</span><small>${fases[e.fase]}</small></div>${lado(1)}`;
   }
 
   function addLog(item, noTopo) {
@@ -212,7 +244,16 @@
 
   async function tocarTeste(r) {
     if (r.motor === 'desligado') return toast('A voz está desligada (só balão).');
+    if (somPrevia) return toast(r.telasAbertas > 0 ? 'Tocando na prévia e na tela do OBS/LIVE Studio.' : 'Tocando na prévia.');
     if (r.telasAbertas > 0) return toast('Tocando na tela do OBS/LIVE Studio.');
+    if (r.gravado) {
+      try {
+        await new Audio(r.gravado).play();
+        return toast('Tocando aqui no painel (voz gravada).');
+      } catch {
+        return toast('Não consegui tocar o áudio gravado.', true);
+      }
+    }
     if (r.motor === 'navegador') {
       const u = new SpeechSynthesisUtterance(r.texto);
       u.lang = 'pt-BR';
@@ -261,6 +302,15 @@
     if (!confirm('Remover o vídeo e voltar para a moldura da câmera?')) return;
     const r = await cmd('removerVideo');
     if (r.ok) toast('Vídeo removido.');
+  });
+
+  mostrarSomPrevia();
+  $('#previa-som').addEventListener('click', () => {
+    somPrevia = !somPrevia;
+    try { localStorage.setItem('arena:somPrevia', somPrevia ? '1' : '0'); } catch {}
+    enviarSomPrevia();
+    mostrarSomPrevia();
+    toast(somPrevia ? 'Som da prévia ligado.' : 'Som da prévia desligado.');
   });
 
   $$('[data-testar]').forEach((b) =>

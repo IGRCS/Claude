@@ -113,9 +113,14 @@ Para trocar a voz pela sua:
 
 ## 6. Testar sem estar ao vivo
 
-A **barra fixa no topo do painel** tem os botões de luta (iniciar, pausar…) e de teste de cada lado:
-presente em combo, 30 moedas, especial, super, alguém comentando 1/2, curtidas, e **"▶ Simulação automática"**
-(uma live falsa rodando sozinha). Ótimo para ajustar o OBS antes.
+- **Barra fixa no topo do painel:** iniciar, pausar, encerrar, reiniciar e a **"▶ Simulação automática"**
+  (uma live falsa rodando sozinha).
+- **Embaixo da prévia, "Testar golpes (com voz)":** presente em combo, 30 moedas, especial, super, alguém
+  comentando 1/2 e curtidas, de cada lado. Você vê e **ouve** o golpe na prévia, com a voz gravada.
+- O botão **"🔊 Som da prévia"** liga/desliga o som da prévia. Se a tela do OBS também estiver aberta no mesmo PC
+  e você ouvir a voz em dobro, desligue o som da prévia (o OBS continua com som).
+- O navegador só libera som depois do primeiro clique na página do painel.
+- **"Testar voz"** (seção 4) toca uma das falas gravadas daquele lutador.
 
 ## 7. Trocar personagens, frases e presentes
 

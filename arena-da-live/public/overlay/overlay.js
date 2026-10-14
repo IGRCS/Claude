@@ -1,10 +1,12 @@
 /* global io, MapaBrasil, Sons */
 // Tela da luta (vai no OBS / TikTok LIVE Studio como "Navegador", 1080 x 1920).
 // Parâmetros opcionais na URL: ?mudo=1 (sem som)  ?fundo=0 (fundo transparente)
+//   ?previa=1 (prévia do painel: começa muda e o painel liga/desliga o som)
 
 (() => {
   const params = new URLSearchParams(location.search);
-  const MUDO = params.get('mudo') === '1';
+  const PREVIA = params.get('previa') === '1';
+  let MUDO = params.get('mudo') === '1' || PREVIA;
   if (params.get('fundo') === '0') document.body.classList.add('transparente');
 
   const $ = (s, el = document) => el.querySelector(s);
@@ -660,6 +662,11 @@
   const botaoSom = $('#ativar-som');
   function pedirSom() {
     if (MUDO) return;
+    if (PREVIA) {
+      somLiberado = false;
+      parent.postMessage({ tipo: 'previa-som-bloqueado' }, location.origin);
+      return;
+    }
     somLiberado = false;
     botaoSom.hidden = false;
   }
@@ -679,7 +686,25 @@
 
   // ---------------------------------------------------------------- conexão com o servidor
   const socket = io();
-  socket.on('connect', () => socket.emit('ola', MUDO ? 'previa' : 'overlay'));
+  socket.on('connect', () => socket.emit('ola', MUDO || PREVIA ? 'previa' : 'overlay'));
+
+  // a prévia do painel recebe "liga/desliga o som" da página do painel
+  if (PREVIA) {
+    window.addEventListener('message', async (e) => {
+      if (e.origin !== location.origin || e.data?.tipo !== 'previa-som') return;
+      MUDO = !e.data.ligado;
+      if (MUDO) {
+        falas.limpar();
+        somLiberado = false;
+      } else {
+        Sons.iniciar();
+        await Sons.destravar().catch(() => {});
+        somLiberado = true;
+      }
+      if (cfg) aplicarConfig(cfg);
+    });
+    parent.postMessage({ tipo: 'previa-pronta' }, location.origin);
+  }
   socket.on('tema', ({ tema: t, config: c }) => {
     const mesmo = tema && tema.id === t.id;
     if (mesmo) {

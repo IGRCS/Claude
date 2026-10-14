@@ -176,6 +176,7 @@ function infoPainel() {
     voz: voz.status(),
     agendamento: { ...c.trocaAgendada, faltaMs: faltaParaTroca(c.trocaAgendada) },
     simulacaoAutomatica: simulador.ligado,
+    telasAbertas: io.sockets.adapter.rooms.get('overlay')?.size ?? 0,
   };
 }
 
@@ -403,13 +404,21 @@ const comandos = {
   testarVoz: (d) => {
     const quem = d?.quem === 'narrador' ? 'narrador' : Number(d?.quem) === 1 ? 1 : 0;
     const nomeLutador = quem === 'narrador' ? 'Narrador' : temaAtual.lados[quem].nome;
-    const fala = narrador.criarFala(quem, `Teste de voz! Aqui é ${nomeLutador}. Valeu, {nome}!`, { nome: 'Fulano' }, 3);
+    // com falas gravadas, testa com uma delas (é a voz que vai tocar na live)
+    const frases = quem === 'narrador' ? [] : Object.values(temaAtual.lados[quem].frases ?? {}).flat();
+    const gravadas = frases.filter((f) => typeof f === 'object' && f?.audio);
+    const modelo = gravadas.length
+      ? narrador.sortear(`teste:${quem}`, gravadas)
+      : `Teste de voz! Aqui é ${nomeLutador}. Valeu, {nome}!`;
+    const vars = quem === 'narrador' ? {} : { ...narrador.varsBase(quem), presente: 'Rosa', qtd: 1 };
+    const fala = narrador.criarFala(quem, modelo ?? `Teste de voz! Aqui é ${nomeLutador}. Valeu, {nome}!`, { ...vars, nome: 'Fulano' }, 3);
     publicarFala(fala);
     const motor = cfg().voz.motor;
     return {
       telasAbertas: io.sockets.adapter.rooms.get('overlay')?.size ?? 0,
       motor,
-      audio: motor !== 'desligado' && motor !== 'navegador' ? `/voz/${fala.id}` : null,
+      gravado: motor !== 'desligado' ? fala.gravado : null,
+      audio: motor !== 'desligado' && motor !== 'navegador' && !fala.gravado ? `/voz/${fala.id}` : null,
       texto: fala.falado,
       perfil: fala.voz,
     };
@@ -426,6 +435,10 @@ io.on('connection', (socket) => {
     } else {
       // a prévia muda do painel não conta como tela aberta
       socket.join(tipo === 'previa' ? 'previa' : 'overlay');
+      if (tipo !== 'previa') {
+        enviarPainel();
+        socket.on('disconnect', () => setTimeout(enviarPainel, 50));
+      }
     }
     socket.emit('tema', { tema: temaParaTela(temaAtual), config: configTela() });
     socket.emit('estado', estadoParaTela());

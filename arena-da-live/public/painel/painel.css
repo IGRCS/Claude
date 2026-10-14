@@ -20,8 +20,9 @@ body {
   top: 0;
   z-index: 10;
   padding: 8px 16px 10px;
-  background: rgba(14, 16, 32, 0.95);
+  background: var(--fundo);
   border-bottom: 1px solid var(--borda);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.45);
 }
 h1 { margin: 0; font: 400 30px 'Bangers', Impact, sans-serif; letter-spacing: 1px; flex: 1 1 auto; }
 h1 small { font-size: 18px; color: var(--suave); }
@@ -29,7 +30,7 @@ h2 { margin: 0 0 12px; font: 400 26px 'Bangers', Impact, sans-serif; letter-spac
 h3 { margin: 16px 0 8px; font-size: 15px; color: var(--suave); text-transform: uppercase; letter-spacing: 1px; }
 #cabecalho-linha { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
 #resumo-topo { flex: 1 1 auto; text-align: center; font-weight: 900; font-size: 15px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-#barra-rapida { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+#barra-rapida { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 #barra-rapida .grupo {
   display: flex; align-items: center; gap: 5px; flex-wrap: wrap;
   padding: 5px 8px; border-radius: 12px; background: #171a31; border: 1px solid var(--borda);
@@ -40,25 +41,20 @@ h3 { margin: 16px 0 8px; font-size: 15px; color: var(--suave); text-transform: u
 #barra-rapida button { padding: 6px 10px; font-size: 13px; border-radius: 8px; }
 main {
   display: grid;
-  grid-template-columns: minmax(300px, 380px) 1fr;
+  grid-template-columns: minmax(320px, 400px) 1fr;
   gap: 16px;
   padding: 16px 16px 40px;
   align-items: start;
 }
 #coluna-previa { position: sticky; top: var(--altura-topo, 120px); }
-#cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 16px;
-  align-items: start;
-}
+#cards { columns: 3 330px; column-gap: 16px; }
+#cards > .card { break-inside: avoid; margin: 0 0 16px; display: inline-block; width: 100%; }
 .card {
   background: var(--card);
   border: 1px solid var(--borda);
   border-radius: 16px;
   padding: 16px;
 }
-.card.largo { grid-column: 1 / -1; }
 label { display: block; margin: 8px 0; color: var(--suave); }
 label input:not([type="checkbox"]), label select { display: block; width: 100%; margin-top: 4px; }
 label.check { display: flex; gap: 8px; align-items: center; color: var(--texto); }
@@ -113,8 +109,14 @@ button[data-lado="1"]:not(.secundario) { background: var(--cor1, #1fae55); color
   border-radius: 12px;
   background: #0d0f1f;
 }
-.resumo .lado-resumo b { display: block; font: 400 26px 'Bangers', Impact, sans-serif; }
-.resumo .meio-resumo { font: 400 22px 'Bangers', Impact, sans-serif; }
+.resumo .lado-resumo { display: flex; flex-direction: column; align-items: center; gap: 2px; min-width: 0; }
+.resumo .lado-resumo b { font: 400 26px 'Bangers', Impact, sans-serif; letter-spacing: 1px; }
+.resumo .pts { font: 400 30px 'Bangers', Impact, sans-serif; line-height: 1; }
+.resumo .pts small { font-size: 16px; color: var(--suave); }
+.resumo .mini { font-size: 12px; color: var(--suave); white-space: nowrap; }
+.resumo .meio-resumo { display: flex; flex-direction: column; align-items: center; font: 400 20px 'Bangers', Impact, sans-serif; color: var(--suave); }
+.resumo .relogio { font-size: 30px; color: var(--texto); line-height: 1.1; }
+.resumo .meio-resumo small { font: 800 11px 'Nunito', sans-serif; text-transform: uppercase; letter-spacing: 1px; }
 .chip { padding: 5px 12px; border-radius: 999px; background: #2a2f55; font-weight: 800; font-size: 13px; }
 .chip.ok { background: var(--ok); color: #062; }
 .chip.alerta { background: #ff9f1a; color: #311; }
@@ -122,13 +124,17 @@ button[data-lado="1"]:not(.secundario) { background: var(--cor1, #1fae55); color
 #previa-caixa {
   width: 100%;
   aspect-ratio: 9 / 16;
-  max-height: calc(100vh - var(--altura-topo, 120px) - 150px);
+  max-height: calc(100vh - var(--altura-topo, 120px) - 230px);
   margin: 0 auto 8px;
   border-radius: 12px;
   overflow: hidden;
   background: #000;
   position: relative;
 }
+.titulo-previa { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 12px; }
+.titulo-previa h2 { margin: 0; }
+#previa-som { padding: 6px 10px; font-size: 13px; }
+#previa-som.ligado { background: var(--ok); color: #062; }
 #previa { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
 .avisos { margin: 6px 0; padding-left: 18px; color: #ffb35c; font-size: 13px; }
 .tabela-caixa { max-height: 340px; overflow: auto; border-radius: 10px; border: 1px solid var(--borda); }
@@ -161,3 +167,23 @@ code { background: #0d0f1f; padding: 1px 6px; border-radius: 6px; }
 details { margin-top: 12px; }
 summary { cursor: pointer; color: var(--suave); font-weight: 800; margin-bottom: 8px; }
 #catalogo img { width: 28px; height: 28px; vertical-align: middle; }
+
+/* golpes de teste, embaixo da prévia */
+#card-previa { padding: 14px; }
+#testar-golpes { display: flex; flex-direction: column; gap: 6px; }
+.golpes-titulo { font-size: 12px; font-weight: 900; color: var(--suave); text-transform: uppercase; letter-spacing: 1px; }
+.golpes {
+  display: grid;
+  grid-template-columns: 62px repeat(6, auto);
+  gap: 4px;
+  align-items: center;
+  padding: 5px 6px;
+  border-radius: 12px;
+  background: #0d0f1f;
+  border: 1px solid var(--borda);
+}
+.golpes[data-lado="0"] { border-color: var(--cor0, #e53935); }
+.golpes[data-lado="1"] { border-color: var(--cor1, #1fae55); }
+.golpes-nome { font-weight: 900; font-size: 12px; text-transform: uppercase; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.golpes button { padding: 6px 4px; font-size: 12px; border-radius: 8px; white-space: nowrap; }
+#previa-aviso { margin: 0 0 8px; color: #ffb35c; }

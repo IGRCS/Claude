@@ -25,26 +25,8 @@
         <button data-cmd="encerrarRound">⏹ Encerrar</button>
         <button data-cmd="reiniciarRound">↺ Reiniciar</button>
       </div>
-      <div class="grupo" data-lado="0">
-        <span class="grupo-titulo nome-lado" data-lado="0">Lado 1</span>
-        <button data-sim="presente" data-tamanho="pequeno" data-lado="0" title="Presente do lado, em combo">Combo</button>
-        <button data-sim="presente" data-tamanho="medio" data-lado="0" title="Presente de 30 moedas">30</button>
-        <button data-sim="presente" data-tamanho="especial" data-lado="0" title="Golpe especial (99 moedas)">Especial</button>
-        <button data-sim="presente" data-tamanho="super" data-lado="0" title="Super golpe (500 moedas)">Super</button>
-        <button data-sim="entrar" data-lado="0" title="Alguém comenta 1 e entra no time">Comenta 1</button>
-        <button data-sim="curtidas" data-lado="0" title="Chuva de curtidas">❤️</button>
-      </div>
-      <div class="grupo" data-lado="1">
-        <span class="grupo-titulo nome-lado" data-lado="1">Lado 2</span>
-        <button data-sim="presente" data-tamanho="pequeno" data-lado="1" title="Presente do lado, em combo">Combo</button>
-        <button data-sim="presente" data-tamanho="medio" data-lado="1" title="Presente de 30 moedas">30</button>
-        <button data-sim="presente" data-tamanho="especial" data-lado="1" title="Golpe especial (99 moedas)">Especial</button>
-        <button data-sim="presente" data-tamanho="super" data-lado="1" title="Super golpe (500 moedas)">Super</button>
-        <button data-sim="entrar" data-lado="1" title="Alguém comenta 2 e entra no time">Comenta 2</button>
-        <button data-sim="curtidas" data-lado="1" title="Chuva de curtidas">❤️</button>
-      </div>
       <div class="grupo">
-        <span class="grupo-titulo">Teste</span>
+        <span class="grupo-titulo">Simular</span>
         <button data-sim="estado" class="secundario" title="Alguém comenta a sigla de um estado">Estado</button>
         <button data-sim="seguir" class="secundario" title="Alguém segue a live">Seguir</button>
         <button id="sim-auto" class="primario">▶ Simulação automática</button>
@@ -55,13 +37,34 @@
   <main>
     <aside id="coluna-previa">
     <section class="card" id="card-previa">
-      <h2>Prévia da tela</h2>
-      <div id="previa-caixa"><iframe id="previa" src="/overlay/?mudo=1" title="Prévia"></iframe></div>
-      <div class="linha">
-        <input id="url-overlay" readonly>
-        <button id="copiar-url" class="secundario">Copiar</button>
+      <div class="titulo-previa">
+        <h2>Prévia da tela</h2>
+        <button id="previa-som" class="secundario" title="Ouvir as vozes e os sons da luta aqui no painel">🔇 Som da prévia</button>
       </div>
-      <p class="dica">No OBS / TikTok LIVE Studio: adicione uma fonte <b>Navegador</b> (ou "Link") com esse endereço, tamanho <b>1080 × 1920</b>.</p>
+      <div id="previa-caixa"><iframe id="previa" src="/overlay/?previa=1" allow="autoplay" title="Prévia"></iframe></div>
+      <p id="previa-aviso" class="dica" hidden></p>
+      <div id="testar-golpes">
+        <div class="golpes-titulo">Testar golpes (com voz)</div>
+        <div class="golpes" data-lado="0">
+          <span class="golpes-nome nome-lado" data-lado="0">Lado 1</span>
+          <button data-sim="presente" data-tamanho="pequeno" data-lado="0" title="Presente do lado, em combo">🎁 Combo</button>
+          <button data-sim="presente" data-tamanho="medio" data-lado="0" title="Presente de 30 moedas">30 🪙</button>
+          <button data-sim="presente" data-tamanho="especial" data-lado="0" title="Golpe especial (99 moedas)">Especial</button>
+          <button data-sim="presente" data-tamanho="super" data-lado="0" title="Super golpe (500 moedas)">Super</button>
+          <button data-sim="entrar" data-lado="0" title="Alguém comenta 1 e entra no time">💬 1</button>
+          <button data-sim="curtidas" data-lado="0" title="Chuva de curtidas">❤️</button>
+        </div>
+        <div class="golpes" data-lado="1">
+          <span class="golpes-nome nome-lado" data-lado="1">Lado 2</span>
+          <button data-sim="presente" data-tamanho="pequeno" data-lado="1" title="Presente do lado, em combo">🎁 Combo</button>
+          <button data-sim="presente" data-tamanho="medio" data-lado="1" title="Presente de 30 moedas">30 🪙</button>
+          <button data-sim="presente" data-tamanho="especial" data-lado="1" title="Golpe especial (99 moedas)">Especial</button>
+          <button data-sim="presente" data-tamanho="super" data-lado="1" title="Super golpe (500 moedas)">Super</button>
+          <button data-sim="entrar" data-lado="1" title="Alguém comenta 2 e entra no time">💬 2</button>
+          <button data-sim="curtidas" data-lado="1" title="Chuva de curtidas">❤️</button>
+        </div>
+      </div>
+
     </section>
     </aside>
     <div id="cards">
@@ -81,6 +84,12 @@
       </div>
       <p id="conexao-detalhe" class="dica"></p>
       <p class="dica">Você precisa estar <b>ao vivo</b> para conectar. Se cair, o programa tenta de novo sozinho.</p>
+      <h3>Endereço da tela (OBS / LIVE Studio)</h3>
+      <div class="linha">
+        <input id="url-overlay" readonly>
+        <button id="copiar-url" class="secundario">Copiar</button>
+      </div>
+      <p class="dica">No OBS / TikTok LIVE Studio: adicione uma fonte <b>Navegador</b> (ou "Link") com esse endereço, tamanho <b>1080 × 1920</b>.</p>
     </section>
 
     <section class="card" id="card-luta">
@@ -193,7 +202,7 @@
     </section>
 
 
-    <section class="card largo" id="card-log">
+    <section class="card" id="card-log">
       <h2>Últimos presentes recebidos</h2>
       <p class="dica">Use esta lista para descobrir o <b>nome</b> e o <b>ID</b> exatos de um presente e colocar no <code>tema.json</code>.</p>
       <div class="tabela-caixa">
