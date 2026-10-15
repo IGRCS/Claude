@@ -9,7 +9,6 @@ import {
   normalizarCurtida,
   normalizarPresente,
   normalizarUsuario,
-  primeiraUrl,
 } from './normalizar.js';
 
 const ESPERAS_RECONEXAO = [5, 10, 20, 40, 60];
@@ -21,6 +20,8 @@ export function traduzirErro(msg) {
   if (/room ?id/i.test(m)) return 'Não encontrei sua live. Confira se o @ está certo e se você já está AO VIVO.';
   if (/rate.?limit|too many|429/i.test(m)) return 'Muitas conexões seguidas: o TikTok/Euler limitou. Espere uns minutos (ou use uma chave da Euler Stream no config.json).';
   if (/timeout|timed out/i.test(m)) return 'O TikTok demorou para responder. Confira sua internet.';
+  if (/business plan|premium|permission from the signature/i.test(m))
+    return 'O servidor gratuito do TikTok (Euler Stream) recusou um recurso pago. Atualize o programa para a versão mais nova ou use o plano B (TikFinity).';
   if (/sign|euler/i.test(m)) return `Falha no servidor de assinatura (Euler Stream): ${m}`;
   if (/ENOTFOUND|ECONNREFUSED|ENETUNREACH|EAI_AGAIN/i.test(m)) return 'Sem internet ou TikTok bloqueado nesta rede.';
   return m;
@@ -91,13 +92,20 @@ export class FonteConector extends FonteBase {
     const { TikTokLiveConnection, WebcastEvent, ControlEvent } = lib;
     const conexao = new TikTokLiveConnection(this.usuario, {
       signApiKey: this.signApiKey,
-      enableExtendedGiftInfo: true,
+      // A lista completa de presentes exige plano pago da Euler Stream ("Business plan").
+      // O jogo não precisa dela: preço e nome vêm em cada presente. O catálogo é montado conforme chegam.
+      enableExtendedGiftInfo: false,
       processInitialData: false,
     });
     this.conexao = conexao;
     const minha = () => this.conexao === conexao;
 
-    conexao.on(WebcastEvent.GIFT, (d) => minha() && this.emit('presente', normalizarPresente(d)));
+    conexao.on(WebcastEvent.GIFT, (d) => {
+      if (!minha()) return;
+      const p = normalizarPresente(d);
+      this.lembrarPresente(p.presente);
+      this.emit('presente', p);
+    });
     conexao.on(WebcastEvent.CHAT, (d) => minha() && this.emit('comentario', normalizarComentario(d)));
     conexao.on(WebcastEvent.LIKE, (d) => minha() && this.emit('curtida', normalizarCurtida(d)));
     conexao.on(WebcastEvent.FOLLOW, (d) => minha() && this.emit('seguiu', { usuario: normalizarUsuario(d) }));
@@ -127,7 +135,6 @@ export class FonteConector extends FonteBase {
       }
       this.tentativas = 0;
       this.definirStatus('conectado', `@${this.usuario} (sala ${estado?.roomId ?? '?'})`);
-      this.atualizarCatalogo(conexao);
     } catch (erro) {
       if (!minha()) return;
       const nome = erro?.constructor?.name ?? '';
@@ -142,17 +149,10 @@ export class FonteConector extends FonteBase {
     }
   }
 
-  atualizarCatalogo(conexao) {
-    const lista = conexao.availableGifts;
-    const bruto = Array.isArray(lista) ? lista : lista?.gifts ?? [];
-    this.catalogo = bruto
-      .map((g) => ({
-        id: String(g.id ?? ''),
-        nome: String(g.name ?? ''),
-        moedas: Number(g.diamond_count ?? g.diamondCount ?? 0),
-        imagem: primeiraUrl(g.image) ?? primeiraUrl(g.icon),
-      }))
-      .filter((g) => g.id && g.nome);
+  // catálogo (nome/ID/ícone) montado com os presentes que chegam na live
+  lembrarPresente(p) {
+    if (!p?.id || !p.nome || this.catalogo.some((g) => g.id === p.id)) return;
+    this.catalogo.push({ id: p.id, nome: p.nome, moedas: p.moedas, imagem: p.imagem });
     this.emit('catalogo', this.catalogo);
   }
 
