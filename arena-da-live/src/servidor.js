@@ -2,6 +2,7 @@
 // Abre http://localhost:3000/painel (controle) e http://localhost:3000/overlay (tela para o OBS / LIVE Studio).
 
 import { createServer } from 'node:http';
+import { networkInterfaces } from 'node:os';
 import { spawn } from 'node:child_process';
 import { mkdir, readFile, writeFile, rename, unlink } from 'node:fs/promises';
 import { createWriteStream } from 'node:fs';
@@ -87,6 +88,16 @@ try {
 // ------------------------------------------------------------------ web
 const app = express();
 app.disable('x-powered-by');
+
+// Outros aparelhos da rede (ex.: o celular) só podem abrir a TELA do jogo, nunca o painel.
+const ehLocal = (ip) => ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(ip);
+const PERMITIDO_NA_REDE = /^\/(overlay|comum|temas|video|voz|socket\.io)(\/|$)/;
+app.use((req, res, next) => {
+  if (ehLocal(req.socket.remoteAddress) || cfg().acessoNaRede) return next();
+  if (PERMITIDO_NA_REDE.test(req.path)) return next();
+  if (req.path === '/' || req.path === '/celular') return res.redirect('/overlay/?celular=1');
+  res.status(403).type('text/plain; charset=utf-8').send('O painel só abre no próprio PC. No celular, use o endereço da tela do jogo.');
+});
 app.use('/overlay', express.static(join(RAIZ, 'public', 'overlay')));
 app.use('/painel', express.static(join(RAIZ, 'public', 'painel')));
 app.use('/comum', express.static(join(RAIZ, 'public', 'comum')));
@@ -165,6 +176,21 @@ function estadoParaTela() {
   return e;
 }
 
+function enderecosNaRede() {
+  if (!cfg().telaNaRede && !cfg().acessoNaRede) return [];
+  const lista = [];
+  for (const [nome, ifs] of Object.entries(networkInterfaces())) {
+    for (const i of ifs ?? []) {
+      if (i.family !== 'IPv4' || i.internal) continue;
+      if (/^169\.254\./.test(i.address)) continue;
+      // Wi-Fi e cabo primeiro; adaptadores virtuais (VirtualBox, WSL, VPN) por último
+      const virtual = /virtual|vmware|vbox|wsl|hyper-v|vethernet|docker|tailscale|zerotier|hamachi/i.test(nome);
+      lista.push({ url: `http://${i.address}:${porta}/overlay/?celular=1`, virtual });
+    }
+  }
+  return lista.sort((a, b) => a.virtual - b.virtual).map((e) => e.url);
+}
+
 function infoPainel() {
   const c = cfg();
   return {
@@ -177,6 +203,7 @@ function infoPainel() {
     agendamento: { ...c.trocaAgendada, faltaMs: faltaParaTroca(c.trocaAgendada) },
     simulacaoAutomatica: simulador.ligado,
     telasAbertas: io.sockets.adapter.rooms.get('overlay')?.size ?? 0,
+    enderecosCelular: enderecosNaRede(),
   };
 }
 
@@ -426,8 +453,9 @@ const comandos = {
 };
 
 io.on('connection', (socket) => {
+  const local = ehLocal(socket.handshake.address) || cfg().acessoNaRede;
   socket.on('ola', (tipo) => {
-    if (tipo === 'painel') {
+    if (tipo === 'painel' && local) {
       socket.join('painel');
       socket.emit('painel', infoPainel());
       socket.emit('logInicial', logPresentes);
@@ -447,6 +475,7 @@ io.on('connection', (socket) => {
   socket.on('cmd', async (acao, dados, responder) => {
     const fn = comandos[acao];
     const ok = typeof responder === 'function' ? responder : () => {};
+    if (!local) return ok({ ok: false, erro: 'Comandos só pelo painel no PC.' });
     if (!fn) return ok({ ok: false, erro: `Comando desconhecido: ${acao}` });
     try {
       const extra = await fn(dados);
@@ -512,7 +541,7 @@ process.on('SIGINT', encerrar);
 process.on('SIGTERM', encerrar);
 
 // ------------------------------------------------------------------ escutar
-const host = cfg().acessoNaRede ? '0.0.0.0' : '127.0.0.1';
+const host = cfg().acessoNaRede || cfg().telaNaRede ? '0.0.0.0' : '127.0.0.1';
 const porta = Number(process.env.PORTA || cfg().porta || 3000);
 servidorHttp.on('error', (erro) => {
   if (erro.code === 'EADDRINUSE') {
@@ -526,6 +555,7 @@ servidorHttp.listen(porta, host, () => {
   console.log('  ARENA DA LIVE rodando!');
   console.log(`  Painel de controle:  http://localhost:${porta}/painel`);
   console.log(`  Tela para o OBS:     http://localhost:${porta}/overlay   (1080 x 1920)`);
+  for (const url of enderecosNaRede().slice(0, 2)) console.log(`  Tela no celular:     ${url}   (mesma rede Wi-Fi)`);
   console.log('  Para fechar: Ctrl + C');
   console.log('');
   if (cfg().tiktok.conectarAoIniciar && cfg().tiktok.usuario) conectar();

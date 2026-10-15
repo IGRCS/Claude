@@ -726,3 +726,6 @@ body.sem-aviso #aviso { display: none; }
   color: #111;
   cursor: pointer;
 }
+
+/* tela aberta no celular */
+body.celular #ativar-som { top: 50%; transform: translate(-50%, -50%); font-size: 22px; padding: 18px 26px; }

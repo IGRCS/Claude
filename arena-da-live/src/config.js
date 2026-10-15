@@ -7,7 +7,8 @@ import { mesclar } from './util.js';
 
 export const CONFIG_PADRAO = {
   porta: 3000,
-  acessoNaRede: false, // true = painel acessível por outros aparelhos da mesma rede (sem senha!)
+  acessoNaRede: false, // true = PAINEL acessível por outros aparelhos da mesma rede (sem senha!)
+  telaNaRede: true, // true = só a TELA do jogo pode ser aberta no celular (mesma rede Wi-Fi); o painel continua só no PC
   tiktok: {
     usuario: '', // seu @ do TikTok, sem o @
     fonte: 'conector', // 'conector' (direto) | 'tikfinity' (usa o TikFinity aberto no PC)

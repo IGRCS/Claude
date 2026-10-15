@@ -40,6 +40,28 @@
   // o navegador só libera som depois de um clique na página
   document.addEventListener('pointerdown', () => somPrevia && enviarSomPrevia(), { capture: true });
 
+  // ---------------------------------------------------------------- tela no celular
+  let ultimosEnderecos = '';
+  function mostrarEnderecosCelular(lista) {
+    const chave = lista.join('|');
+    if (chave === ultimosEnderecos) return;
+    ultimosEnderecos = chave;
+    const caixa = $('#enderecos-celular');
+    if (!lista.length) {
+      caixa.innerHTML = '<p class="dica">PC sem rede Wi-Fi/cabo detectada (ou a opção <code>telaNaRede</code> está desligada no config.json).</p>';
+      return;
+    }
+    caixa.innerHTML = lista
+      .map((url, i) => `<div class="linha endereco-celular"><input readonly value="${esc(url)}"><button class="${i ? 'secundario' : 'primario'}" data-copiar="${esc(url)}">Copiar</button></div>`)
+      .join('') + (lista.length > 1 ? '<p class="dica">Se o primeiro não abrir no celular, tente o próximo.</p>' : '');
+    $$('[data-copiar]', caixa).forEach((b) =>
+      b.addEventListener('click', async () => {
+        try { await navigator.clipboard.writeText(b.dataset.copiar); } catch {}
+        toast('Endereço copiado! Mande para o celular ou digite no navegador dele.');
+      }),
+    );
+  }
+
   // ---------------------------------------------------------------- utilidades
   let toastTimer = null;
   function toast(msg, erro = false) {
@@ -130,6 +152,7 @@
   function preencher(d) {
     info = d;
     mostrarSomPrevia();
+    mostrarEnderecosCelular(d.enderecosCelular ?? []);
     statusConexao(d.conexao);
     const usuario = $('#tiktok-usuario');
     if (!editando(usuario)) usuario.value = d.config.tiktok.usuario ?? '';

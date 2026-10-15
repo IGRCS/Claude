@@ -44,6 +44,19 @@ A tela do jogo fica em **http://localhost:3000/overlay** (tamanho **1080 × 1920
 
 > Dica: `http://localhost:3000/overlay?fundo=0` deixa o fundo transparente (se quiser seu próprio fundo).
 
+### Live pelo celular (quando o PC não consegue abrir a live)
+
+O jogo continua rodando no PC; o celular só **mostra a tela do jogo** e o TikTok transmite a tela do celular.
+1. PC e celular na **mesma rede Wi-Fi**. Na primeira vez, o Windows pergunta se libera o Node.js na rede:
+   marque **Redes privadas** e clique **Permitir acesso**.
+2. No painel, card **"1. Conectar na live"** → **"Live pelo celular"**: aparece um endereço tipo
+   `http://192.168.0.10:3000/overlay/?celular=1`. Digite ele no **Chrome/Safari do celular**.
+3. No celular, **toque na tela** (libera o som e entra em tela cheia).
+4. No app do TikTok: **LIVE → Jogos / Transmitir tela** e comece a transmissão. Volte para o navegador com o jogo.
+5. Com a live no ar, no painel do PC clique **Conectar**.
+- Deixe o celular carregando, com a tela sem apagar sozinha e no modo "Não perturbe".
+- Por segurança, pelo celular só abre a **tela** do jogo. O **painel** só funciona no próprio PC.
+
 **Fique na câmera narrando!** Live só com o jogo rodando sozinho pode perder a monetização no TikTok
 (regra de "conteúdo automatizado/não original").
 

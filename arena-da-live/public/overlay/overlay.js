@@ -6,6 +6,9 @@
 (() => {
   const params = new URLSearchParams(location.search);
   const PREVIA = params.get('previa') === '1';
+  // ?celular=1: tela aberta no navegador do celular (live pelo celular com transmissão de tela)
+  const CELULAR = params.get('celular') === '1';
+  if (CELULAR) document.body.classList.add('celular');
   let MUDO = params.get('mudo') === '1' || PREVIA;
   if (params.get('fundo') === '0') document.body.classList.add('transparente');
 
@@ -16,12 +19,18 @@
   const espera = (ms) => new Promise((r) => setTimeout(r, ms));
 
   // ---------------------------------------------------------------- escala do palco
+  // clientWidth/clientHeight: no celular, innerWidth "cresce" para caber o palco de 1080px
   function ajustarEscala() {
-    const s = Math.min(innerWidth / 1080, innerHeight / 1920);
+    const w = document.documentElement.clientWidth || innerWidth;
+    const h = document.documentElement.clientHeight || innerHeight;
+    const s = Math.min(w / 1080, h / 1920);
     palco.style.transform = `scale(${s})`;
-    palco.style.left = `${Math.max(0, (innerWidth - 1080 * s) / 2)}px`;
+    palco.style.left = `${Math.max(0, (w - 1080 * s) / 2)}px`;
+    palco.style.top = `${Math.max(0, (h - 1920 * s) / 2)}px`;
   }
   addEventListener('resize', ajustarEscala);
+  addEventListener('orientationchange', () => setTimeout(ajustarEscala, 300));
+  document.addEventListener('fullscreenchange', ajustarEscala);
   ajustarEscala();
 
   // ---------------------------------------------------------------- cores
@@ -569,8 +578,58 @@
     });
   }
 
+  // Toca pelo AudioContext (liberado uma vez no clique). No celular, um <audio> novo a cada fala
+  // costuma ser bloqueado; o AudioContext não. Devolve null quando não dá (aí usa o <audio>).
+  const buffersGravados = new Map();
+  function tocarNoContexto(buffer, taxa = 1) {
+    const ctx = Sons.contexto();
+    if (!ctx || ctx.state !== 'running' || !buffer) return null;
+    return new Promise((resolve) => {
+      const fonte = ctx.createBufferSource();
+      const ganho = ctx.createGain();
+      ganho.gain.value = Math.max(0, Math.min(1, Number(cfg.voz?.volume ?? 0.9)));
+      fonte.buffer = buffer;
+      fonte.playbackRate.value = taxa;
+      fonte.connect(ganho).connect(ctx.destination);
+      const fim = setTimeout(() => { try { fonte.stop(); } catch {} resolve(true); }, 20_000);
+      fonte.onended = () => { clearTimeout(fim); resolve(true); };
+      fonte.start();
+    });
+  }
+  async function decodificar(dados) {
+    const ctx = Sons.contexto();
+    if (!ctx) return null;
+    try {
+      return await new Promise((ok, erro) => {
+        const p = ctx.decodeAudioData(dados, ok, erro);
+        if (p?.then) p.then(ok, erro);
+      });
+    } catch {
+      return null;
+    }
+  }
+
   // Áudio gravado (arquivo do tema) tem prioridade sobre a voz sintética.
-  function tocarGravado(f) {
+  async function tocarGravado(f) {
+    const ctx = Sons.contexto();
+    if (ctx && ctx.state === 'running') {
+      let buffer = buffersGravados.get(f.gravado);
+      if (!buffer) {
+        try {
+          const r = await fetch(f.gravado);
+          if (r.ok) buffer = await decodificar(await r.arrayBuffer());
+        } catch {}
+        if (buffer) {
+          buffersGravados.set(f.gravado, buffer);
+          if (buffersGravados.size > 80) buffersGravados.delete(buffersGravados.keys().next().value);
+        }
+      }
+      const tocou = tocarNoContexto(buffer);
+      if (tocou) return tocou;
+    }
+    return tocarGravadoElemento(f);
+  }
+  function tocarGravadoElemento(f) {
     return new Promise((resolve) => {
       const audio = new Audio(f.gravado);
       audio.volume = Math.max(0, Math.min(1, Number(cfg.voz?.volume ?? 0.9)));
@@ -594,7 +653,11 @@
       clearTimeout(limite);
       if (!r.ok) return false;
       const motor = r.headers.get('X-Motor-Voz');
-      url = URL.createObjectURL(await r.blob());
+      const blob = await r.blob();
+      const taxa = motor === 'google' ? Number(f.perfil?.google?.taxa ?? 1) : 1;
+      const tocou = tocarNoContexto(await decodificar(await blob.arrayBuffer()), taxa);
+      if (tocou) return await tocou;
+      url = URL.createObjectURL(blob);
       const audio = new Audio(url);
       audio.volume = Math.max(0, Math.min(1, Number(cfg.voz?.volume ?? 0.9)));
       if (motor === 'google') {
@@ -674,7 +737,28 @@
     await Sons.destravar();
     somLiberado = true;
     botaoSom.hidden = true;
+    if (CELULAR) telaCheia();
   });
+  // no celular: toque libera o som e deixa em tela cheia (esconde a barra do navegador)
+  function telaCheia() {
+    const el = document.documentElement;
+    const pedir = el.requestFullscreen || el.webkitRequestFullscreen;
+    if (pedir && !document.fullscreenElement && !document.webkitFullscreenElement) {
+      try { Promise.resolve(pedir.call(el)).catch(() => {}); } catch {}
+    }
+  }
+  if (CELULAR) {
+    botaoSom.textContent = '👆 Toque aqui para começar (som + tela cheia)';
+    botaoSom.hidden = false;
+    document.addEventListener('click', async () => {
+      telaCheia();
+      if (!somLiberado) {
+        await Sons.destravar().catch(() => {});
+        somLiberado = true;
+        botaoSom.hidden = true;
+      }
+    });
+  }
   if (!MUDO) {
     Sons.iniciar();
     setTimeout(() => {
