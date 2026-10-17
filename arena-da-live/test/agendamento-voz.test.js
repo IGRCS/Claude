@@ -79,7 +79,8 @@ test('voz: se tudo falha, devolve null e guarda o erro (o balão continua aparec
   assert.match(voz.status().ultimoErro, /google fora/);
 });
 
-test('config padrão traz o vídeo em loop desligado', async () => {
+test('config padrão não tem mais câmera nem vídeo em loop', async () => {
   const { CONFIG_PADRAO } = await import('../src/config.js');
-  assert.deepEqual(CONFIG_PADRAO.tela.video, { ativo: false, arquivo: '', versao: 0, ajuste: 'cobrir', som: false });
+  assert.equal('video' in CONFIG_PADRAO.tela, false);
+  assert.equal('mostrarCamera' in CONFIG_PADRAO.tela, false);
 });

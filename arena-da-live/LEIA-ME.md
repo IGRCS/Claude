@@ -36,7 +36,6 @@ A tela do jogo fica em **http://localhost:3000/overlay** (tamanho **1080 × 1920
 1. Fontes → `+` → **Navegador**.
 2. URL: `http://localhost:3000/overlay` — Largura **1080**, Altura **1920**.
 3. Marque **"Controlar áudio pelo OBS"** (é por aí que sai a voz dos bonecos e os sons de soco).
-4. Coloque sua **câmera por cima** da moldura "SUA CÂMERA AQUI" (no canto de baixo).
 
 **TikTok LIVE Studio**
 1. Adicionar fonte → **Link** (ou "Navegador") → cole `http://localhost:3000/overlay`, tamanho 1080 × 1920.
@@ -57,18 +56,8 @@ O jogo continua rodando no PC; o celular só **mostra a tela do jogo** e o TikTo
 - Deixe o celular carregando, com a tela sem apagar sozinha e no modo "Não perturbe".
 - Por segurança, pelo celular só abre a **tela** do jogo. O **painel** só funciona no próprio PC.
 
-**Fique na câmera narrando!** Live só com o jogo rodando sozinho pode perder a monetização no TikTok
-(regra de "conteúdo automatizado/não original").
-
-### Vídeo em loop na moldura da câmera (UGC, anúncio, etc.)
-
-No painel, card **"Vídeo em loop"**: escolha o arquivo (mp4, webm ou mov, até 500 MB) → **Enviar vídeo**.
-Ele passa a tocar em repetição dentro da moldura, no lugar do "SUA CÂMERA AQUI". Dá para escolher se ele
-preenche a moldura (corta as bordas) ou aparece inteiro, esconder/mostrar sem apagar, ou **Remover**.
-Ideal: vídeo vertical ou quadrado (a moldura mede 400 × 352). O som vem **desligado** por padrão.
-Se o vídeo não tocar no OBS, converta para **mp4 (H.264)** ou use uma fonte "Mídia" do próprio OBS por cima.
-> Vídeo gravado em repetição pode ser marcado pelo TikTok como "conteúdo não original": mantenha-o pequeno
-> e continue aparecendo/falando na live. Se o vídeo for sobre candidatos e feito com IA, vale a regra do TSE (aviso + 72h).
+**Narre a live pelo microfone!** O TikTok exige alguém presente interagindo em tempo real: live só com o
+jogo rodando sozinho é marcada como "conteúdo reproduzido/não original" (presentes suspensos e alcance cortado).
 
 ## 3. Conectar na sua live
 

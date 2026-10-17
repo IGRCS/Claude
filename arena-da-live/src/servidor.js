@@ -4,11 +4,8 @@
 import { createServer } from 'node:http';
 import { networkInterfaces } from 'node:os';
 import { spawn } from 'node:child_process';
-import { mkdir, readFile, writeFile, rename, unlink } from 'node:fs/promises';
-import { createWriteStream } from 'node:fs';
-import { pipeline } from 'node:stream/promises';
-import { Transform } from 'node:stream';
-import { dirname, join, extname } from 'node:path';
+import { mkdir, readFile, writeFile, rename } from 'node:fs/promises';
+import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import express from 'express';
 import { Server } from 'socket.io';
@@ -28,9 +25,6 @@ const RAIZ = join(dirname(fileURLToPath(import.meta.url)), '..');
 const PASTA_TEMAS = join(RAIZ, 'temas');
 const PASTA_DADOS = join(RAIZ, 'dados');
 const ARQUIVO_ESTADO = join(PASTA_DADOS, 'estado.json');
-const PASTA_VIDEO = join(PASTA_DADOS, 'video');
-const EXT_VIDEO = ['.mp4', '.webm', '.mov', '.m4v'];
-const MAX_VIDEO = 500 * 1024 * 1024;
 
 const log = (...a) => console.log(`[${horaAgora()}]`, ...a);
 let estadoSalvoSujo = false;
@@ -91,7 +85,7 @@ app.disable('x-powered-by');
 
 // Outros aparelhos da rede (ex.: o celular) só podem abrir a TELA do jogo, nunca o painel.
 const ehLocal = (ip) => ['127.0.0.1', '::1', '::ffff:127.0.0.1'].includes(ip);
-const PERMITIDO_NA_REDE = /^\/(overlay|comum|temas|video|voz|socket\.io)(\/|$)/;
+const PERMITIDO_NA_REDE = /^\/(overlay|comum|temas|voz|socket\.io)(\/|$)/;
 app.use((req, res, next) => {
   if (ehLocal(req.socket.remoteAddress) || cfg().acessoNaRede) return next();
   if (PERMITIDO_NA_REDE.test(req.path)) return next();
@@ -102,47 +96,7 @@ app.use('/overlay', express.static(join(RAIZ, 'public', 'overlay')));
 app.use('/painel', express.static(join(RAIZ, 'public', 'painel')));
 app.use('/comum', express.static(join(RAIZ, 'public', 'comum')));
 app.use('/temas', express.static(PASTA_TEMAS, { maxAge: 0 }));
-app.use('/video', express.static(PASTA_VIDEO, { maxAge: 0 }));
 app.get('/', (_req, res) => res.redirect('/painel/'));
-
-// Envio do vídeo em loop (o painel manda o arquivo cru; guardamos em dados/video).
-app.post('/api/video', async (req, res) => {
-  const ext = extname(decodeURIComponent(String(req.get('x-nome') ?? ''))).toLowerCase();
-  if (!EXT_VIDEO.includes(ext)) return res.status(400).json({ ok: false, erro: `Use um arquivo ${EXT_VIDEO.join(', ')}.` });
-  if (Number(req.get('content-length')) > MAX_VIDEO) return res.status(413).json({ ok: false, erro: 'Arquivo grande demais (máximo 500 MB).' });
-  const nomeArq = `loop-${Date.now()}${ext}`;
-  const tmp = join(PASTA_VIDEO, `${nomeArq}.tmp`);
-  let bytes = 0;
-  try {
-    await mkdir(PASTA_VIDEO, { recursive: true });
-    await pipeline(
-      req,
-      new Transform({
-        transform(chunk, _enc, cb) {
-          bytes += chunk.length;
-          cb(bytes > MAX_VIDEO ? new Error('Arquivo grande demais (máximo 500 MB).') : null, chunk);
-        },
-      }),
-      createWriteStream(tmp),
-    );
-    if (bytes === 0) throw new Error('Arquivo vazio.');
-    await rename(tmp, join(PASTA_VIDEO, nomeArq));
-    await apagarVideoAtual();
-    await config.atualizar('tela', { video: { arquivo: nomeArq, ativo: true, versao: Date.now() } });
-    enviarTema();
-    enviarPainel();
-    log(`[vídeo] Novo vídeo em loop: ${nomeArq} (${(bytes / 1048576).toFixed(1)} MB)`);
-    return res.json({ ok: true });
-  } catch (erro) {
-    await unlink(tmp).catch(() => {});
-    return res.status(erro.message.includes('grande') ? 413 : 500).json({ ok: false, erro: erro.message });
-  }
-});
-
-async function apagarVideoAtual() {
-  const antigo = cfg().tela.video?.arquivo;
-  if (antigo && !antigo.includes('/') && !antigo.includes('\\')) await unlink(join(PASTA_VIDEO, antigo)).catch(() => {});
-}
 
 // Áudio de cada fala (gerado na hora e guardado por alguns minutos)
 const falas = new Map();
@@ -163,9 +117,7 @@ const nome = (usuario) => narrador.nome(usuario);
 
 function configTela() {
   const c = cfg();
-  const v = c.tela.video ?? {};
-  const videoUrl = v.ativo && v.arquivo ? `/video/${encodeURIComponent(v.arquivo)}?v=${v.versao}` : null;
-  return { tela: c.tela, videoUrl, som: c.som, voz: { motor: c.voz.motor, volume: c.voz.volume }, regras: c.regras };
+  return { tela: c.tela, som: c.som, voz: { motor: c.voz.motor, volume: c.voz.volume }, regras: c.regras };
 }
 
 function estadoParaTela() {
@@ -419,11 +371,6 @@ const comandos = {
     if (d.secao === 'falas' || d.secao === 'filtro') narrador.configurar({ falas: cfg().falas, filtro: cfg().filtro });
     enviarTema();
     enviarEstado(true);
-  },
-  removerVideo: async () => {
-    await apagarVideoAtual();
-    await config.atualizar('tela', { video: { arquivo: '', ativo: false } });
-    enviarTema();
   },
   simular: (d) => simulador.executar(d),
   simulacaoAutomatica: (d) => simulador.automatico(Boolean(d?.ligar)),

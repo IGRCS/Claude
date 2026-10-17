@@ -301,31 +301,9 @@
     document.title = `${t.titulo} — Arena da Live`;
   }
 
-  // Vídeo em loop dentro da moldura da câmera
-  function aplicarVideo(c) {
-    const caixa = $('#camera');
-    const video = $('#camera-video');
-    const url = c.videoUrl || null;
-    caixa.classList.toggle('com-video', Boolean(url));
-    caixa.classList.toggle('caber', c.tela?.video?.ajuste === 'caber');
-    video.muted = MUDO || !c.tela?.video?.som;
-    if (!url) {
-      if (video.getAttribute('src')) {
-        video.pause();
-        video.removeAttribute('src');
-        video.load();
-      }
-      return;
-    }
-    if (video.getAttribute('src') !== url) video.setAttribute('src', url);
-    if (video.paused) video.play().catch(() => {});
-  }
-
   function aplicarConfig(c) {
     cfg = c;
-    aplicarVideo(c);
     document.body.classList.toggle('sem-mapa', !(tema?.mapa && cfg.tela?.mostrarMapa !== false));
-    document.body.classList.toggle('sem-camera', cfg.tela?.mostrarCamera === false);
     document.body.classList.toggle('sem-aviso', cfg.tela?.mostrarAviso === false);
     Sons.volume(Number(cfg.som?.volume ?? 0.6));
     Sons.ligar(!MUDO && cfg.som?.efeitos !== false);
