@@ -136,7 +136,9 @@ function enderecosNaRede() {
       if (i.family !== 'IPv4' || i.internal) continue;
       if (/^169\.254\./.test(i.address)) continue;
       // Wi-Fi e cabo primeiro; adaptadores virtuais (VirtualBox, WSL, VPN) por último
-      const virtual = /virtual|vmware|vbox|wsl|hyper-v|vethernet|docker|tailscale|zerotier|hamachi/i.test(nome);
+      // Wi-Fi/cabo da casa (192.168.x, 10.x, 172.16-31.x) primeiro; VPNs (Radmin 26.x, Hamachi 25.x...) e virtuais por último
+      const casa = /^(192\.168\.|10\.|172\.(1[6-9]|2\d|3[01])\.)/.test(i.address);
+      const virtual = !casa || /virtual|vmware|vbox|wsl|hyper-v|vethernet|docker|tailscale|zerotier|hamachi|radmin|vpn/i.test(nome);
       lista.push({ url: `http://${i.address}:${porta}/overlay/?celular=1`, virtual });
     }
   }
@@ -502,7 +504,9 @@ servidorHttp.listen(porta, host, () => {
   console.log('  ARENA DA LIVE rodando!');
   console.log(`  Painel de controle:  http://localhost:${porta}/painel`);
   console.log(`  Tela para o OBS:     http://localhost:${porta}/overlay   (1080 x 1920)`);
-  for (const url of enderecosNaRede().slice(0, 2)) console.log(`  Tela no celular:     ${url}   (mesma rede Wi-Fi)`);
+  console.log(`  Tela p/ LIVE Studio: http://127.0.0.1.nip.io:${porta}/overlay/   (fonte "Link")`);
+  const [celular] = enderecosNaRede();
+  if (celular) console.log(`  Tela no celular:     ${celular}   (mesma rede Wi-Fi)`);
   console.log('  Para fechar: Ctrl + C');
   console.log('');
   if (cfg().tiktok.conectarAoIniciar && cfg().tiktok.usuario) conectar();

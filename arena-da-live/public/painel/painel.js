@@ -53,7 +53,7 @@
     }
     caixa.innerHTML = lista
       .map((url, i) => `<div class="linha endereco-celular"><input readonly value="${esc(url)}"><button class="${i ? 'secundario' : 'primario'}" data-copiar="${esc(url)}">Copiar</button></div>`)
-      .join('') + (lista.length > 1 ? '<p class="dica">Se o primeiro não abrir no celular, tente o próximo.</p>' : '');
+      .join('') + '<p class="dica">Não abriu no celular? No Windows, deixe o Wi-Fi como rede <b>Privada</b> e libere o <b>Node.js</b> no Firewall.' + (lista.length > 1 ? ' Depois, se o primeiro endereço não abrir, tente o próximo.' : '') + '</p>';
     $$('[data-copiar]', caixa).forEach((b) =>
       b.addEventListener('click', async () => {
         try { await navigator.clipboard.writeText(b.dataset.copiar); } catch {}
@@ -105,6 +105,12 @@
 
   // ---------------------------------------------------------------- prévia e link
   const urlOverlay = `${location.origin}/overlay/`;
+  const urlLiveStudio = `http://127.0.0.1.nip.io:${location.port || 80}/overlay/`;
+  $('#url-livestudio').value = urlLiveStudio;
+  $('#copiar-livestudio').addEventListener('click', async () => {
+    try { await navigator.clipboard.writeText(urlLiveStudio); } catch {}
+    toast('Endereço do LIVE Studio copiado!');
+  });
   $('#url-overlay').value = urlOverlay;
   $('#copiar-url').addEventListener('click', async () => {
     try {
