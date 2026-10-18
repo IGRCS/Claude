@@ -284,6 +284,11 @@ export class Jogo extends EventEmitter {
           (/^\d{2,}$/.test(p) ? numeros.includes(p) : p.length >= 3 && (p.includes(' ') ? t.includes(p) : palavrasTexto.includes(p))),
       );
       if (combina) {
+        // já é do time e mandou o número de novo: lembra que curtida é que dá soco
+        if (this.times.get(usuario.id) === lado) {
+          this.emit('repetiu', { usuario, lado });
+          return { tipo: 'repetiu', usuario, lado };
+        }
         const ev = this.entrarNoTime(usuario, lado, 'comentario');
         return ev ? { tipo: 'time', ...ev } : null;
       }

@@ -937,7 +937,11 @@
   });
   socket.on('entrou', (ev) => {
     if (!tema || ev.origem !== 'comentario') return;
-    noticia(`🤝 <b>${esc(ev.nome)}</b> ${ev.trocou ? 'trocou para' : 'entrou no'} time ${nomeLado(ev.lado)}`);
+    noticia(`🤝 <b>${esc(ev.nome)}</b> é ${nomeLado(ev.lado)}! ❤️ Curta pra socar!`);
+  });
+  socket.on('lembrete', (ev) => {
+    if (!tema) return;
+    noticia(`❤️ <b>${esc(ev.nome)}</b>, agora <b>CURTA a tela</b> pra socar!`);
   });
   socket.on('estadoEscolhido', (ev) => noticia(`📍 <b>${esc(ev.nome)}</b> está jogando por <b>${esc(ev.uf)}</b>`));
   socket.on('social', (ev) => {

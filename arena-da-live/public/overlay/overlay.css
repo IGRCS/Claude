@@ -395,6 +395,33 @@ body.transparente, body.transparente #palco { background: transparent !important
 .lutador.falando .lutador-bob { animation-duration: 0.35s; }
 
 #efeitos { position: absolute; inset: 0; pointer-events: none; }
+
+/* como jogar: sempre visível logo abaixo das barras de vida */
+#instrucoes {
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  z-index: 4;
+  pointer-events: none;
+}
+.instrucao {
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.72);
+  border: 3px solid rgba(255, 255, 255, 0.35);
+  font-weight: 900;
+  font-size: 36px;
+  white-space: nowrap;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+}
+.instrucao b { color: var(--destaque); }
+.instrucao.curtir { animation: instrucao-pulso 2.4s ease-in-out infinite; will-change: transform; }
+.instrucao.presente { animation: instrucao-pulso 2.4s ease-in-out 1.2s infinite; will-change: transform; }
+@keyframes instrucao-pulso { 0%, 70%, 100% { transform: scale(1); } 80% { transform: scale(1.07); } }
 #numeros { position: absolute; inset: 0; pointer-events: none; }
 .numero {
   position: absolute;
@@ -418,7 +445,7 @@ body.transparente, body.transparente #palco { background: transparent !important
 /* ------------------------------------------------------------ balões de fala */
 .balao {
   position: absolute;
-  top: 6px;
+  top: 86px;
   max-width: 640px;
   min-width: 280px;
   padding: 16px 24px;
@@ -454,7 +481,7 @@ body.transparente, body.transparente #palco { background: transparent !important
   right: 0;
   margin: 0 auto;
   width: fit-content;
-  top: 6px;
+  top: 86px;
   background: #141414;
   color: #fff;
   border-color: var(--destaque);

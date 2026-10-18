@@ -208,6 +208,17 @@ setInterval(() => {
 
 // ------------------------------------------------------------------ eventos do jogo -> telas
 const logPresentes = [];
+// quem repete o número no chat recebe um lembrete na tela (no máx. 1 a cada 30s por pessoa, 1 a cada 4s no geral)
+const ultimoLembrete = new Map();
+let ultimoLembreteGeral = 0;
+jogo.on('repetiu', (ev) => {
+  const agora = Date.now();
+  if (agora - ultimoLembreteGeral < 4000 || agora - (ultimoLembrete.get(ev.usuario.id) ?? 0) < 30_000) return;
+  ultimoLembreteGeral = agora;
+  ultimoLembrete.set(ev.usuario.id, agora);
+  if (ultimoLembrete.size > 5000) ultimoLembrete.clear();
+  io.emit('lembrete', { nome: nome(ev.usuario), lado: ev.lado });
+});
 jogo.on('soquinho', (ev) =>
   io.emit('ataque', { lado: ev.lado, alvo: ev.alvo, pontos: 0, dano: 0, golpe: 'jab', origem: 'curtida', visual: true, quantidade: ev.quantidade }),
 );

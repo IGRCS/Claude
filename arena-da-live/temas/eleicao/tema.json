@@ -36,7 +36,8 @@
       "inicioRound": [
         "Round {round}! {a} contra {b}! Briga!",
         "Round {round}! Mandem os presentes!",
-        "Começou o round {round}! Comente 13 ou 22 e escolha seu lado!"
+        "Começou o round {round}! Comente 13 ou 22 e escolha seu lado!",
+        "Round {round}! Curtiu a tela, é soco! Mandou presente, é golpe especial!"
       ],
       "empate": [
         "Empate! Ninguém levou esse round!",
