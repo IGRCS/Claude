@@ -64,6 +64,9 @@ export function montarFrase(modelo, vars) {
 
 let proximoId = 1;
 
+// falas que citam presente, pagamento ou agradecimento (evitadas no modo discreto)
+export const CITA_PRESENTE = /presente|patroc|\bpix\b|pagando|patr[aã]o|mand(ou|aram|a)\b|obrigad/i;
+
 export class Narrador {
   constructor({ relogio = Date.now, aleatorio = Math.random } = {}) {
     this.relogio = relogio;
@@ -74,13 +77,14 @@ export class Narrador {
     this.reiniciar();
   }
 
-  configurar({ tema, falas, filtro }) {
+  configurar({ tema, falas, filtro, discreto }) {
     if (tema && tema !== this.tema) {
       this.tema = tema;
       this.reiniciar();
     }
     if (falas) this.falas = { ...this.falas, ...falas };
     if (filtro) this.filtro = filtro;
+    if (discreto !== undefined) this.discreto = Boolean(discreto);
   }
 
   reiniciar() {
@@ -99,9 +103,14 @@ export class Narrador {
 
   // Sorteia evitando repetir as últimas frases daquela lista.
   sortear(chave, lista) {
-    const permitidas = (lista ?? [])
+    let permitidas = (lista ?? [])
       .map((f, i) => ({ f: lerFrase(f), i }))
       .filter((x) => x.f.t && (this.falas.picantes || !x.f.picante));
+    // modo discreto: fora as falas que citam presente/pagamento (se sobrar alguma)
+    if (this.discreto) {
+      const semPresente = permitidas.filter((x) => !CITA_PRESENTE.test(x.f.voz ?? x.f.t));
+      if (semPresente.length) permitidas = semPresente;
+    }
     if (permitidas.length === 0) return null;
     const recentes = this.recentes.get(chave) ?? [];
     let opcoes = permitidas.filter((x) => !recentes.includes(x.i));
@@ -125,7 +134,9 @@ export class Narrador {
   // texto/partes vão para o balão (com o nome); "falado" é o que a voz diz (sem o nome, salvo se ligado).
   criarFala(quem, frase, vars, prioridade) {
     const f = lerFrase(frase);
-    const { texto, partes } = montarFrase(f.t, vars);
+    // modo discreto: o balão mostra a fala sem o nome de quem mandou (nada de "valeu, Fulano")
+    const modeloBalao = this.discreto && quem !== 'narrador' ? f.voz ?? falaSemNome(f.t) : f.t;
+    const { texto, partes } = montarFrase(modeloBalao, vars);
     const falarNome = Boolean(this.falas.falarNome);
     const modeloFalado = falarNome ? f.t : f.voz ?? falaSemNome(f.t);
     const falado = montarFrase(modeloFalado, { ...vars, nome: vars.nome ?? '' }).texto;

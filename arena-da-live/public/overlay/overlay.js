@@ -280,6 +280,7 @@
   let icones = [[], []];
   const mapa = MapaBrasil.criar($('#mapa'), 34);
 
+  const discreto = () => Boolean(cfg.tela?.modoDiscreto);
   function desenharPresentes() {
     if (!tema) return;
     tema.lados.forEach((l, i) => {
@@ -288,7 +289,8 @@
         .map((p, j) => {
           const img = icones[i]?.[j] || p.imagem;
           const icone = img ? `<img src="${esc(img)}" alt="">` : `<span class="emoji">${esc(p.emoji)}</span>`;
-          return `<span class="chip">${icone}${esc(p.rotulo)} = ${esc(l.nome)}</span>`;
+          // modo discreto: só o ícone do presente, sem "Rosa = LULE"
+          return discreto() ? `<span class="chip">${icone}</span>` : `<span class="chip">${icone}${esc(p.rotulo)} = ${esc(l.nome)}</span>`;
         })
         .join('');
     });
@@ -328,6 +330,8 @@
     cfg = c;
     document.body.classList.toggle('sem-mapa', !(tema?.mapa && cfg.tela?.mostrarMapa !== false));
     document.body.classList.toggle('sem-aviso', cfg.tela?.mostrarAviso === false);
+    document.body.classList.toggle('discreto', discreto());
+    desenharPresentes();
     Sons.volume(Number(cfg.som?.volume ?? 0.6));
     Sons.ligar(!MUDO && cfg.som?.efeitos !== false);
     $('.valor-especial').textContent = cfg.regras?.especialAPartirDe ?? 99;
@@ -363,7 +367,7 @@
     por($('#placar .p0'), 'textContent', String(e.lados[0].rounds));
     por($('#placar .p1'), 'textContent', String(e.lados[1].rounds));
     const fases = {
-      aguardando: 'Mande um presente para começar!',
+      aguardando: discreto() ? 'Curta a tela para começar!' : 'Mande um presente para começar!',
       pausado: '⏸ PAUSADO',
       intervalo: `Próximo round em ${Math.ceil(e.intervaloMs / 1000)}s`,
       lutando: '',
@@ -477,11 +481,11 @@
       const forca = ev.golpe === 'super' ? 3 : ev.golpe === 'especial' ? 2 : ev.golpe === 'jab' ? 0 : 1;
       efeitos.impacto(alvo.x - dir * 90, alvo.y + 30, cor, forca);
       const valor = ev.dano || ev.pontos;
-      const rotulo = ev.golpe === 'super' ? 'SUPER!' : ev.golpe === 'especial' ? 'ESPECIAL!' : ev.quantidade > 1 && ev.origem === 'presente' ? `${ev.quantidade}× ${ev.presente?.nome ?? ''}`.trim() : ev.combo > 1 ? `COMBO x${ev.combo}` : '';
+      const rotulo = ev.golpe === 'super' ? 'SUPER!' : ev.golpe === 'especial' ? 'ESPECIAL!' : ev.quantidade > 1 && ev.origem === 'presente' && !discreto() ? `${ev.quantidade}× ${ev.presente?.nome ?? ''}`.trim() : ev.combo > 1 ? `COMBO x${ev.combo}` : '';
       if (valor > 0) numeroDano(ev.alvo, valor, cor, forte || ev.quantidade >= 5, rotulo);
       Sons.tocar(ev.golpe);
       if (forte) tremer(ev.golpe === 'super');
-      if (ev.golpe === 'super') anunciar('SUPER GOLPE!', ev.nome ? `de ${ev.nome}` : '');
+      if (ev.golpe === 'super') anunciar('SUPER GOLPE!', ev.nome && !discreto() ? `de ${ev.nome}` : '');
     }, tempoImpacto);
     a.voltarEm(forte ? 650 : 340);
     d.voltarEm(tempoImpacto + (forte ? 520 : 300));
@@ -918,7 +922,7 @@
       }
       filaGolpes.push(ev);
     }
-    if (ev.origem === 'presente' && ev.presente) {
+    if (ev.origem === 'presente' && ev.presente && !discreto()) {
       const icone = ev.presente.imagem ? `<img src="${esc(ev.presente.imagem)}" alt=""> ` : '🎁 ';
       const extra = ev.motivo === 'sem-time' ? ' (sem time: foi pro lado que está perdendo)' : '';
       const item = {
@@ -976,7 +980,7 @@
     if (!tema) return;
     mapa.pulsar(ev.uf);
     Sons.tocar('conquista');
-    noticia(`📍 <b>${esc(ev.uf)}</b> agora é do ${nomeLado(ev.lado)}${ev.nome ? ` (valeu, ${esc(ev.nome)}!)` : ''}`);
+    noticia(`📍 <b>${esc(ev.uf)}</b> agora é do ${nomeLado(ev.lado)}${ev.nome && !discreto() ? ` (valeu, ${esc(ev.nome)}!)` : ''}`);
   });
   socket.on('entrou', (ev) => {
     if (!tema || ev.origem !== 'comentario') return;

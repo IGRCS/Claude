@@ -62,7 +62,7 @@ function aplicarTema(id, motivo = '') {
   const tema = temas.get(id) ?? temas.get(cfg().temaAtivo) ?? [...temas.values()][0];
   temaAtual = tema;
   jogo.definirTema(tema);
-  narrador.configurar({ tema, falas: cfg().falas, filtro: cfg().filtro });
+  narrador.configurar({ tema, falas: cfg().falas, filtro: cfg().filtro, discreto: cfg().tela.modoDiscreto });
   if (cfg().temaAtivo !== tema.id) {
     cfg().temaAtivo = tema.id;
     config.salvar();
@@ -408,6 +408,7 @@ const comandos = {
     await config.atualizar(d.secao, d.valores ?? {});
     if (d.secao === 'regras') jogo.definirRegras(cfg().regras);
     if (d.secao === 'falas' || d.secao === 'filtro') narrador.configurar({ falas: cfg().falas, filtro: cfg().filtro });
+    if (d.secao === 'tela') narrador.configurar({ discreto: cfg().tela.modoDiscreto });
     enviarTema();
     enviarEstado(true);
     enviarPainel();

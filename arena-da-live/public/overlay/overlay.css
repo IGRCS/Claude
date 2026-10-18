@@ -422,6 +422,8 @@ body.transparente, body.transparente #palco { background: transparent !important
   white-space: nowrap;
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
 }
+body.discreto .instrucao.especial, body.discreto .instrucao.super { display: none; }
+body.discreto .chip { padding: 3px 8px; }
 .instrucao.especial { border-color: #ff9f1a; }
 .instrucao.especial b { color: #ffb347; }
 .instrucao.super { border-color: #ff3df2; }

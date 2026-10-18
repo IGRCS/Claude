@@ -152,3 +152,25 @@ test('falaSemNome tira o nome de forma natural', async () => {
   assert.equal(falaSemNome('{nome}, meu parceiro!'), 'meu parceiro!');
   assert.equal(falaSemNome('Patrocinado pelo {nome}!'), 'Patrocinado pela galera!');
 });
+
+test('modo discreto: evita falas que citam presente e tira o nome do balão', async () => {
+  const { CITA_PRESENTE } = await import('../src/narrador.js');
+  assert.ok(CITA_PRESENTE.test('Esse presente saiu caro'));
+  assert.ok(!CITA_PRESENTE.test('Faz o L agora!'));
+  const narrador = new Narrador({ relogio: () => 0, aleatorio: () => 0 });
+  const tema = validarTema('t', {
+    lados: [
+      { nome: 'A', frases: { ataque: [{ t: 'O {nome} mandou um presente!', voz: 'Que presente!' }, { t: 'Toma, {rival}! Valeu, {nome}!', voz: 'Toma, {rival}!' }] } },
+      { nome: 'B', frases: { ataque: ['Oi'] } },
+    ],
+  });
+  narrador.configurar({ tema, falas: { ativas: true, picantes: true }, filtro: {}, discreto: true });
+  for (let i = 0; i < 4; i++) {
+    const f = narrador.criarFala(0, narrador.sortear('x', tema.lados[0].frases.ataque), { nome: 'Ana', rival: 'B' }, 1);
+    assert.equal(f.texto, 'Toma, B!');
+    assert.ok(!f.partes.some((p) => p.destaque));
+  }
+  narrador.configurar({ discreto: false });
+  const normal = narrador.criarFala(0, { t: 'Toma, {rival}! Valeu, {nome}!', voz: 'Toma, {rival}!' }, { nome: 'Ana', rival: 'B' }, 1);
+  assert.equal(normal.texto, 'Toma, B! Valeu, Ana!');
+});

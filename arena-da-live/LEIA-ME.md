@@ -124,6 +124,16 @@ a live por música) toca baixinha em loop e abaixa sozinha quando um boneco fala
 "Regras" → "Tela e som". Para usar outra música, troque o arquivo `public/comum/musica/batalha.ogg` (mesmo nome)
 — e use só música que você tem direito de usar.
 
+### Modo discreto (menos risco de bloqueio)
+
+Painel → "5. Regras" → "Tela e som" → **Modo discreto**. Com ele ligado:
+- some a tabela "99+🪙 = ESPECIAL / 299+🪙 = SUPER" (os golpes continuam funcionando igual);
+- os cartões mostram só o ícone (🌹 / 🎵), sem "Rosa = LULE";
+- os balões e vozes não citam presente nem agradecem pelo nome; os avisos de presente somem da faixa de baixo.
+
+O TikTok não divulga o que o detector de "solicitação artificial de presente" procura; isto reduz os sinais
+mais óbvios, mas não garante. O que mais ajuda é ter alguém narrando a live ao vivo.
+
 ## 6. Testar sem estar ao vivo
 
 - **Barra fixa no topo do painel:** iniciar, pausar, encerrar, reiniciar e a **"▶ Simulação automática"**

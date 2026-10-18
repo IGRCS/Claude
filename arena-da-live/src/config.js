@@ -41,6 +41,7 @@ export const CONFIG_PADRAO = {
   tela: {
     mostrarMapa: true,
     mostrarAviso: true,
+    modoDiscreto: false, // tira da tela e das falas as referências diretas a presentes (menos risco de bloqueio)
   },
   filtro: {
     nomeSubstituto: 'alguém',
