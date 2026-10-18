@@ -343,7 +343,7 @@
         cartao.classList.add('pulso');
       }
       pontosAnteriores[i] = l.pontosRound;
-      $('.cartao-dica', cartao).innerHTML = `Comente <b>${esc(tema.lados[i].dicaChat)}</b> • 👥 ${l.membros}`;
+      $('.cartao-dica', cartao).innerHTML = `DIGITE <b>${esc(tema.lados[i].dicaChat)}</b><span class="membros">👥 ${l.membros}</span>`;
       $('.cartao-top', cartao).textContent = l.top?.length
         ? `🏆 ${l.top.map((d) => `${d.nome} ${d.pontos}`).join(' · ')}`
         : '🏆 Seja o primeiro a apoiar!';
