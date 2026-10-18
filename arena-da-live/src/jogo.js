@@ -247,13 +247,12 @@ export class Jogo extends EventEmitter {
     if (lado === undefined) return null;
     if (this.fase === 'aguardando' && this.regras.autoIniciar) this.iniciarRound();
     const l = this.lados[lado];
-    l.curtidas += Math.max(0, Number(quantidade) || 0);
+    const qtd = Math.max(0, Number(quantidade) || 0);
+    l.curtidas += qtd;
+    // toda curtida aparece na hora como soquinhos (o dano vem a cada N curtidas)
+    if (this.fase === 'lutando') this.emit('soquinho', { lado, alvo: 1 - lado, usuario, quantidade: qtd });
     const N = this.regras.curtidasPorPonto;
-    if (l.curtidas < N) {
-      // ainda não deu 1 ponto, mas a curtida aparece na hora como um soquinho (sem dano)
-      if (this.fase === 'lutando') this.emit('soquinho', { lado, alvo: 1 - lado, usuario });
-      return null;
-    }
+    if (l.curtidas < N) return null;
     const pontos = Math.floor(l.curtidas / N);
     l.curtidas -= pontos * N;
     return this.aplicarPontos(lado, pontos, { usuario, presente: null, quantidade: 0, golpe: 'jab', origem: 'curtida' });

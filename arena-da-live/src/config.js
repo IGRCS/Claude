@@ -37,7 +37,7 @@ export const CONFIG_PADRAO = {
     motor: 'auto', // 'auto' (Edge e, se falhar, Google) | 'edge' | 'google' | 'navegador' | 'desligado'
     volume: 0.9,
   },
-  som: { efeitos: true, volume: 0.6 },
+  som: { efeitos: true, volume: 0.6, musica: true, volumeMusica: 0.18 }, // música de batalha baixinha no fundo
   tela: {
     mostrarMapa: true,
     mostrarAviso: true,

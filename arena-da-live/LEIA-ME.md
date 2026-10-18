@@ -76,7 +76,7 @@ conecte ele na sua live, e no painel escolha **"Pelo TikFinity aberto no PC"** �
 | Comenta **13** (LULE) ou **22** (FLABIO), ou o nome do lutador (ex.: `lule`, `#flabio`) | Entra no time. A partir daí **qualquer presente** dela ajuda esse lado |
 | Manda presente de **99+ moedas** de uma vez | **Golpe especial** (tela treme) |
 | Manda presente de **299+ moedas** de uma vez | **SUPER GOLPE** com anúncio na tela |
-| Dá **curtidas** (já tendo time) | Cada curtida já mostra um soquinho; a cada 10 curtidas, 1 ponto de dano |
+| Dá **curtidas** (já tendo time) | Cada pacote de curtidas vira uma rajada de soquinhos na hora; a cada 10 curtidas, 1 ponto de dano |
 | Comenta a **sigla do estado** (ex.: `BA`, `SP`) | Os pontos dela conquistam esse estado no mapa primeiro |
 
 - Cada **moeda = 1 ponto = 1 de dano**. Vida de cada lutador: 300. Round: 3 minutos.
@@ -112,6 +112,13 @@ Para trocar a voz pela sua:
    personagem, nunca a imitação da voz de uma pessoa real.
 3. Coloque todos numa pasta e rode `npm run importar-audios -- caminho/da/pasta`. Pronto: as frases que têm
    áudio passam a tocar o arquivo; as que não têm continuam com a voz sintética.
+
+### Música de fundo
+
+Uma trilha de batalha **original** (gerada pelo programa, sem direitos autorais de terceiros, então o TikTok não silencia
+a live por música) toca baixinha em loop e abaixa sozinha quando um boneco fala. Liga/desliga e volume no painel →
+"Regras" → "Tela e som". Para usar outra música, troque o arquivo `public/comum/musica/batalha.ogg` (mesmo nome)
+— e use só música que você tem direito de usar.
 
 ## 6. Testar sem estar ao vivo
 

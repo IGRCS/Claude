@@ -308,6 +308,7 @@
     document.body.classList.toggle('sem-aviso', cfg.tela?.mostrarAviso === false);
     Sons.volume(Number(cfg.som?.volume ?? 0.6));
     Sons.ligar(!MUDO && cfg.som?.efeitos !== false);
+    atualizarMusica();
   }
 
   // ---------------------------------------------------------------- estado (placar, vida, mapa)
@@ -394,7 +395,7 @@
     if (agora < livreEm) return;
     let ev = filaGolpes.shift();
     // junta golpes pequenos seguidos do mesmo lado (chuva de rosas vira um combo)
-    const pequeno = (g) => g.golpe === 'soco' || g.golpe === 'jab';
+    const pequeno = (g) => g.golpe === 'soco';
     while (filaGolpes.length && pequeno(ev) && pequeno(filaGolpes[0]) && filaGolpes[0].lado === ev.lado) {
       const prox = filaGolpes.shift();
       ev = { ...ev, dano: ev.dano + prox.dano, pontos: ev.pontos + prox.pontos, golpe: 'soco', combo: (ev.combo || 1) + 1 };
@@ -414,7 +415,8 @@
     const forte = ev.golpe === 'especial' || ev.golpe === 'super';
     const pose = forte ? 'especial' : 'soco';
     const alcance = ev.golpe === 'jab' ? 50 : ev.golpe === 'soco' ? 70 : ev.golpe === 'especial' ? 110 : 140;
-    const tempoImpacto = forte ? 210 : 110;
+    const jab = ev.golpe === 'jab';
+    const tempoImpacto = forte ? 210 : jab ? 70 : 110;
     a.pose(pose);
     a.corpo.animate(
       [
@@ -422,7 +424,7 @@
         { transform: `translate(${dir * alcance}px, ${forte ? -24 : 0}px)`, offset: 0.35 },
         { transform: 'translate(0, 0)' },
       ],
-      { duration: forte ? 620 : 320, easing: 'cubic-bezier(.2,.8,.2,1)' },
+      { duration: forte ? 620 : jab ? 190 : 320, easing: 'cubic-bezier(.2,.8,.2,1)' },
     );
     setTimeout(() => {
       if (d.travado) return;
@@ -447,7 +449,7 @@
     }, tempoImpacto);
     a.voltarEm(forte ? 650 : 340);
     d.voltarEm(tempoImpacto + (forte ? 520 : 300));
-    return ev.golpe === 'super' ? 950 : ev.golpe === 'especial' ? 700 : ev.golpe === 'jab' ? 220 : 330;
+    return ev.golpe === 'super' ? 950 : ev.golpe === 'especial' ? 700 : ev.golpe === 'jab' ? 150 : 330;
   }
 
   // Nocaute: cai de cara no meio do ringue (cair para trás jogaria o boneco para fora da tela).
@@ -588,6 +590,48 @@
     }
   }
 
+  // ---------------------------------------------------------------- música de fundo (loop, baixinha)
+  const musica = { buffer: null, carregando: null, fonte: null, ganho: null, abaixada: false };
+  function volumeMusica() {
+    const v = Math.max(0, Math.min(1, Number(cfg.som?.volumeMusica ?? 0.18)));
+    return musica.abaixada ? v * 0.35 : v; // abaixa enquanto o boneco fala
+  }
+  async function atualizarMusica() {
+    const ctx = Sons.contexto();
+    const querTocar = !MUDO && somLiberado && cfg.som?.musica !== false && ctx && ctx.state === 'running';
+    if (!querTocar) {
+      if (musica.fonte) { try { musica.fonte.stop(); } catch {} musica.fonte = null; }
+      return;
+    }
+    if (musica.fonte) {
+      musica.ganho.gain.setTargetAtTime(volumeMusica(), ctx.currentTime, 0.25);
+      return;
+    }
+    if (!musica.buffer) {
+      musica.carregando ??= fetch('/comum/musica/batalha.ogg')
+        .then((r) => (r.ok ? r.arrayBuffer() : null))
+        .then((b) => (b ? decodificar(b) : null))
+        .catch(() => null);
+      musica.buffer = await musica.carregando;
+      musica.carregando = null;
+      if (!musica.buffer || musica.fonte) return;
+    }
+    musica.ganho = ctx.createGain();
+    musica.ganho.gain.setValueAtTime(0, ctx.currentTime);
+    musica.ganho.gain.setTargetAtTime(volumeMusica(), ctx.currentTime, 0.8); // entra suave
+    musica.ganho.connect(ctx.destination);
+    musica.fonte = ctx.createBufferSource();
+    musica.fonte.buffer = musica.buffer;
+    musica.fonte.loop = true;
+    musica.fonte.connect(musica.ganho);
+    musica.fonte.start();
+  }
+  function abaixarMusica(sim) {
+    musica.abaixada = sim;
+    const ctx = Sons.contexto();
+    if (musica.fonte && ctx) musica.ganho.gain.setTargetAtTime(volumeMusica(), ctx.currentTime, 0.15);
+  }
+
   // Pré-carrega todas as vozes gravadas do tema (assim a fala sai junto com o golpe, sem esperar download).
   const bytesGravados = new Map();
   async function preCarregarVozes(lista) {
@@ -599,6 +643,7 @@
       } catch {}
     }
     decodificarPreCarregadas();
+    atualizarMusica();
   }
   async function decodificarPreCarregadas() {
     const ctx = Sons.contexto();
@@ -707,9 +752,11 @@
       const inicio = performance.now();
       const motor = cfg.voz?.motor;
       let falou = false;
+      abaixarMusica(true);
       if (!MUDO && somLiberado && f.gravado) falou = await tocarGravado(f);
       if (!falou && !MUDO && somLiberado && motor === 'navegador') falou = await falarNavegador(f);
       else if (!falou && !MUDO && somLiberado && f.audio) falou = await falarAudio(f);
+      abaixarMusica(false);
       const minimo = falou ? 600 : tempoDeLeitura(f.texto);
       const restante = minimo - (performance.now() - inicio);
       if (restante > 0) await espera(restante);
@@ -735,6 +782,7 @@
     await Sons.destravar();
     somLiberado = true;
     decodificarPreCarregadas();
+    atualizarMusica();
     botaoSom.hidden = true;
     if (CELULAR) telaCheia();
   });
@@ -755,6 +803,7 @@
         await Sons.destravar().catch(() => {});
         somLiberado = true;
         decodificarPreCarregadas();
+        atualizarMusica();
         botaoSom.hidden = true;
       }
     });
@@ -763,7 +812,7 @@
     Sons.iniciar();
     setTimeout(() => {
       const c = Sons.contexto();
-      if (c && c.state === 'running') { somLiberado = true; decodificarPreCarregadas(); }
+      if (c && c.state === 'running') { somLiberado = true; decodificarPreCarregadas(); atualizarMusica(); }
       else pedirSom();
     }, 400);
   }
@@ -785,6 +834,7 @@
         await Sons.destravar().catch(() => {});
         somLiberado = true;
         decodificarPreCarregadas();
+        atualizarMusica();
       }
       if (cfg) aplicarConfig(cfg);
     });
@@ -816,6 +866,14 @@
   });
   socket.on('ataque', (ev) => {
     if (!tema) return;
+    if (ev.origem === 'curtida') {
+      // curtida = rajada de soquinhos na hora (até 4 por pacote; sem acumular atraso)
+      if (!ev.visual) return;
+      const jabsNaFila = filaGolpes.filter((g) => g.golpe === 'jab').length;
+      const n = Math.min(4, Math.max(1, Number(ev.quantidade) || 1), Math.max(0, 8 - jabsNaFila));
+      for (let i = 0; i < n; i++) filaGolpes.push(ev);
+      return;
+    }
     if (!ev.guardado) filaGolpes.push(ev);
     if (ev.origem === 'presente' && ev.presente) {
       const icone = ev.presente.imagem ? `<img src="${esc(ev.presente.imagem)}" alt=""> ` : '🎁 ';
