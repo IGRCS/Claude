@@ -1,7 +1,7 @@
 {
   "nome": "Eleição: Lule x Flabio",
   "titulo": "DUELO DO SEGUNDO TURNO",
-  "subtitulo": "Mande presente e ajude seu lutador!",
+  "subtitulo": "Escolha seu time e torça!",
   "aviso": "Jogo de humor com personagens fictícios • Não é pesquisa nem enquete eleitoral",
   "avisoIA": "Imagens e vozes sintéticas (IA)",
   "mapa": true,
@@ -35,9 +35,9 @@
     "frases": {
       "inicioRound": [
         "Round {round}! {a} contra {b}! Briga!",
-        "Round {round}! Mandem os presentes!",
+        "Round {round}! Que vença o melhor!",
         "Começou o round {round}! Comente 13 ou 22 e escolha seu lado!",
-        "Round {round}! Curtiu a tela, é soco! Mandou presente, é golpe especial!"
+        "Round {round}! Escolha seu time e torça!"
       ],
       "empate": [
         "Empate! Ninguém levou esse round!",
@@ -390,7 +390,7 @@
             "audio": "audio/F-ataque-13.mp3"
           },
           {
-            "t": "Esse golpe é pelos aposentados do INSS! Manda mais, {nome}!",
+            "t": "Esse golpe é pelos aposentados do INSS! Valeu, {nome}!",
             "picante": true,
             "voz": "Esse golpe é pelos aposentados do INSS!",
             "audio": "audio/F-ataque-14.mp3"

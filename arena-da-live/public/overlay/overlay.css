@@ -420,7 +420,6 @@ body.transparente, body.transparente #palco { background: transparent !important
 }
 .instrucao b { color: var(--destaque); }
 .instrucao.curtir { animation: instrucao-pulso 2.4s ease-in-out infinite; will-change: transform; }
-.instrucao.presente { animation: instrucao-pulso 2.4s ease-in-out 1.2s infinite; will-change: transform; }
 @keyframes instrucao-pulso { 0%, 70%, 100% { transform: scale(1); } 80% { transform: scale(1.07); } }
 #numeros { position: absolute; inset: 0; pointer-events: none; }
 .numero {

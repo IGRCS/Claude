@@ -309,7 +309,15 @@ setInterval(() => {
   if (fonte?.estado === 'conectado' || fonte?.estado === 'semEventos') io.to('painel').emit('conexao', statusConexao());
 }, 3000).unref();
 
+function aoVivo() {
+  return Boolean(fonte) && ['conectado', 'semEventos', 'conectando', 'reconectando'].includes(fonte.estado);
+}
+function bloquearSimulacaoAoVivo() {
+  if (aoVivo()) throw new Error('Simulação desligada enquanto o TikTok está conectado (presente falso na live real é punido). Desconecte para testar.');
+}
+
 async function conectar() {
+  if (simulador.ligado) simulador.automatico(false); // nada de presente falso na live real
   await desconectar();
   const t = cfg().tiktok;
   fonte = t.fonte === 'tikfinity' ? new FonteTikFinity({ url: t.tikfinityUrl }) : new FonteConector({ usuario: t.usuario, signApiKey: t.signApiKey });
@@ -400,8 +408,16 @@ const comandos = {
     enviarTema();
     enviarEstado(true);
   },
-  simular: (d) => simulador.executar(d),
-  simulacaoAutomatica: (d) => simulador.automatico(Boolean(d?.ligar)),
+  // Simulação só fora da live: presentes falsos na tela de uma live real enganam o público
+  // (e o TikTok pune como "solicitação artificial de presente").
+  simular: (d) => {
+    bloquearSimulacaoAoVivo();
+    return simulador.executar(d);
+  },
+  simulacaoAutomatica: (d) => {
+    if (d?.ligar) bloquearSimulacaoAoVivo();
+    return simulador.automatico(Boolean(d?.ligar));
+  },
   // Toca na tela do OBS; se nenhuma tela estiver aberta, o próprio painel toca o áudio.
   testarVoz: (d) => {
     const quem = d?.quem === 'narrador' ? 'narrador' : Number(d?.quem) === 1 ? 1 : 0;
