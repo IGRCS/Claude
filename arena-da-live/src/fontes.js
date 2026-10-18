@@ -12,13 +12,17 @@ import {
 } from './normalizar.js';
 
 const ESPERAS_RECONEXAO = [5, 10, 20, 40, 60];
+// Quando o TikTok/Euler limita, cada tentativa nova conta como mais uma conexão e prolonga o bloqueio.
+// Por isso a espera aqui é bem maior e cresce a cada limite seguido.
+const ESPERAS_LIMITE = [120, 300, 600];
+export const ehLimite = (msg) => /rate.?limit|too many|429/i.test(String(msg ?? ''));
 const esperar = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // Mensagens da biblioteca (em inglês) -> explicação em português
 export function traduzirErro(msg) {
   const m = String(msg ?? '');
   if (/room ?id/i.test(m)) return 'Não encontrei sua live. Confira se o @ está certo e se você já está AO VIVO.';
-  if (/rate.?limit|too many|429/i.test(m)) return 'Muitas conexões seguidas: o TikTok/Euler limitou. Espere uns minutos (ou use uma chave da Euler Stream no config.json).';
+  if (ehLimite(m)) return 'Muitas conexões seguidas: o TikTok/Euler limitou. Não clique em Conectar de novo: o programa espera sozinho e tenta mais tarde.';
   if (/timeout|timed out/i.test(m)) return 'O TikTok demorou para responder. Confira sua internet.';
   if (/business plan|premium|permission from the signature/i.test(m))
     return 'O servidor gratuito do TikTok (Euler Stream) recusou um recurso pago. Atualize o programa para a versão mais nova ou use o plano B (TikFinity).';
@@ -35,6 +39,7 @@ class FonteBase extends EventEmitter {
     this.ativo = false;
     this.timer = null;
     this.tentativas = 0;
+    this.limites = 0;
   }
 
   // Contagem do que chega do TikTok (aparece no painel). Ajuda a saber se a live manda eventos.
@@ -61,13 +66,16 @@ class FonteBase extends EventEmitter {
     if (!this.ativo) return;
     const espera = segundos ?? ESPERAS_RECONEXAO[Math.min(this.tentativas, ESPERAS_RECONEXAO.length - 1)];
     this.tentativas++;
-    this.definirStatus(this.estado === 'offline' ? 'offline' : 'reconectando', `${this.detalhe ? this.detalhe + ' — ' : ''}nova tentativa em ${espera}s`);
+    const quando = espera >= 120 ? `${Math.round(espera / 60)} min` : `${espera}s`;
+    const estado = ['offline', 'limitado'].includes(this.estado) ? this.estado : 'reconectando';
+    this.definirStatus(estado, `${this.detalhe ? this.detalhe + ' — ' : ''}nova tentativa em ${quando}`);
     this.timer = setTimeout(() => this.abrir(), espera * 1000);
   }
 
   async conectar() {
     this.ativo = true;
     this.tentativas = 0;
+    this.limites = 0;
     await this.abrir();
   }
 
@@ -161,6 +169,7 @@ export class FonteConector extends FonteBase {
         return;
       }
       this.tentativas = 0;
+      this.limites = 0;
       this.detalheConectado = `@${this.usuario} (sala ${estado?.roomId ?? '?'})`;
       this.definirStatus('conectado', this.detalheConectado);
       // Conectou mas nada chega? Avisa no painel com a causa mais comum.
@@ -179,7 +188,10 @@ export class FonteConector extends FonteBase {
       const msg = erro?.message ?? String(erro);
       if (nome === 'UserOfflineError' || /offline|isn't online|not live/i.test(msg)) {
         this.definirStatus('offline', `@${this.usuario} não está ao vivo agora.`);
-        this.agendarReconexao(30);
+        this.agendarReconexao(60);
+      } else if (ehLimite(msg)) {
+        this.definirStatus('limitado', traduzirErro(msg));
+        this.agendarReconexao(ESPERAS_LIMITE[Math.min(this.limites++, ESPERAS_LIMITE.length - 1)]);
       } else {
         this.definirStatus('erro', traduzirErro(msg));
         this.agendarReconexao();

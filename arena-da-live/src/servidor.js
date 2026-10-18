@@ -313,7 +313,7 @@ setInterval(() => {
 }, 3000).unref();
 
 function aoVivo() {
-  return Boolean(fonte) && ['conectado', 'semEventos', 'conectando', 'reconectando'].includes(fonte.estado);
+  return Boolean(fonte) && ['conectado', 'semEventos', 'conectando', 'reconectando', 'limitado'].includes(fonte.estado);
 }
 function bloquearSimulacaoAoVivo() {
   if (aoVivo()) throw new Error('Simulação desligada enquanto o TikTok está conectado (presente falso na live real é punido). Desconecte para testar.');
@@ -364,6 +364,9 @@ function enviarIconesPresentes() {
 // ------------------------------------------------------------------ comandos do painel
 const comandos = {
   conectar: async (d) => {
+    // reconectar na mão durante o limite só prolonga o bloqueio; o programa já vai tentar sozinho
+    if (fonte?.estado === 'limitado' && d?.fonte !== 'tikfinity')
+      throw new Error('O TikTok/Euler limitou as conexões. Não precisa clicar de novo: o programa tenta sozinho em alguns minutos.');
     await config.atualizar('tiktok', {
       usuario: String(d?.usuario ?? cfg().tiktok.usuario).trim().replace(/^@/, ''),
       fonte: d?.fonte === 'tikfinity' ? 'tikfinity' : 'conector',

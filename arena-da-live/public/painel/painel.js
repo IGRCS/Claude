@@ -129,6 +129,7 @@
       desconectado: 'TikTok: desconectado', conectando: 'TikTok: conectando…', conectado: 'TikTok: conectado',
       reconectando: 'TikTok: reconectando…', offline: 'TikTok: você não está ao vivo', erro: 'TikTok: erro',
       semEventos: 'TikTok: conectado, mas SEM eventos',
+      limitado: 'TikTok: limitado, aguardando',
     };
     chip.textContent = nomes[c?.estado] ?? `TikTok: ${c?.estado ?? '?'}`;
     chip.className = `chip ${c?.estado === 'conectado' ? 'ok' : c?.estado === 'erro' ? 'erro' : c?.estado === 'desconectado' ? '' : 'alerta'}`;
