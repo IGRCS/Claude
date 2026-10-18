@@ -88,21 +88,39 @@
       imagens: {},
       travado: null,
       timer: null,
+      // Uma <img> por pose, empilhadas: trocar de pose só muda a opacidade (a imagem já está pronta
+      // na placa de vídeo). Trocar o src a cada golpe obrigava a redesenhar o boneco e travava a luta.
+      camadas: {},
+      atual: null,
       definir(base, imagens, escala, cor) {
         this.imagens = {};
         for (const [pose, rel] of Object.entries(imagens || {})) {
-          const url = /^(https?:|data:)/.test(rel) ? rel : base + rel;
-          this.imagens[pose] = url;
-          const pre = new Image();
-          pre.src = url;
+          this.imagens[pose] = /^(https?:|data:)/.test(rel) ? rel : base + rel;
         }
         if (!this.imagens.parado) this.imagens.parado = silhueta(cor);
-        img.style.setProperty('--escala', escala || 1);
+        corpo.querySelectorAll('.lutador-img').forEach((e) => e !== img && e.remove());
+        this.camadas = {};
+        for (const [pose, url] of Object.entries(this.imagens)) {
+          const camada = pose === 'parado' ? img : document.createElement('img');
+          if (camada !== img) {
+            camada.className = 'lutador-img';
+            camada.alt = '';
+            corpo.append(camada);
+          }
+          camada.decoding = 'sync';
+          camada.setAttribute('src', url);
+          this.camadas[pose] = camada;
+        }
+        corpo.style.setProperty('--escala', escala || 1);
+        this.atual = null;
         this.destravar();
       },
       pose(p) {
-        const src = this.imagens[p] || this.imagens.parado;
-        if (img.getAttribute('src') !== src) img.setAttribute('src', src);
+        const alvo = this.camadas[p] ? p : 'parado';
+        if (this.atual === alvo) return;
+        this.camadas[this.atual]?.classList.remove('ativa');
+        this.camadas[alvo]?.classList.add('ativa');
+        this.atual = alvo;
       },
       travar(p) {
         this.travado = p;
@@ -126,6 +144,7 @@
     };
   }
   const lutadores = [criarLutador(0), criarLutador(1)];
+  const LARGURA_CABO = 1080 - 80 - 8; // #cabo: 1080 - margens (40+40) - bordas (4+4)
   const dirDe = (lado) => (lado === 0 ? 1 : -1);
   // posição aproximada da cabeça de cada lutador dentro da arena
   const CABECA = [{ x: 280, y: 268 }, { x: 800, y: 268 }];
@@ -133,11 +152,12 @@
   // ---------------------------------------------------------------- efeitos (partículas)
   const canvas = $('#efeitos');
   const ctx2d = canvas.getContext('2d');
+  ctx2d.setTransform(0.5, 0, 0, 0.5, 0, 0); // canvas em meia resolução (4x menos pixels); coordenadas continuam em 1080x780
   const particulas = [];
   let animando = false;
 
   function loopEfeitos() {
-    ctx2d.clearRect(0, 0, canvas.width, canvas.height);
+    ctx2d.clearRect(0, 0, 1080, 780);
     for (let i = particulas.length - 1; i >= 0; i--) {
       const p = particulas[i];
       p.vida -= p.decai;
@@ -226,9 +246,11 @@
 
   function tremer(forte) {
     const arena = $('#arena');
-    arena.classList.remove('tremer', 'tremer-forte');
-    void arena.offsetWidth;
-    arena.classList.add(forte ? 'tremer-forte' : 'tremer');
+    const d = forte ? 18 : 12;
+    arena.animate(
+      [0, 1, -1, 0.8, -0.6, 0.3, 0].map((k, i) => ({ transform: `translate(${k * d}px, ${(i % 2 ? -1 : 1) * k * d * 0.5}px)` })),
+      { duration: forte ? 550 : 350, easing: 'linear' },
+    );
   }
 
   function numeroDano(lado, valor, cor, grande, legenda) {
@@ -320,52 +342,63 @@
   }
 
   const pontosAnteriores = [0, 0];
+  // Só mexe no DOM quando o valor muda: o estado chega ~8x por segundo e reescrever tudo
+  // recalculava estilos à toa (e reiniciava a animação do "DIGITE").
+  function por(el, prop, valor) {
+    if (!el) return;
+    const chave = `_v_${prop}`;
+    if (el[chave] === valor) return;
+    el[chave] = valor;
+    if (prop === 'transform') el.style.transform = valor;
+    else el[prop] = valor;
+  }
+  let ultimoMapa = '';
   function atualizarEstado(e) {
     estado = e;
     if (!tema) return;
-    $('#round').textContent = `ROUND ${e.round}`;
+    por($('#round'), 'textContent', `ROUND ${e.round}`);
     const tempo = $('#tempo');
-    tempo.textContent = formatarTempo(e.restanteMs);
+    por(tempo, 'textContent', formatarTempo(e.restanteMs));
     tempo.classList.toggle('urgente', e.fase === 'lutando' && e.restanteMs <= 10_000);
-    $('#placar .p0').textContent = e.lados[0].rounds;
-    $('#placar .p1').textContent = e.lados[1].rounds;
+    por($('#placar .p0'), 'textContent', String(e.lados[0].rounds));
+    por($('#placar .p1'), 'textContent', String(e.lados[1].rounds));
     const fases = {
       aguardando: 'Mande um presente para começar!',
       pausado: '⏸ PAUSADO',
       intervalo: `Próximo round em ${Math.ceil(e.intervaloMs / 1000)}s`,
       lutando: '',
     };
-    $('#fase').textContent = fases[e.fase] ?? '';
+    por($('#fase'), 'textContent', fases[e.fase] ?? '');
 
     const somaRound = e.lados[0].pontosRound + e.lados[1].pontosRound;
     e.lados.forEach((l, i) => {
       const cartao = $(`.cartao[data-lado="${i}"]`);
-      $('.cartao-pontos .num', cartao).textContent = l.pontosRound;
+      por($('.cartao-pontos .num', cartao), 'textContent', String(l.pontosRound));
       if (l.pontosRound > pontosAnteriores[i]) {
-        cartao.classList.remove('pulso');
-        void cartao.offsetWidth;
-        cartao.classList.add('pulso');
+        // pulso só com transform, sem forçar o navegador a recalcular o layout
+        cartao.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.05)', offset: 0.3 }, { transform: 'scale(1)' }], { duration: 420, easing: 'ease-out' });
       }
       pontosAnteriores[i] = l.pontosRound;
-      $('.cartao-dica', cartao).innerHTML = `DIGITE <b>${esc(tema.lados[i].dicaChat)}</b><span class="membros">👥 ${l.membros}</span>`;
-      $('.cartao-top', cartao).textContent = l.top?.length
-        ? `🏆 ${l.top.map((d) => `${d.nome} ${d.pontos}`).join(' · ')}`
-        : '🏆 Seja o primeiro a apoiar!';
+      por($('.cartao-dica', cartao), 'innerHTML', `DIGITE <b>${esc(tema.lados[i].dicaChat)}</b><span class="membros">👥 ${l.membros}</span>`);
       const vida = $(`.vida[data-lado="${i}"]`);
       const pct = l.vidaMax > 0 ? Math.max(0, (l.vida / l.vidaMax) * 100) : 0;
-      $('.vida-cheia', vida).style.width = `${pct}%`;
-      $('.vida-rastro', vida).style.width = `${pct}%`;
-      $('.vida-num', vida).textContent = l.vida;
+      por($('.vida-cheia', vida), 'transform', `scaleX(${pct / 100})`);
+      por($('.vida-rastro', vida), 'transform', `scaleX(${pct / 100})`);
+      por($('.vida-num', vida), 'textContent', String(l.vida));
       vida.classList.toggle('baixa', e.fase === 'lutando' && pct <= 25);
-      $(`.mapa-conta[data-lado="${i}"]`).textContent = `${tema.lados[i].nome} ${l.estados}`;
-      $(`#cabo .cabo-lado[data-lado="${i}"] .cabo-texto`).textContent =
-        i === 0 ? `${tema.lados[0].nome} ${l.pontosRound}` : `${l.pontosRound} ${tema.lados[1].nome}`;
+      por($(`.mapa-conta[data-lado="${i}"]`), 'textContent', `${tema.lados[i].nome} ${l.estados}`);
+      por($(`#cabo .cabo-lado[data-lado="${i}"] .cabo-texto`), 'textContent',
+        i === 0 ? `${tema.lados[0].nome} ${l.pontosRound}` : `${l.pontosRound} ${tema.lados[1].nome}`);
     });
     const parte = somaRound > 0 ? (e.lados[0].pontosRound / somaRound) * 100 : 50;
     const visivel = Math.max(8, Math.min(92, parte));
-    $('#cabo .cabo-lado[data-lado="0"]').style.flexBasis = `${visivel}%`;
-    $('#cabo-no').style.left = `${visivel}%`;
-    mapa.atualizar(e.mapa, tema.lados.map((l) => l.cor));
+    por($('#cabo-barra0'), 'transform', `scaleX(${visivel / 100})`);
+    por($('#cabo-no'), 'transform', `translateX(${(visivel / 100) * LARGURA_CABO}px)`);
+    const chaveMapa = JSON.stringify(e.mapa) + tema.id;
+    if (chaveMapa !== ultimoMapa) {
+      ultimoMapa = chaveMapa;
+      mapa.atualizar(e.mapa, tema.lados.map((l) => l.cor));
+    }
 
     const guardado = $('#guardado');
     const pend = e.lados.map((l) => l.pendente);
@@ -439,7 +472,7 @@
         ],
         { duration: forte ? 560 : 360, easing: 'ease-out' },
       );
-      d.img.animate([{ opacity: 1 }, { opacity: 0.45 }, { opacity: 1 }], { duration: 200 }); // piscada leve (filter pesava)
+      d.el.animate([{ opacity: 1 }, { opacity: 0.5 }, { opacity: 1 }], { duration: 200 }); // piscada leve, só composição
       const alvo = CABECA[ev.alvo];
       const forca = ev.golpe === 'super' ? 3 : ev.golpe === 'especial' ? 2 : ev.golpe === 'jab' ? 0 : 1;
       efeitos.impacto(alvo.x - dir * 90, alvo.y + 30, cor, forca);

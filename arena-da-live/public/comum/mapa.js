@@ -76,9 +76,8 @@ const MapaBrasil = (() => {
       pulsar(uf) {
         const c = celulas[uf];
         if (!c) return;
-        c.g.classList.remove('pulso');
-        void c.g.getBoundingClientRect();
-        c.g.classList.add('pulso');
+        // animação direta (sem forçar recálculo de layout como o truque de reiniciar a classe)
+        c.g.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.35)', offset: 0.3 }, { transform: 'scale(1)' }], { duration: 900, easing: 'ease-out' });
       },
     };
   }

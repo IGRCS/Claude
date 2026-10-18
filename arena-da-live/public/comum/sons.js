@@ -18,13 +18,21 @@ const Sons = (() => {
     return ctx;
   }
 
+  // Um único buffer de ruído (2s) reaproveitado em todos os golpes: gerar ruído novo a cada soco pesava.
+  let bufferRuido = null;
   function ruido(duracao) {
-    const tamanho = Math.max(1, Math.floor(ctx.sampleRate * duracao));
-    const buffer = ctx.createBuffer(1, tamanho, ctx.sampleRate);
-    const dados = buffer.getChannelData(0);
-    for (let i = 0; i < tamanho; i++) dados[i] = Math.random() * 2 - 1;
+    if (!bufferRuido) {
+      const tamanho = Math.floor(ctx.sampleRate * 2);
+      bufferRuido = ctx.createBuffer(1, tamanho, ctx.sampleRate);
+      const dados = bufferRuido.getChannelData(0);
+      for (let i = 0; i < tamanho; i++) dados[i] = Math.random() * 2 - 1;
+    }
     const fonte = ctx.createBufferSource();
-    fonte.buffer = buffer;
+    fonte.buffer = bufferRuido;
+    fonte.loopEnd = Math.min(2, Math.max(0.01, duracao));
+    const inicio = fonte.start.bind(fonte);
+    // cada golpe começa num ponto diferente do ruído e para no tempo pedido
+    fonte.start = (quando = 0) => inicio(quando, Math.random() * (2 - fonte.loopEnd), fonte.loopEnd);
     return fonte;
   }
 
