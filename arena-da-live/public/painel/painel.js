@@ -128,10 +128,20 @@
     const nomes = {
       desconectado: 'TikTok: desconectado', conectando: 'TikTok: conectando…', conectado: 'TikTok: conectado',
       reconectando: 'TikTok: reconectando…', offline: 'TikTok: você não está ao vivo', erro: 'TikTok: erro',
+      semEventos: 'TikTok: conectado, mas SEM eventos',
     };
     chip.textContent = nomes[c?.estado] ?? `TikTok: ${c?.estado ?? '?'}`;
     chip.className = `chip ${c?.estado === 'conectado' ? 'ok' : c?.estado === 'erro' ? 'erro' : c?.estado === 'desconectado' ? '' : 'alerta'}`;
     $('#conexao-detalhe').textContent = c?.detalhe ?? '';
+    const d = c?.diag;
+    const linha = $('#conexao-eventos');
+    linha.hidden = !d || !['conectado', 'semEventos'].includes(c?.estado);
+    if (d) {
+      linha.textContent = d.total
+        ? `Eventos recebidos da live: ${d.comentarios} comentários · ${d.curtidas} curtidas · ${d.presentes} presentes · ${d.entradas} entradas` +
+          (d.haSeg !== null ? ` (último há ${d.haSeg}s)` : '')
+        : 'Eventos recebidos da live: nenhum ainda…';
+    }
   }
 
   function opcoesTemas(select, lista, selecionado, vazio) {
@@ -197,6 +207,7 @@
       $$(`.nome-lado[data-lado="${i}"]`).forEach((el) => (el.textContent = l.nome));
       ajustarTopo();
       $$(`.nome-lado-botao[data-lado="${i}"]`).forEach((el) => (el.textContent = `Testar voz ${l.nome}`));
+      $$(`.dica-chat[data-lado="${i}"]`).forEach((el) => (el.textContent = `💬 ${l.dicaChat ?? i + 1}`));
     });
   }
 

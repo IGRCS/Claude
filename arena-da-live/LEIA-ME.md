@@ -73,7 +73,7 @@ conecte ele na sua live, e no painel escolha **"Pelo TikFinity aberto no PC"** �
 | O que o público faz | O que acontece |
 |---|---|
 | Manda o presente do lado (ex.: **Rosa** = LULE, **TikTok** = FLABIO) | Soco do lutador, dano no rival, e a pessoa entra no time |
-| Comenta **1** ou **2** (ou o nome do lutador, ex.: `lule`, `#flabio`) | Entra no time. A partir daí **qualquer presente** dela ajuda esse lado |
+| Comenta **13** (LULE) ou **22** (FLABIO), ou o nome do lutador (ex.: `lule`, `#flabio`) | Entra no time. A partir daí **qualquer presente** dela ajuda esse lado |
 | Manda presente de **99+ moedas** de uma vez | **Golpe especial** (tela treme) |
 | Manda presente de **299+ moedas** de uma vez | **SUPER GOLPE** com anúncio na tela |
 | Dá **curtidas** (já tendo time) | A cada 30 curtidas, 1 ponto (soquinho) |
@@ -156,7 +156,7 @@ a partir de `ferramentas/personagens.mjs` (cores, cabelo, barba, camisa…). Par
 | Problema | Solução |
 |---|---|
 | "Não encontrei sua live" | Você precisa estar **ao vivo** antes de conectar. Confira o @. Espere: ele tenta de novo sozinho. |
-| Conecta mas não chegam presentes | Use o **plano B (TikFinity)**. |
+| Conecta mas não chegam comentários/curtidas/presentes | Veja a linha **"Eventos recebidos da live"** no card 1 do painel. Se ficar em "nenhum", a causa mais comum é a live/perfil **restrito a maiores de 18 anos** (desligue em Configurações e privacidade do app). Confira também se o @ é o da conta que está ao vivo. Se continuar, use o **plano B (TikFinity)**. |
 | Bonecos não falam | Painel → Testar voz. No OBS marque "Controlar áudio pelo OBS". Veja a linha de status da voz no painel. |
 | Num navegador comum aparece "Clique aqui para ativar o som" | Normal (regra dos navegadores). No OBS isso não aparece. |
 | "A porta 3000 já está em uso" | Feche a outra janela do programa, ou mude `"porta"` no `config.json`. |

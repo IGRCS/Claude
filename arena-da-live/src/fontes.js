@@ -37,6 +37,19 @@ class FonteBase extends EventEmitter {
     this.tentativas = 0;
   }
 
+  // Contagem do que chega do TikTok (aparece no painel). Ajuda a saber se a live manda eventos.
+  zerarDiagnostico() {
+    this.diag = { total: 0, comentarios: 0, curtidas: 0, presentes: 0, entradas: 0, ultimo: 0 };
+  }
+
+  contar(tipo, n = 1) {
+    if (!this.diag) this.zerarDiagnostico();
+    this.diag.total++;
+    if (tipo) this.diag[tipo] = (this.diag[tipo] ?? 0) + n;
+    this.diag.ultimo = Date.now();
+    if (this.estado === 'semEventos') this.definirStatus('conectado', this.detalheConectado ?? '');
+  }
+
   definirStatus(estado, detalhe = '') {
     this.estado = estado;
     this.detalhe = detalhe;
@@ -99,15 +112,29 @@ export class FonteConector extends FonteBase {
     });
     this.conexao = conexao;
     const minha = () => this.conexao === conexao;
+    this.zerarDiagnostico();
+    // qualquer mensagem da live (inclusive entradas e contagem de público) prova que os eventos estão chegando
+    conexao.on('decodedData', () => minha() && this.contar());
+    conexao.on(WebcastEvent.MEMBER, () => minha() && this.contar('entradas'));
 
     conexao.on(WebcastEvent.GIFT, (d) => {
       if (!minha()) return;
       const p = normalizarPresente(d);
+      this.contar('presentes');
       this.lembrarPresente(p.presente);
       this.emit('presente', p);
     });
-    conexao.on(WebcastEvent.CHAT, (d) => minha() && this.emit('comentario', normalizarComentario(d)));
-    conexao.on(WebcastEvent.LIKE, (d) => minha() && this.emit('curtida', normalizarCurtida(d)));
+    conexao.on(WebcastEvent.CHAT, (d) => {
+      if (!minha()) return;
+      this.contar('comentarios');
+      this.emit('comentario', normalizarComentario(d));
+    });
+    conexao.on(WebcastEvent.LIKE, (d) => {
+      if (!minha()) return;
+      const c = normalizarCurtida(d);
+      this.contar('curtidas', c.quantidade);
+      this.emit('curtida', c);
+    });
     conexao.on(WebcastEvent.FOLLOW, (d) => minha() && this.emit('seguiu', { usuario: normalizarUsuario(d) }));
     conexao.on(WebcastEvent.SHARE, (d) => minha() && this.emit('compartilhou', { usuario: normalizarUsuario(d) }));
     conexao.on(WebcastEvent.STREAM_END, () => {
@@ -134,7 +161,18 @@ export class FonteConector extends FonteBase {
         return;
       }
       this.tentativas = 0;
-      this.definirStatus('conectado', `@${this.usuario} (sala ${estado?.roomId ?? '?'})`);
+      this.detalheConectado = `@${this.usuario} (sala ${estado?.roomId ?? '?'})`;
+      this.definirStatus('conectado', this.detalheConectado);
+      // Conectou mas nada chega? Avisa no painel com a causa mais comum.
+      clearTimeout(this.timerSilencio);
+      this.timerSilencio = setTimeout(() => {
+        if (!minha() || this.estado !== 'conectado' || this.diag.total > 0) return;
+        this.definirStatus(
+          'semEventos',
+          'Conectado, mas o TikTok não mandou NENHUM evento em 1 minuto. Causa mais comum: live/perfil restrito a maiores de 18 anos ' +
+            '(Configurações e privacidade → desligue a restrição de idade) ou o @ é de outra conta. Se continuar, use o plano B (TikFinity).',
+        );
+      }, 60_000);
     } catch (erro) {
       if (!minha()) return;
       const nome = erro?.constructor?.name ?? '';
@@ -157,6 +195,7 @@ export class FonteConector extends FonteBase {
   }
 
   async fechar() {
+    clearTimeout(this.timerSilencio);
     const c = this.conexao;
     this.conexao = null;
     if (c) {
@@ -192,6 +231,7 @@ export class FonteTikFinity extends FonteBase {
     }
     this.ws = ws;
     const minha = () => this.ws === ws;
+    this.zerarDiagnostico();
     ws.onopen = () => {
       if (!minha()) return;
       this.tentativas = 0;
@@ -206,6 +246,8 @@ export class FonteTikFinity extends FonteBase {
         return;
       }
       const d = pacote?.data ?? {};
+      const tipos = { gift: 'presentes', chat: 'comentarios', like: 'curtidas', member: 'entradas' };
+      this.contar(tipos[pacote?.event], pacote?.event === 'like' ? normalizarCurtida(d).quantidade : 1);
       switch (pacote?.event) {
         case 'gift': return this.emit('presente', normalizarPresente(d));
         case 'chat': return this.emit('comentario', normalizarComentario(d));

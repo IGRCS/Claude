@@ -68,6 +68,33 @@ test('comentar 1/2 ou a palavra do time escolhe o lado do presente neutro', () =
   assert.deepEqual(jogo.membros, [2, 1]);
 });
 
+test('números de 2 dígitos (13/22) valem com pontuação, emoji ou repetidos', () => {
+  const { jogo } = montar({}, {});
+  jogo.palavras = [['13'], ['22']];
+  jogo.comentario({ usuario: usuario('a'), texto: '13' });
+  jogo.comentario({ usuario: usuario('b'), texto: '22!!! 🔥' });
+  jogo.comentario({ usuario: usuario('c'), texto: 'vai 13 13 13' });
+  jogo.comentario({ usuario: usuario('d'), texto: '2022' });
+  assert.equal(jogo.times.get('a'), 0);
+  assert.equal(jogo.times.get('b'), 1);
+  assert.equal(jogo.times.get('c'), 0);
+  assert.equal(jogo.times.get('d'), undefined, '"2022" não é "22"');
+});
+
+test('tema da eleição: 13 = LULE e 22 = FLABIO', async () => {
+  const { carregarTemas } = await import('../src/temas.js');
+  const { temas } = await carregarTemas(new URL('../temas/', import.meta.url).pathname);
+  const t = temas.get('eleicao');
+  assert.equal(t.lados[0].dicaChat, '13');
+  assert.equal(t.lados[1].dicaChat, '22');
+  const { jogo } = montar();
+  jogo.definirTema(t);
+  jogo.comentario({ usuario: usuario('x'), texto: '13' });
+  jogo.comentario({ usuario: usuario('y'), texto: '22' });
+  assert.equal(jogo.times.get('x'), 0);
+  assert.equal(jogo.times.get('y'), 1);
+});
+
 test('"1" no meio de outra frase não troca de time', () => {
   const { jogo } = montar();
   jogo.comentario({ usuario: usuario('x'), texto: 'tenho 1 pergunta' });

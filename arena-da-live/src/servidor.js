@@ -282,9 +282,19 @@ let fonte = null;
 let catalogoPresentes = [];
 function statusConexao() {
   return fonte
-    ? { estado: fonte.estado, detalhe: fonte.detalhe, fonte: fonte instanceof FonteTikFinity ? 'tikfinity' : 'conector' }
+    ? {
+        estado: fonte.estado,
+        detalhe: fonte.detalhe,
+        fonte: fonte instanceof FonteTikFinity ? 'tikfinity' : 'conector',
+        diag: fonte.diag ? { ...fonte.diag, haSeg: fonte.diag.ultimo ? Math.round((Date.now() - fonte.diag.ultimo) / 1000) : null } : null,
+      }
     : { estado: 'desconectado', detalhe: '', fonte: cfg().tiktok.fonte };
 }
+// contador de eventos no painel
+setInterval(() => {
+  if (fonte?.estado === 'conectado' || fonte?.estado === 'semEventos') io.to('painel').emit('conexao', statusConexao());
+}, 3000).unref();
+
 async function conectar() {
   await desconectar();
   const t = cfg().tiktok;
@@ -294,6 +304,8 @@ async function conectar() {
     log(`[conexão] ${s.estado}${s.detalhe ? `: ${s.detalhe}` : ''}`);
     io.to('painel').emit('conexao', statusConexao());
   });
+  // mostra na janela preta o que chega da live (ajuda a conferir se os eventos estão chegando)
+  fonte.on('comentario', (ev) => log(`[chat] ${nome(ev.usuario)}: ${String(ev.texto).slice(0, 80)}`));
   fonte.on('catalogo', (lista) => {
     catalogoPresentes = lista;
     enviarIconesPresentes();

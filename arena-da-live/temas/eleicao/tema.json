@@ -36,7 +36,7 @@
       "inicioRound": [
         "Round {round}! {a} contra {b}! Briga!",
         "Round {round}! Mandem os presentes!",
-        "Começou o round {round}! Comente 1 ou 2 e escolha seu lado!"
+        "Começou o round {round}! Comente 13 ou 22 e escolha seu lado!"
       ],
       "empate": [
         "Empate! Ninguém levou esse round!",
@@ -63,13 +63,13 @@
         }
       ],
       "palavras": [
-        "1",
+        "13",
         "lule",
         "time lule",
         "#lule",
         "vermelho"
       ],
-      "dicaChat": "1",
+      "dicaChat": "13",
       "personagem": {
         "escala": 1,
         "imagens": {
@@ -289,13 +289,13 @@
         }
       ],
       "palavras": [
-        "2",
+        "22",
         "flabio",
         "time flabio",
         "#flabio",
         "verde"
       ],
-      "dicaChat": "2",
+      "dicaChat": "22",
       "personagem": {
         "escala": 1,
         "imagens": {

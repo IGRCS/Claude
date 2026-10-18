@@ -269,9 +269,15 @@ export class Jogo extends EventEmitter {
       }
     }
     const palavrasTexto = t.split(/\s+/);
+    const semPontuacao = t.replace(/[^\p{L}\p{N}\s]/gu, '').trim(); // "13!!!" / "22 🔥" -> "13" / "22"
+    const numeros = t.match(/\d+/g) ?? [];
     for (let lado = 0; lado < this.palavras.length; lado++) {
       const combina = this.palavras[lado].some(
-        (p) => t === p || (p.length >= 3 && (p.includes(' ') ? t.includes(p) : palavrasTexto.includes(p))),
+        (p) =>
+          t === p ||
+          semPontuacao === p ||
+          // números de 2+ dígitos (13, 22) valem em qualquer parte do comentário: "vai 13", "22 22 22"
+          (/^\d{2,}$/.test(p) ? numeros.includes(p) : p.length >= 3 && (p.includes(' ') ? t.includes(p) : palavrasTexto.includes(p))),
       );
       if (combina) {
         const ev = this.entrarNoTime(usuario, lado, 'comentario');

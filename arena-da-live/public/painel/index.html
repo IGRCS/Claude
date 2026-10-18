@@ -51,7 +51,7 @@
           <button data-sim="presente" data-tamanho="medio" data-lado="0" title="Presente de 30 moedas">30 🪙</button>
           <button data-sim="presente" data-tamanho="especial" data-lado="0" title="Golpe especial (99 moedas)">Especial</button>
           <button data-sim="presente" data-tamanho="super" data-lado="0" title="Super golpe (500 moedas)">Super</button>
-          <button data-sim="entrar" data-lado="0" title="Alguém comenta 1 e entra no time">💬 1</button>
+          <button data-sim="entrar" data-lado="0" title="Alguém comenta a palavra do time e entra nele" class="dica-chat">💬 1</button>
           <button data-sim="curtidas" data-lado="0" title="Chuva de curtidas">❤️</button>
         </div>
         <div class="golpes" data-lado="1">
@@ -60,7 +60,7 @@
           <button data-sim="presente" data-tamanho="medio" data-lado="1" title="Presente de 30 moedas">30 🪙</button>
           <button data-sim="presente" data-tamanho="especial" data-lado="1" title="Golpe especial (99 moedas)">Especial</button>
           <button data-sim="presente" data-tamanho="super" data-lado="1" title="Super golpe (500 moedas)">Super</button>
-          <button data-sim="entrar" data-lado="1" title="Alguém comenta 2 e entra no time">💬 2</button>
+          <button data-sim="entrar" data-lado="1" title="Alguém comenta a palavra do time e entra nele" class="dica-chat">💬 2</button>
           <button data-sim="curtidas" data-lado="1" title="Chuva de curtidas">❤️</button>
         </div>
       </div>
@@ -83,6 +83,7 @@
         <button data-cmd="desconectar" class="secundario">Desconectar</button>
       </div>
       <p id="conexao-detalhe" class="dica"></p>
+      <p id="conexao-eventos" class="dica destaque" hidden></p>
       <p class="dica">Você precisa estar <b>ao vivo</b> para conectar. Se cair, o programa tenta de novo sozinho.</p>
       <h3>Endereço da tela (OBS / LIVE Studio)</h3>
       <div class="linha">
