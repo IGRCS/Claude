@@ -15,6 +15,7 @@ export const REGRAS_PADRAO = {
   presenteSemTime: 'mais-fraco', // presente "neutro" de quem não escolheu lado: 'mais-fraco' | 'aleatorio' | 'ignorar'
   autoIniciar: true, // o primeiro presente (ou curtida de quem tem time) já começa o round
   multiplicador: 1,
+  danoPorMoeda: 3, // cada moeda de presente tira 3 de vida (10 rosas = 30 = 10% da vida)
   // Luta automática: os dois lutadores trocam socos sozinhos durante o round, SEMPRE o mesmo número
   // para cada lado (sem favorecer ninguém) e espalhados ao acaso no tempo. Sem nomes, sem presentes.
   lutaAutomatica: false,
@@ -249,7 +250,7 @@ export class Jogo extends EventEmitter {
     return this.aleatorio() < 0.5 ? 0 : 1;
   }
 
-  presente({ usuario, presente, quantidade }) {
+  presente({ usuario, presente, quantidade, quantidadeCombo }) {
     if (!this.tema || !(quantidade > 0)) return null;
     let lado = this.ladoDoPresente(presente);
     let motivo = 'presente';
@@ -272,8 +273,13 @@ export class Jogo extends EventEmitter {
     }
     const moedas = Math.max(1, Number(presente?.moedas) || 1);
     const valor = moedas * quantidade;
-    const pontos = Math.max(1, Math.round(valor * (Number(this.regras.multiplicador) || 1)));
-    const golpe = valor >= this.regras.superAPartirDe ? 'super' : valor >= this.regras.especialAPartirDe ? 'especial' : 'soco';
+    const fator = (Number(this.regras.danoPorMoeda) || 1) * (Number(this.regras.multiplicador) || 1);
+    const pontos = Math.max(1, Math.round(valor * fator));
+    // nível do golpe pelo total do combo: o envio que passa de 99/299 moedas solta o especial/super
+    const nivel = (v) => (v >= this.regras.superAPartirDe ? 2 : v >= this.regras.especialAPartirDe ? 1 : 0);
+    const valorCombo = moedas * Math.max(quantidade, Number(quantidadeCombo) || 0);
+    const nivelAgora = nivel(valorCombo);
+    const golpe = nivelAgora > nivel(valorCombo - valor) ? ['soco', 'especial', 'super'][nivelAgora] : 'soco';
     return this.aplicarPontos(lado, pontos, { usuario, presente, quantidade, golpe, origem: 'presente', motivo, valor });
   }
 

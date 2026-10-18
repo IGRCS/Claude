@@ -404,20 +404,24 @@ body.transparente, body.transparente #palco { background: transparent !important
   right: 0;
   display: flex;
   justify-content: center;
-  gap: 14px;
+  gap: 10px;
   z-index: 4;
   pointer-events: none;
 }
 .instrucao {
-  padding: 8px 20px;
+  padding: 8px 16px;
   border-radius: 999px;
   background: rgba(0, 0, 0, 0.72);
   border: 3px solid rgba(255, 255, 255, 0.35);
   font-weight: 900;
-  font-size: 36px;
+  font-size: 31px;
   white-space: nowrap;
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
 }
+.instrucao.especial { border-color: #ff9f1a; }
+.instrucao.especial b { color: #ffb347; }
+.instrucao.super { border-color: #ff3df2; }
+.instrucao.super b { color: #ff7af5; }
 .instrucao b { color: var(--destaque); }
 .instrucao.curtir { animation: instrucao-pulso 2.4s ease-in-out infinite; will-change: transform; }
 @keyframes instrucao-pulso { 0%, 70%, 100% { transform: scale(1); } 80% { transform: scale(1.07); } }

@@ -278,8 +278,11 @@ jogo.on('mudou', () => {
 
 // ------------------------------------------------------------------ entrada de eventos (live ou simulação)
 function receberPresente(ev) {
-  const quantidade = combos.quantidadeNova(ev);
-  if (quantidade > 0) jogo.presente({ usuario: ev.usuario, presente: ev.presente, quantidade });
+  const grupo = ev.grupo ?? 1;
+  const quantidade = combos.quantidadeNova(ev) * grupo;
+  // quanto o combo já somou até aqui (ex.: 99 rosas em sequência viram golpe especial ao passar de 99)
+  const quantidadeCombo = Math.max(quantidade, (ev.repeatCount ?? 1) * grupo);
+  if (quantidade > 0) jogo.presente({ usuario: ev.usuario, presente: ev.presente, quantidade, quantidadeCombo });
 }
 function ligarFonte(fonte) {
   fonte.on('presente', receberPresente);

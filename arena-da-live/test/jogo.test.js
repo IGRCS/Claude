@@ -14,7 +14,7 @@ function montar(regras = {}, temaExtra = {}) {
     sorteio = (sorteio + 0.37) % 1;
     return sorteio;
   };
-  const jogo = new Jogo({ regras: { duracaoRoundSeg: 60, intervaloSeg: 5, vidaMax: 100, ...regras }, relogio, aleatorio });
+  const jogo = new Jogo({ regras: { duracaoRoundSeg: 60, intervaloSeg: 5, vidaMax: 100, danoPorMoeda: 1, ...regras }, relogio, aleatorio });
   const tema = validarTema('teste', {
     mapa: true,
     ...temaExtra,
@@ -337,4 +337,25 @@ test('luta automática desligada não soca nada', () => {
     jogo.tick();
   }
   assert.equal(eventos.filter((e) => e.origem === 'automatico').length, 0);
+});
+
+test('dano por moeda: 10 rosas tiram 10 × danoPorMoeda de vida', () => {
+  const { jogo } = montar({ danoPorMoeda: 3, vidaMax: 300 });
+  const ev = jogo.presente({ usuario: usuario('r'), presente: rosa, quantidade: 10 });
+  assert.equal(ev.pontos, 30);
+  assert.equal(jogo.lados[1].vida, 270);
+  assert.equal(ev.golpe, 'soco');
+});
+
+test('combo de rosas: o envio que passa de 99 moedas no total solta o golpe especial (uma vez)', () => {
+  const { jogo } = montar({ vidaMax: 100000, especialAPartirDe: 99, superAPartirDe: 299 });
+  const golpes = [];
+  let total = 0;
+  for (const delta of [40, 40, 40, 40]) {
+    total += delta;
+    golpes.push(jogo.presente({ usuario: usuario('c'), presente: rosa, quantidade: delta, quantidadeCombo: total }).golpe);
+  }
+  assert.deepEqual(golpes, ['soco', 'soco', 'especial', 'soco']);
+  // um presente único caro continua soltando super direto
+  assert.equal(jogo.presente({ usuario: usuario('c'), presente: presente(300), quantidade: 1 }).golpe, 'super');
 });

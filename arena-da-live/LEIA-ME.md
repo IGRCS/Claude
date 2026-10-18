@@ -79,7 +79,8 @@ conecte ele na sua live, e no painel escolha **"Pelo TikFinity aberto no PC"** �
 | Dá **curtidas** (já tendo time) | Cada pacote de curtidas vira uma rajada de soquinhos na hora; a cada 10 curtidas, 1 ponto de dano |
 | Comenta a **sigla do estado** (ex.: `BA`, `SP`) | Os pontos dela conquistam esse estado no mapa primeiro |
 
-- Cada **moeda = 1 ponto = 1 de dano**. Vida de cada lutador: 300. Round: 3 minutos.
+- Cada **moeda de presente tira 3 de vida** (10 rosas = 30 de dano; ajustável em "Dano por moeda"). Vida de cada lutador: 300. Round: 3 minutos.
+- Vários presentes de uma vez (botão x10) ou em combo somam: o envio que faz o total passar de **99 moedas** solta o **especial**, e o que passa de **299** solta o **super**. A tela mostra esses valores sempre, no topo do ringue.
 - Zerou a vida → **NOCAUTE**. Acabou o tempo → vence quem fez mais pontos no round.
 - Presente de quem ainda não escolheu lado vai para **quem está perdendo** (dá para mudar no painel).
 - **Luta automática** (botão "🥊 Luta automática" na barra do topo, ou em "5. Regras"): os dois lutadores trocam

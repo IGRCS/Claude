@@ -42,6 +42,8 @@ export function normalizarPresente(dados) {
       tipo: tipoBruto === undefined || tipoBruto === null ? null : Number(tipoBruto),
     },
     repeatCount: Math.max(1, Number(dados?.repeatCount) || 1),
+    // botão "x5/x10" do TikTok: vários presentes num envio só (groupCount)
+    grupo: Math.min(99, Math.max(1, Number(dados?.groupCount ?? dados?.giftDetails?.groupCount) || 1)),
     repeatEnd: dados?.repeatEnd === true || Number(dados?.repeatEnd) === 1,
     groupId: String(dados?.groupId ?? ''),
   };

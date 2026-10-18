@@ -105,3 +105,10 @@ test('combos de pessoas diferentes não se misturam', () => {
   assert.equal(r.quantidadeNova({ ...ev(2, false), usuario: { id: 'u2' } }), 2);
   assert.equal(r.quantidadeNova(ev(4, false)), 1);
 });
+
+test('presente com groupCount (botão x10) traz o grupo', async () => {
+  const { normalizarPresente } = await import('../src/normalizar.js');
+  const ev = normalizarPresente({ giftId: '5655', groupCount: 10, repeatCount: 1, repeatEnd: 1, gift: { name: 'Rose', diamondCount: 1, type: 1 }, user: { id: '1', nickname: 'A' } });
+  assert.equal(ev.grupo, 10);
+  assert.equal(normalizarPresente({ giftId: '1', gift: { name: 'X', diamondCount: 1 } }).grupo, 1);
+});

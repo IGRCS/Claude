@@ -308,6 +308,8 @@
     document.body.classList.toggle('sem-aviso', cfg.tela?.mostrarAviso === false);
     Sons.volume(Number(cfg.som?.volume ?? 0.6));
     Sons.ligar(!MUDO && cfg.som?.efeitos !== false);
+    $('.valor-especial').textContent = cfg.regras?.especialAPartirDe ?? 99;
+    $('.valor-super').textContent = cfg.regras?.superAPartirDe ?? 299;
     atualizarMusica();
   }
 
@@ -442,7 +444,8 @@
       const forca = ev.golpe === 'super' ? 3 : ev.golpe === 'especial' ? 2 : ev.golpe === 'jab' ? 0 : 1;
       efeitos.impacto(alvo.x - dir * 90, alvo.y + 30, cor, forca);
       const valor = ev.dano || ev.pontos;
-      if (valor > 0) numeroDano(ev.alvo, valor, cor, forte, ev.combo > 1 ? `COMBO x${ev.combo}` : ev.golpe === 'super' ? 'SUPER!' : '');
+      const rotulo = ev.golpe === 'super' ? 'SUPER!' : ev.golpe === 'especial' ? 'ESPECIAL!' : ev.quantidade > 1 && ev.origem === 'presente' ? `${ev.quantidade}× ${ev.presente?.nome ?? ''}`.trim() : ev.combo > 1 ? `COMBO x${ev.combo}` : '';
+      if (valor > 0) numeroDano(ev.alvo, valor, cor, forte || ev.quantidade >= 5, rotulo);
       Sons.tocar(ev.golpe);
       if (forte) tremer(ev.golpe === 'super');
       if (ev.golpe === 'super') anunciar('SUPER GOLPE!', ev.nome ? `de ${ev.nome}` : '');
@@ -874,7 +877,14 @@
       for (let i = 0; i < n; i++) filaGolpes.push(ev);
       return;
     }
-    if (!ev.guardado) filaGolpes.push(ev);
+    if (!ev.guardado) {
+      // 10 rosas: rajada de soquinhos e o soco final mostra o dano total
+      if (ev.origem === 'presente' && ev.golpe === 'soco' && ev.quantidade > 1) {
+        const extras = Math.min(4, ev.quantidade - 1);
+        for (let i = 0; i < extras; i++) filaGolpes.push({ lado: ev.lado, alvo: ev.alvo, golpe: 'jab', pontos: 0, dano: 0, rajada: true });
+      }
+      filaGolpes.push(ev);
+    }
     if (ev.origem === 'presente' && ev.presente) {
       const icone = ev.presente.imagem ? `<img src="${esc(ev.presente.imagem)}" alt=""> ` : '🎁 ';
       const extra = ev.motivo === 'sem-time' ? ' (sem time: foi pro lado que está perdendo)' : '';
