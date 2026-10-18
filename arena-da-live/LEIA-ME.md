@@ -76,7 +76,7 @@ conecte ele na sua live, e no painel escolha **"Pelo TikFinity aberto no PC"** �
 | Comenta **13** (LULE) ou **22** (FLABIO), ou o nome do lutador (ex.: `lule`, `#flabio`) | Entra no time. A partir daí **qualquer presente** dela ajuda esse lado |
 | Manda presente de **99+ moedas** de uma vez | **Golpe especial** (tela treme) |
 | Manda presente de **299+ moedas** de uma vez | **SUPER GOLPE** com anúncio na tela |
-| Dá **curtidas** (já tendo time) | A cada 30 curtidas, 1 ponto (soquinho) |
+| Dá **curtidas** (já tendo time) | Cada curtida já mostra um soquinho; a cada 10 curtidas, 1 ponto de dano |
 | Comenta a **sigla do estado** (ex.: `BA`, `SP`) | Os pontos dela conquistam esse estado no mapa primeiro |
 
 - Cada **moeda = 1 ponto = 1 de dano**. Vida de cada lutador: 300. Round: 3 minutos.
@@ -159,6 +159,7 @@ a partir de `ferramentas/personagens.mjs` (cores, cabelo, barba, camisa…). Par
 | Conecta mas não chegam comentários/curtidas/presentes | Veja a linha **"Eventos recebidos da live"** no card 1 do painel. Se ficar em "nenhum", a causa mais comum é a live/perfil **restrito a maiores de 18 anos** (desligue em Configurações e privacidade do app). Confira também se o @ é o da conta que está ao vivo. Se continuar, use o **plano B (TikFinity)**. |
 | Bonecos não falam | Painel → Testar voz. No OBS marque "Controlar áudio pelo OBS". Veja a linha de status da voz no painel. |
 | Num navegador comum aparece "Clique aqui para ativar o som" | Normal (regra dos navegadores). No OBS isso não aparece. |
+| Jogo travando na live | No LIVE Studio, ligue **"Manter sempre ativo"** na fonte Link. No painel, clique **⏸ Pausar** na prévia durante a live (ela é uma 2ª cópia do jogo). Feche abas e programas pesados. |
 | "A porta 3000 já está em uso" | Feche a outra janela do programa, ou mude `"porta"` no `config.json`. |
 | Quero recomeçar o placar | Painel → "Zerar tudo". |
 

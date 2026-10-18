@@ -39,7 +39,10 @@
     <section class="card" id="card-previa">
       <div class="titulo-previa">
         <h2>Prévia da tela</h2>
-        <button id="previa-som" class="secundario" title="Ouvir as vozes e os sons da luta aqui no painel">🔇 Som da prévia</button>
+        <span class="botoes-previa">
+          <button id="previa-pausa" class="secundario" title="Durante a live, pause a prévia: ela é uma 2ª cópia do jogo e pesa no PC">⏸ Pausar</button>
+          <button id="previa-som" class="secundario" title="Ouvir as vozes e os sons da luta aqui no painel">🔇 Som da prévia</button>
+        </span>
       </div>
       <div id="previa-caixa"><iframe id="previa" src="/overlay/?previa=1" allow="autoplay" title="Prévia"></iframe></div>
       <p id="previa-aviso" class="dica" hidden></p>

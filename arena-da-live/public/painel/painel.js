@@ -312,6 +312,24 @@
       toast('Não consegui gerar a voz. Veja a mensagem de erro abaixo dos botões.', true);
     }
   }
+  // pausar a prévia alivia o PC durante a live
+  let previaPausada = false;
+  try { previaPausada = localStorage.getItem('arena:previaPausada') === '1'; } catch {}
+  function aplicarPausaPrevia() {
+    const iframe = iframePrevia();
+    const alvo = previaPausada ? 'about:blank' : '/overlay/?previa=1';
+    if (iframe.getAttribute('src') !== alvo) iframe.setAttribute('src', alvo);
+    $('#previa-caixa').classList.toggle('pausada', previaPausada);
+    $('#previa-pausa').textContent = previaPausada ? '▶ Retomar' : '⏸ Pausar';
+  }
+  aplicarPausaPrevia();
+  $('#previa-pausa').addEventListener('click', () => {
+    previaPausada = !previaPausada;
+    try { localStorage.setItem('arena:previaPausada', previaPausada ? '1' : '0'); } catch {}
+    aplicarPausaPrevia();
+    toast(previaPausada ? 'Prévia pausada: o PC fica mais leve.' : 'Prévia retomada.');
+  });
+
   mostrarSomPrevia();
   $('#previa-som').addEventListener('click', () => {
     somPrevia = !somPrevia;

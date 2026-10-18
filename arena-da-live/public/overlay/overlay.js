@@ -274,6 +274,7 @@
 
   function aplicarTema(t, c) {
     tema = t;
+    preCarregarVozes(t.audios);
     cfg = c || cfg;
     const raiz = document.documentElement.style;
     t.lados.forEach((l, i) => {
@@ -412,7 +413,7 @@
     const cor = tema.lados[ev.lado].cor;
     const forte = ev.golpe === 'especial' || ev.golpe === 'super';
     const pose = forte ? 'especial' : 'soco';
-    const alcance = ev.golpe === 'jab' ? 30 : ev.golpe === 'soco' ? 70 : ev.golpe === 'especial' ? 110 : 140;
+    const alcance = ev.golpe === 'jab' ? 50 : ev.golpe === 'soco' ? 70 : ev.golpe === 'especial' ? 110 : 140;
     const tempoImpacto = forte ? 210 : 110;
     a.pose(pose);
     a.corpo.animate(
@@ -434,7 +435,7 @@
         ],
         { duration: forte ? 560 : 360, easing: 'ease-out' },
       );
-      d.img.animate([{ filter: 'brightness(1)' }, { filter: 'brightness(2.4) saturate(0.3)' }, { filter: 'brightness(1)' }], { duration: 220 });
+      d.img.animate([{ opacity: 1 }, { opacity: 0.45 }, { opacity: 1 }], { duration: 200 }); // piscada leve (filter pesava)
       const alvo = CABECA[ev.alvo];
       const forca = ev.golpe === 'super' ? 3 : ev.golpe === 'especial' ? 2 : ev.golpe === 'jab' ? 0 : 1;
       efeitos.impacto(alvo.x - dir * 90, alvo.y + 30, cor, forca);
@@ -587,6 +588,28 @@
     }
   }
 
+  // Pré-carrega todas as vozes gravadas do tema (assim a fala sai junto com o golpe, sem esperar download).
+  const bytesGravados = new Map();
+  async function preCarregarVozes(lista) {
+    for (const url of lista ?? []) {
+      if (bytesGravados.has(url)) continue;
+      try {
+        const r = await fetch(url);
+        if (r.ok) bytesGravados.set(url, await r.arrayBuffer());
+      } catch {}
+    }
+    decodificarPreCarregadas();
+  }
+  async function decodificarPreCarregadas() {
+    const ctx = Sons.contexto();
+    if (!ctx || ctx.state !== 'running') return;
+    for (const [url, bytes] of bytesGravados) {
+      if (buffersGravados.has(url)) continue;
+      const buffer = await decodificar(bytes.slice(0));
+      if (buffer) buffersGravados.set(url, buffer);
+    }
+  }
+
   // Áudio gravado (arquivo do tema) tem prioridade sobre a voz sintética.
   async function tocarGravado(f) {
     const ctx = Sons.contexto();
@@ -594,13 +617,10 @@
       let buffer = buffersGravados.get(f.gravado);
       if (!buffer) {
         try {
-          const r = await fetch(f.gravado);
-          if (r.ok) buffer = await decodificar(await r.arrayBuffer());
+          const bytes = bytesGravados.get(f.gravado) ?? (await (await fetch(f.gravado)).arrayBuffer());
+          buffer = await decodificar(bytes.slice(0));
         } catch {}
-        if (buffer) {
-          buffersGravados.set(f.gravado, buffer);
-          if (buffersGravados.size > 80) buffersGravados.delete(buffersGravados.keys().next().value);
-        }
+        if (buffer) buffersGravados.set(f.gravado, buffer);
       }
       const tocou = tocarNoContexto(buffer);
       if (tocou) return tocou;
@@ -714,6 +734,7 @@
   botaoSom.addEventListener('click', async () => {
     await Sons.destravar();
     somLiberado = true;
+    decodificarPreCarregadas();
     botaoSom.hidden = true;
     if (CELULAR) telaCheia();
   });
@@ -733,6 +754,7 @@
       if (!somLiberado) {
         await Sons.destravar().catch(() => {});
         somLiberado = true;
+        decodificarPreCarregadas();
         botaoSom.hidden = true;
       }
     });
@@ -741,7 +763,7 @@
     Sons.iniciar();
     setTimeout(() => {
       const c = Sons.contexto();
-      if (c && c.state === 'running') somLiberado = true;
+      if (c && c.state === 'running') { somLiberado = true; decodificarPreCarregadas(); }
       else pedirSom();
     }, 400);
   }
@@ -762,6 +784,7 @@
         Sons.iniciar();
         await Sons.destravar().catch(() => {});
         somLiberado = true;
+        decodificarPreCarregadas();
       }
       if (cfg) aplicarConfig(cfg);
     });

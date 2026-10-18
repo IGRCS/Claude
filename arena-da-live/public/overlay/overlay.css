@@ -46,23 +46,13 @@ body.transparente, body.transparente #palco { background: transparent !important
   top: -200px;
   width: 520px;
   height: 1700px;
-  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.18), rgba(255, 255, 255, 0));
-  filter: blur(18px);
+  /* sem blur/blend animados (pesavam muito no LIVE Studio/OBS): o feixe gira só com transform */
+  background: linear-gradient(to bottom, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0));
   clip-path: polygon(45% 0, 55% 0, 100% 100%, 0 100%);
-  mix-blend-mode: screen;
-  animation: varrer 9s ease-in-out infinite alternate;
+  /* feixes parados: girar estes elementos enormes derrubava a tela de ~60 para ~25 quadros por segundo */
 }
 .holofote.h1 { left: -60px; transform-origin: 50% 0; transform: rotate(-16deg); }
-.holofote.h2 { right: -60px; transform-origin: 50% 0; transform: rotate(16deg); animation-delay: -4.5s; }
-@keyframes varrer {
-  from { transform: rotate(-22deg); opacity: 0.7; }
-  to { transform: rotate(14deg); opacity: 1; }
-}
-.holofote.h2 { animation-name: varrer2; }
-@keyframes varrer2 {
-  from { transform: rotate(22deg); opacity: 0.7; }
-  to { transform: rotate(-14deg); opacity: 1; }
-}
+.holofote.h2 { right: -60px; transform-origin: 50% 0; transform: rotate(16deg); }
 #plateia {
   position: absolute;
   left: 0;
@@ -211,7 +201,9 @@ body.transparente, body.transparente #palco { background: transparent !important
   padding: 2px 14px 0;
   text-shadow: none;
   box-shadow: 0 5px 0 rgba(0, 0, 0, 0.35);
+  display: inline-block;
   animation: dica-pulso 1.6s ease-in-out infinite;
+  will-change: transform;
 }
 @keyframes dica-pulso { 50% { transform: scale(1.08); } }
 .cartao-dica .membros { font-family: var(--texto); font-weight: 900; font-size: 28px; opacity: 0.95; text-shadow: none; }
@@ -385,7 +377,7 @@ body.transparente, body.transparente #palco { background: transparent !important
 }
 .lutador[data-lado="0"] { left: -40px; }
 .lutador[data-lado="1"] { left: 520px; }
-.lutador-bob { width: 100%; height: 100%; animation: respirar 1.25s ease-in-out infinite alternate; }
+.lutador-bob { width: 100%; height: 100%; animation: respirar 1.25s ease-in-out infinite alternate; will-change: transform; }
 .lutador[data-lado="1"] .lutador-bob { animation-delay: -0.6s; }
 @keyframes respirar {
   from { transform: translateY(0) scaleY(1); }
@@ -394,12 +386,13 @@ body.transparente, body.transparente #palco { background: transparent !important
 .lutador.travado .lutador-bob { animation: none; }
 .lutador.vitoria .lutador-bob { animation: pular 0.55s ease-in-out infinite alternate; }
 @keyframes pular { to { transform: translateY(-36px); } }
-.lutador-corpo { width: 100%; height: 100%; transform-origin: 50% 96%; }
+.lutador-corpo { width: 100%; height: 100%; transform-origin: 50% 96%; will-change: transform; }
 .lutador[data-lado="0"].caido .lutador-corpo { transform: translate(30px, 50px) rotate(76deg); }
 .lutador[data-lado="1"].caido .lutador-corpo { transform: translate(-30px, 50px) rotate(-76deg); }
 .lutador-img { width: 100%; height: 100%; object-fit: contain; object-position: bottom center; display: block; transform-origin: 50% 100%; transform: scale(var(--escala, 1)); }
 .lutador[data-lado="1"] .lutador-img { transform: scale(calc(var(--escala, 1) * -1), var(--escala, 1)); }
-.lutador.falando .lutador-img { filter: drop-shadow(0 0 22px rgba(255, 255, 255, 0.55)); }
+/* quem fala só "cresce" um pouco: sombra/brilho com filter em imagem grande travava a tela */
+.lutador.falando .lutador-bob { animation-duration: 0.35s; }
 
 #efeitos { position: absolute; inset: 0; pointer-events: none; }
 #numeros { position: absolute; inset: 0; pointer-events: none; }

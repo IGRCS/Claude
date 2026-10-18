@@ -204,8 +204,23 @@ test('curtidas de quem tem time viram pontos', () => {
   assert.equal(jogo.lados[1].curtidas, 5);
 });
 
-test('curtidas não começam o round sozinhas', () => {
-  const { jogo } = montar();
+test('curtida de quem tem time começa o round e sempre dá um soquinho visível', () => {
+  const { jogo } = montar({ curtidasPorPonto: 10 });
+  const soquinhos = [];
+  jogo.on('soquinho', (e) => soquinhos.push(e));
+  jogo.curtidas({ usuario: usuario('semtime'), quantidade: 5 });
+  assert.equal(jogo.fase, 'aguardando', 'sem time não faz nada');
+  jogo.comentario({ usuario: usuario('c'), texto: '1' });
+  assert.equal(jogo.curtidas({ usuario: usuario('c'), quantidade: 3 }), null);
+  assert.equal(jogo.fase, 'lutando');
+  assert.deepEqual(soquinhos.map((e) => e.lado), [0]);
+  const ev = jogo.curtidas({ usuario: usuario('c'), quantidade: 8 });
+  assert.equal(ev.golpe, 'jab');
+  assert.equal(ev.pontos, 1);
+});
+
+test('curtidas não começam o round se o início automático estiver desligado', () => {
+  const { jogo } = montar({ autoIniciar: false });
   jogo.comentario({ usuario: usuario('c'), texto: '1' });
   jogo.curtidas({ usuario: usuario('c'), quantidade: 300 });
   assert.equal(jogo.fase, 'aguardando');

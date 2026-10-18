@@ -31,7 +31,7 @@ export const CONFIG_PADRAO = {
     falarNome: false, // true = a voz fala o nome de quem mandou (por voz sintética); false = nome só no balão
     intervaloMinimoSeg: 3, // tempo mínimo entre falas do mesmo lutador (golpes comuns)
     falarPresentesAPartirDe: 1, // pontos mínimos de um envio comum para o boneco falar
-    maxFila: 4,
+    maxFila: 2,
   },
   voz: {
     motor: 'auto', // 'auto' (Edge e, se falhar, Google) | 'edge' | 'google' | 'navegador' | 'desligado'
@@ -59,6 +59,12 @@ export class Config {
     try {
       const texto = (await readFile(this.caminho, 'utf8')).replace(/^﻿/, '');
       this.dados = mesclar(CONFIG_PADRAO, JSON.parse(texto));
+      // padrão antigo de curtidas (30) era lento demais na live: vira 10 uma única vez
+      if (!this.dados.migracoes?.curtidas10) {
+        if (this.dados.regras?.curtidasPorPonto === 30) this.dados.regras.curtidasPorPonto = 10;
+        if (this.dados.falas?.maxFila === 4) this.dados.falas.maxFila = 2; // fila curta = fala no tempo do golpe
+        this.dados.migracoes = { ...this.dados.migracoes, curtidas10: true };
+      }
     } catch (erro) {
       if (erro.code !== 'ENOENT') {
         console.error(`[config] Não consegui ler ${this.caminho}: ${erro.message}. Usando o padrão.`);

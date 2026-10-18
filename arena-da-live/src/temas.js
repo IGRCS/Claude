@@ -132,5 +132,17 @@ export function temaParaTela(tema) {
       voz: l.voz,
     })),
     narrador: { voz: tema.narrador.voz },
+    // vozes gravadas: a tela baixa todas de uma vez ao abrir, para a fala sair sem atraso
+    audios: [
+      ...new Set(
+        tema.lados.flatMap((l) =>
+          Object.values(l.frases ?? {})
+            .flat()
+            .map((f) => (f && typeof f === 'object' ? f.audio : null))
+            .filter(Boolean)
+            .map((a) => (/^https?:/.test(a) ? a : `${tema.base}${a}`)),
+        ),
+      ),
+    ],
   };
 }

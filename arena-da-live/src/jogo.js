@@ -10,10 +10,10 @@ export const REGRAS_PADRAO = {
   vidaMax: 300, // vida de cada lutador (1 ponto = 1 de dano)
   especialAPartirDe: 99, // moedas num único envio para soltar golpe especial
   superAPartirDe: 299, // moedas num único envio para soltar super golpe
-  curtidasPorPonto: 30, // curtidas de quem já tem time viram 1 ponto
+  curtidasPorPonto: 10, // curtidas de quem já tem time viram 1 ponto (toda curtida já dá um soquinho visual)
   pontosPorEstado: 20, // pontos para conquistar um estado no mapa
   presenteSemTime: 'mais-fraco', // presente "neutro" de quem não escolheu lado: 'mais-fraco' | 'aleatorio' | 'ignorar'
-  autoIniciar: true, // o primeiro presente já começa o round
+  autoIniciar: true, // o primeiro presente (ou curtida de quem tem time) já começa o round
   multiplicador: 1,
 };
 
@@ -245,10 +245,15 @@ export class Jogo extends EventEmitter {
     if (!this.tema || !(this.regras.curtidasPorPonto > 0)) return null;
     const lado = this.times.get(usuario.id);
     if (lado === undefined) return null;
+    if (this.fase === 'aguardando' && this.regras.autoIniciar) this.iniciarRound();
     const l = this.lados[lado];
     l.curtidas += Math.max(0, Number(quantidade) || 0);
     const N = this.regras.curtidasPorPonto;
-    if (l.curtidas < N) return null;
+    if (l.curtidas < N) {
+      // ainda não deu 1 ponto, mas a curtida aparece na hora como um soquinho (sem dano)
+      if (this.fase === 'lutando') this.emit('soquinho', { lado, alvo: 1 - lado, usuario });
+      return null;
+    }
     const pontos = Math.floor(l.curtidas / N);
     l.curtidas -= pontos * N;
     return this.aplicarPontos(lado, pontos, { usuario, presente: null, quantidade: 0, golpe: 'jab', origem: 'curtida' });
@@ -306,7 +311,7 @@ export class Jogo extends EventEmitter {
 
   // ------------------------------------------------------------ pontos, dano e mapa
   aplicarPontos(lado, pontos, info) {
-    if (this.fase === 'aguardando' && this.regras.autoIniciar && info.origem === 'presente') this.iniciarRound();
+    if (this.fase === 'aguardando' && this.regras.autoIniciar && (info.origem === 'presente' || info.origem === 'curtida')) this.iniciarRound();
     const atacante = this.lados[lado];
     const alvo = this.lados[1 - lado];
     atacante.total += pontos;

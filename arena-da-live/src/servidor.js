@@ -208,6 +208,7 @@ setInterval(() => {
 
 // ------------------------------------------------------------------ eventos do jogo -> telas
 const logPresentes = [];
+jogo.on('soquinho', (ev) => io.emit('ataque', { lado: ev.lado, alvo: ev.alvo, pontos: 0, dano: 0, golpe: 'jab', origem: 'curtida', visual: true }));
 jogo.on('ataque', (ev) => {
   io.emit('ataque', {
     lado: ev.lado,
