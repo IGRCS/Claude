@@ -29,6 +29,7 @@
         <span class="grupo-titulo">Simular</span>
         <button data-sim="estado" class="secundario" title="Alguém comenta a sigla de um estado">Estado</button>
         <button data-sim="seguir" class="secundario" title="Alguém segue a live">Seguir</button>
+        <button id="luta-auto" class="secundario" title="Os dois lutadores trocam socos sozinhos, mesmo número para cada lado (vale com a live conectada)">🥊 Luta automática</button>
         <button id="sim-auto" class="primario">▶ Simulação automática</button>
       </div>
     </nav>
@@ -184,6 +185,8 @@
         </select>
       </label>
       <label class="check"><input type="checkbox" data-config="regras.autoIniciar"> O primeiro presente já começa o round</label>
+      <label class="check"><input type="checkbox" data-config="regras.lutaAutomatica"> Luta automática: os lutadores trocam socos sozinhos (mesmo número para cada lado, em momentos aleatórios do round)</label>
+      <label>Socos automáticos por lado, por round <input type="number" min="0" max="300" data-config="regras.socosAutomaticosPorRound" data-tipo="numero"></label>
       <h3>Tela e som</h3>
       <label class="check"><input type="checkbox" data-config="tela.mostrarMapa"> Mostrar mapa do Brasil</label>
       <label class="check"><input type="checkbox" data-config="tela.mostrarAviso"> Mostrar aviso de humor no rodapé</label>

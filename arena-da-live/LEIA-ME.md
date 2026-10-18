@@ -82,6 +82,9 @@ conecte ele na sua live, e no painel escolha **"Pelo TikFinity aberto no PC"** �
 - Cada **moeda = 1 ponto = 1 de dano**. Vida de cada lutador: 300. Round: 3 minutos.
 - Zerou a vida → **NOCAUTE**. Acabou o tempo → vence quem fez mais pontos no round.
 - Presente de quem ainda não escolheu lado vai para **quem está perdendo** (dá para mudar no painel).
+- **Luta automática** (botão "🥊 Luta automática" na barra do topo, ou em "5. Regras"): os dois lutadores trocam
+  socos sozinhos, **sempre o mesmo número para cada lado por round** (padrão: 40), em momentos aleatórios. Não usa nomes
+  nem presentes e não favorece ninguém: quem decide a luta continua sendo o público.
 - Tudo isso é ajustável no painel, seção **"5. Regras"**.
 
 ## 5. Falas e voz dos bonecos

@@ -407,6 +407,7 @@ const comandos = {
     if (d.secao === 'falas' || d.secao === 'filtro') narrador.configurar({ falas: cfg().falas, filtro: cfg().filtro });
     enviarTema();
     enviarEstado(true);
+    enviarPainel();
   },
   // Simulação só fora da live: presentes falsos na tela de uma live real enganam o público
   // (e o TikTok pune como "solicitação artificial de presente").

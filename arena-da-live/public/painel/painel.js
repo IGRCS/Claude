@@ -198,6 +198,9 @@
       ? `Última voz gerada por: ${v.ultimoMotor === 'edge' ? 'Microsoft Edge' : 'Google'}${v.ultimoErro ? ` • último erro: ${v.ultimoErro}` : ''}`
       : v.ultimoErro ? `Erro de voz: ${v.ultimoErro}` : 'Nenhuma voz gerada ainda. Clique em "Testar voz".';
     $('#sim-auto').textContent = d.simulacaoAutomatica ? '⏹ Parar simulação automática' : '▶ Simulação automática';
+    const lutaAuto = Boolean(d.config.regras?.lutaAutomatica);
+    $('#luta-auto').textContent = lutaAuto ? '🥊 Luta automática: LIGADA' : '🥊 Luta automática: desligada';
+    $('#luta-auto').className = lutaAuto ? 'primario' : 'secundario';
   }
 
   function nomesLados() {
@@ -352,6 +355,11 @@
     ),
   );
   $('#sim-auto').addEventListener('click', () => cmd('simulacaoAutomatica', { ligar: !info?.simulacaoAutomatica }));
+  $('#luta-auto').addEventListener('click', async () => {
+    const ligar = !info?.config.regras?.lutaAutomatica;
+    const r = await cmd('salvarConfig', { secao: 'regras', valores: { lutaAutomatica: ligar } });
+    if (r.ok) toast(ligar ? 'Luta automática ligada: mesmo número de socos para cada lado.' : 'Luta automática desligada.');
+  });
 
   // campos de configuração salvam sozinhos ao mudar
   for (const el of $$('[data-config], #tiktok-usuario, #tiktok-fonte, #ag-ativa, #ag-quando, #ag-de, #ag-para')) {

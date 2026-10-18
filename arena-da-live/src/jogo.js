@@ -15,6 +15,10 @@ export const REGRAS_PADRAO = {
   presenteSemTime: 'mais-fraco', // presente "neutro" de quem não escolheu lado: 'mais-fraco' | 'aleatorio' | 'ignorar'
   autoIniciar: true, // o primeiro presente (ou curtida de quem tem time) já começa o round
   multiplicador: 1,
+  // Luta automática: os dois lutadores trocam socos sozinhos durante o round, SEMPRE o mesmo número
+  // para cada lado (sem favorecer ninguém) e espalhados ao acaso no tempo. Sem nomes, sem presentes.
+  lutaAutomatica: false,
+  socosAutomaticosPorRound: 40, // por lado, por round (1 ponto cada)
 };
 
 const limparPalavra = (p) => normalizarTexto(p).replace(/^[#!/]+/, '').trim();
@@ -47,7 +51,10 @@ export class Jogo extends EventEmitter {
   }
 
   definirRegras(regras) {
+    const antes = { liga: this.regras.lutaAutomatica, n: this.regras.socosAutomaticosPorRound };
     this.regras = { ...this.regras, ...regras };
+    // ligou/desligou ou mudou a quantidade no meio do round: refaz a agenda do tempo que falta
+    if (antes.liga !== this.regras.lutaAutomatica || antes.n !== this.regras.socosAutomaticosPorRound) this.agendarLutaAutomatica();
     // A vida nova vale a partir do próximo round (no meio da luta só limita ao novo máximo).
     for (const l of this.lados) {
       if (this.fase === 'aguardando') {
@@ -63,6 +70,7 @@ export class Jogo extends EventEmitter {
   }
 
   zerarTudo(emitir = true) {
+    this.agendaAuto = null;
     this.fase = 'aguardando';
     this.round = 1;
     this.fimRoundEm = 0;
@@ -94,6 +102,7 @@ export class Jogo extends EventEmitter {
     }
     this.fase = 'lutando';
     this.fimRoundEm = this.relogio() + this.regras.duracaoRoundSeg * 1000;
+    this.agendarLutaAutomatica();
     this.aplicarPendentes();
     this.emit('novoRound', { round: this.round });
     this.mudou();
@@ -126,9 +135,36 @@ export class Jogo extends EventEmitter {
     this.mudou();
   }
 
+  // Sorteia os momentos dos socos automáticos do que resta do round: N para cada lado (mesmo N),
+  // guardados como "ms restantes", assim pausar/retomar não bagunça a agenda.
+  agendarLutaAutomatica() {
+    this.agendaAuto = [];
+    if (!this.regras.lutaAutomatica || this.fase !== 'lutando') return;
+    const totalMs = this.regras.duracaoRoundSeg * 1000;
+    const restante = Math.max(0, this.fimRoundEm - this.relogio());
+    const n = Math.max(0, Math.round((Number(this.regras.socosAutomaticosPorRound) || 0) * (restante / totalMs)));
+    for (const lado of [0, 1]) {
+      for (let i = 0; i < n; i++) {
+        // fica longe do comecinho e do finalzinho do round
+        const r = restante * (0.03 + this.aleatorio() * 0.92);
+        this.agendaAuto.push({ restante: r, lado });
+      }
+    }
+    this.agendaAuto.sort((x, y) => y.restante - x.restante);
+  }
+
   // Chamado algumas vezes por segundo pelo servidor.
   tick() {
     const agora = this.relogio();
+    if (this.fase === 'aguardando' && this.regras.lutaAutomatica) this.iniciarRound(); // luta nunca fica parada
+    if (this.fase === 'lutando' && this.regras.lutaAutomatica) {
+      if (!this.agendaAuto) this.agendarLutaAutomatica(); // ex.: programa reiniciou no meio do round
+      const restante = this.fimRoundEm - agora;
+      while (this.fase === 'lutando' && this.agendaAuto.length && this.agendaAuto[0].restante >= restante) {
+        const { lado } = this.agendaAuto.shift();
+        this.aplicarPontos(lado, 1, { usuario: null, presente: null, quantidade: 0, golpe: 'jab', origem: 'automatico' });
+      }
+    }
     if (this.fase === 'lutando' && agora >= this.fimRoundEm) {
       this.finalizarRound(null, 'tempo');
     } else if (this.fase === 'intervalo' && agora >= this.intervaloAte) {

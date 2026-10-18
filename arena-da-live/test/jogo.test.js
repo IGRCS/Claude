@@ -310,3 +310,31 @@ test('mudar as regras no intervalo não "ressuscita" a barra de vida; vale no pr
   assert.equal(jogo.lados[1].vida, 500);
   assert.equal(jogo.lados[1].vidaMax, 500);
 });
+
+test('luta automática: mesmo número de socos para cada lado em cada round, sem nomes', () => {
+  const { jogo, avancar, eventos } = montar({ lutaAutomatica: true, socosAutomaticosPorRound: 12, duracaoRoundSeg: 60, vidaMax: 1000 });
+  jogo.tick(); // começa sozinho
+  assert.equal(jogo.fase, 'lutando');
+  for (let i = 0; i < 70; i++) {
+    avancar(1000);
+    jogo.tick();
+  }
+  const idxFim = eventos.findIndex((e) => e.nome === 'fimRound');
+  const auto = eventos.slice(0, idxFim).filter((e) => e.nome === 'ataque' && e.origem === 'automatico');
+  const porLado = [0, 1].map((l) => auto.filter((e) => e.lado === l).length);
+  assert.equal(porLado[0], 12, `lado 0: ${porLado[0]}`);
+  assert.equal(porLado[0], porLado[1], 'os dois lados levam o mesmo número de socos');
+  assert.ok(auto.every((e) => e.usuario === null && e.golpe === 'jab'));
+  const fim = eventos.find((e) => e.nome === 'fimRound');
+  assert.equal(fim.vencedor, null, 'só com socos automáticos o round empata');
+});
+
+test('luta automática desligada não soca nada', () => {
+  const { jogo, avancar, eventos } = montar({ duracaoRoundSeg: 60 });
+  jogo.iniciar();
+  for (let i = 0; i < 30; i++) {
+    avancar(1000);
+    jogo.tick();
+  }
+  assert.equal(eventos.filter((e) => e.origem === 'automatico').length, 0);
+});
