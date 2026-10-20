@@ -97,8 +97,9 @@ window.renderizar = async (p) => {
     j.cabeca.rotation.set(0.05, 0, 0);
     c.add(l);
     l.updateMatrixWorld(true);
-    const pc = new THREE.Vector3(0, 0.12, 0).applyMatrix4(j.cabeca.matrixWorld);
-    const cam = new THREE.PerspectiveCamera(24, 1, 0.1, 10);
+    const biscoito = Boolean(PERSONAGENS[tema.ids[p.lado]].cabeca);
+    const pc = new THREE.Vector3(0, biscoito ? 0.11 : 0.12, 0).applyMatrix4(j.cabeca.matrixWorld);
+    const cam = new THREE.PerspectiveCamera(biscoito ? 30 : 24, 1, 0.1, 10);
     const frente = new THREE.Vector3(0, 0, 1).applyQuaternion(j.coluna.getWorldQuaternion(new THREE.Quaternion())).setY(0).normalize();
     cam.position.copy(pc).addScaledVector(frente, 1.3).add(new THREE.Vector3(0, 0.02, 0));
     cam.lookAt(pc);

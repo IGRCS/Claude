@@ -28,11 +28,24 @@ export const PERSONAGENS = {
     camisa: '#f4f4f4', listras: { cor: '#141414', padrao: 'v', largura: 0.06 }, detalhe: '#141414', emblema: 'nenhum',
     short: '#161616', brilhoShort: '#888888', luva: '#1e1e1e', punho: '#ffffff', bota: '#f2f2f2', sola: '#141414',
   },
+  biscoito: {
+    cabeca: 'biscoito', pele: '#d8943f', porte: 1.08, atletico: 1, barriga: 0.2,
+    cabelo: { estilo: 'nenhum', cor: '#000' }, sobrancelha: '#4a2a14', olhos: '#3b2617',
+    camisa: '#ff8a00', detalhe: '#ffffff', emblema: 'biscoito', corEmblema: '#ffffff',
+    short: '#e06a00', brilhoShort: '#ffd2a0', luva: '#ff9800', punho: '#ffffff', bota: '#f2f2f2', sola: '#e06a00',
+  },
+  bolacha: {
+    cabeca: 'bolacha', pele: '#efc56c', porte: 1.04, atletico: 0.8, barriga: 0.4,
+    cabelo: { estilo: 'nenhum', cor: '#000' }, sobrancelha: '#6b4a1c', olhos: '#2a4a8a',
+    camisa: '#2f6fe0', detalhe: '#ffffff', emblema: 'bolacha', corEmblema: '#ffffff',
+    short: '#2459b8', brilhoShort: '#a8c8ff', luva: '#3b82f6', punho: '#ffffff', bota: '#f2f2f2', sola: '#2459b8',
+  },
 };
 
 // tema -> lutadores (esquerda, direita) e textos do cenário
 export const TEMAS = {
   eleicao: { ids: ['lule', 'flabio'], cores: ['#e0262e', '#12b04f'], telao: 'LULE  VS  FLABIO', logo: 'ARENA DA LIVE' },
+  'biscoito-vs-bolacha': { ids: ['biscoito', 'bolacha'], cores: ['#ff8a00', '#2f6fe0'], telao: 'BISCOITO  VS  BOLACHA', logo: 'ARENA DA LIVE' },
   'rubro-negro-vs-alvinegro': { ids: ['rubro', 'alvi'], cores: ['#d01f2e', '#e9e9e9'], telao: 'CLÁSSICO NA ARENA', logo: 'ARENA DA LIVE' },
 };
 

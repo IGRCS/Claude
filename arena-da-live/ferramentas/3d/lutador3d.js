@@ -50,6 +50,22 @@ function emblema(tipo, cor, fundo) {
     g.arc(128, 128, 52, 0, Math.PI * 2);
     g.fillStyle = cor;
     g.fill();
+  } else if (tipo === 'biscoito' || tipo === 'bolacha') {
+    g.beginPath();
+    for (let i = 0; i <= 72; i++) {
+      const t = (i / 72) * Math.PI * 2;
+      const r = tipo === 'bolacha' ? 100 + 8 * Math.cos(18 * t) : 104;
+      g.lineTo(128 + r * Math.cos(t), 128 + r * Math.sin(t));
+    }
+    g.fillStyle = tipo === 'bolacha' ? '#f3d27e' : '#d9963f';
+    g.fill();
+    g.stroke();
+    g.fillStyle = tipo === 'bolacha' ? '#c99a3a' : '#3b1f10';
+    for (const [x, y] of [[90, 90], [160, 80], [120, 140], [175, 155], [80, 165], [140, 200]]) {
+      g.beginPath();
+      g.arc(x, y, tipo === 'bolacha' ? 9 : 15, 0, Math.PI * 2);
+      g.fill();
+    }
   } else if (tipo === 'texto') {
     g.font = '900 120px Arial Black, Arial';
     g.textAlign = 'center';
@@ -194,6 +210,70 @@ export function criarLutador(def) {
   )), [-0.42, 0.15, -0.26], [0.42, 0.66, 0.34], detalhe, null, 0.0045);
   raiz.userData.decalques = def.emblema === 'nenhum' ? [] : [{ malha: malhaRegata, pai: j.coluna, pos: [0, 0.32, 0.19 + bar * 0.06], tam: 0.19, mapa: emblema(def.emblema, def.corEmblema, def.fundoEmblema) }];
 
+  // ================= cabeça de biscoito / bolacha (tema Biscoito x Bolacha)
+  if (def.cabeca) {
+    j.cabeca = grupo(j.coluna, [0, 0.64, 0.0]);
+    const h = j.cabeca;
+    const eBolacha = def.cabeca === 'bolacha';
+    const R = eBolacha ? 0.18 : 0.175, esp = eBolacha ? 0.042 : 0.058, C = [0, 0.11, 0.0];
+    // disco de frente pra câmera (eixo Z), borda ondulada na bolacha
+    const disco = (x, y, z) => {
+      const dx = x - C[0], dy = y - C[1], dz = z - C[2];
+      const ang = Math.atan2(dy, dx);
+      const raio = R + (eBolacha ? 0.011 * Math.cos(18 * ang) : 0.006 * Math.sin(5 * ang + 1) + 0.004 * Math.sin(11 * ang));
+      const a = Math.hypot(dx, dy) - raio + 0.02, b = Math.abs(dz) - esp + 0.02;
+      return Math.min(Math.max(a, b), 0) + Math.hypot(Math.max(a, 0), Math.max(b, 0)) - 0.02;
+    };
+    let massa = eBolacha ? disco : ruido(disco, 0.006, 26);
+    if (eBolacha) {
+      // furinhos da bolacha e o relevo da borda
+      const furos = [];
+      for (let n = 0; n < 10; n++) {
+        const t = (n / 10) * Math.PI * 2 + 0.3;
+        furos.push(esfera([C[0] + Math.cos(t) * 0.15, C[1] + Math.sin(t) * 0.15, C[2] + esp + 0.004], 0.011));
+      }
+      massa = menos(0.004, massa, uniao(0.001, ...furos));
+    }
+    const corMassa = hex(def.pele).convertSRGBToLinear();
+    const corTostada = hex(def.pele).multiplyScalar(eBolacha ? 0.85 : 0.8).convertSRGBToLinear();
+    const corDisco = (x, y, z) => {
+      const borda = suave(R - 0.045, R + 0.01, Math.hypot(x - C[0], y - C[1]));
+      const manchas = eBolacha ? 0 : Math.max(0, fbm(x * 18, y * 18, z * 18)) * 0.35;
+      const t = Math.min(1, borda * 0.8 + manchas);
+      return misturar(corMassa, corTostada, t);
+    };
+    const massaMat = mat('#ffffff', { vertexColors: true, roughness: eBolacha ? 0.55 : 0.75, sheen: 0.4, sheenColor: hex('#fff1c8'), sheenRoughness: 0.6 });
+    peca(h, massa, [-0.24, -0.1, -0.08], [0.24, 0.32, 0.08], massaMat, corDisco, 0.004);
+    if (!eBolacha) {
+      // gotas de chocolate fora do rosto
+      const choc = mat('#3b1f10', { roughness: 0.35, clearcoat: 0.6 });
+      const gotas = [[0.12, 0.2], [-0.12, 0.19], [0.14, 0.04], [-0.15, 0.06], [0.1, -0.03], [-0.09, -0.03], [0.0, 0.25], [0.04, -0.04], [-0.04, 0.24]]
+        .map(([x, y], n) => ruido(elipse([x, y, esp - 0.004], [0.022 + (n % 3) * 0.004, 0.018 + (n % 2) * 0.005, 0.014]), 0.003, 120));
+      peca(h, uniao(0.002, ...gotas), [-0.22, -0.1, 0.0], [0.22, 0.31, 0.08], choc, null, 0.0028);
+    }
+    // olhos grandes, sobrancelhas franzidas, boca rangendo
+    const oy = 0.14, ox = 0.06, oz = esp + 0.004;
+    for (const l of [1, -1]) {
+      const o = grupo(h, [l * ox, oy, oz]);
+      const bola = new THREE.Mesh(new THREE.SphereGeometry(0.036, 32, 24), olhoBranco);
+      bola.scale.set(1, 1.1, 0.55);
+      o.add(bola);
+      const ir = new THREE.Mesh(new THREE.SphereGeometry(0.019, 24, 16), iris);
+      ir.position.set(-l * 0.004, -0.002, 0.016);
+      ir.scale.set(1, 1, 0.4);
+      o.add(ir);
+      const pu = new THREE.Mesh(new THREE.SphereGeometry(0.01, 16, 12), pupila);
+      pu.position.set(-l * 0.004, -0.002, 0.021);
+      pu.scale.set(1, 1, 0.35);
+      o.add(pu);
+    }
+    const palp = (l) => inter(0.003, elipse([l * ox, oy + 0.01, oz + 0.004], [0.042, 0.03, 0.022]), plano([0, -1, 0], -(oy + 0.008)));
+    peca(h, uniao(0.002, palp(1), palp(-1)), [-0.12, oy - 0.02, oz - 0.04], [0.12, oy + 0.06, oz + 0.04], massaMat, corDisco, 0.003);
+    const sob = (l) => cone([l * 0.025, oy + 0.045, oz + 0.012], [l * 0.105, oy + 0.075, oz + 0.008], 0.012, 0.009);
+    peca(h, uniao(0.002, sob(1), sob(-1)), [-0.13, oy + 0.02, oz - 0.02], [0.13, oy + 0.1, oz + 0.04], sobr, null, 0.0028);
+    peca(h, caixa([0, 0.05, oz + 0.002], [0.05, 0.016, 0.012], 0.008), [-0.07, 0.015, oz - 0.03], [0.07, 0.085, oz + 0.03], boca, null, 0.0025);
+    peca(h, caixa([0, 0.05, oz + 0.008], [0.042, 0.008, 0.008], 0.004), [-0.06, 0.025, oz - 0.02], [0.06, 0.075, oz + 0.03], dentes, null, 0.002);
+  } else {
   // ================= cabeça (origem no alto do pescoço)
   j.cabeca = grupo(j.coluna, [0, 0.64, 0.0]);
   const h = j.cabeca;
@@ -299,6 +379,8 @@ export function criarLutador(def) {
     peca(h, uniao(0.01, inter(0.01, f, plano([0, 0, -1], 0.05)), bigode), [-0.17, -0.09, -0.09], [0.17, 0.2, 0.2], barba, null, 0.0038);
   }
 
+  }
+
   // ================= braços
   for (const l of [1, -1]) {
     const nn = l === 1 ? 'E' : 'D';
@@ -327,6 +409,8 @@ export function criarLutador(def) {
     peca(luv, inter(0.004, inflar(fLuva, 0.004), plano([0, -1, 0], -0.045)), [-0.12, 0.03, -0.12], [0.12, 0.1, 0.12], punho, null, 0.0045);
   }
   raiz.userData.juntas = j;
+  // cabeça em forma de disco: vira um pouco pra câmera, senão aparece de lado
+  if (def.cabeca) raiz.userData.virarCabeca = 0.7;
   colarDecalques(raiz);
   return raiz;
 }
@@ -391,6 +475,8 @@ export function aplicarPose(lutador, pose, espelhar = false) {
     if (!Array.isArray(rot)) continue;
     let alvo = nome;
     let [x, y, z] = rot;
+    // (na vitória o boneco já está de frente pra plateia)
+    if (nome === 'cabeca' && (pose.quadril?.[1] ?? 0) < 0.5) y += lutador.userData.virarCabeca ?? 0;
     if (espelhar) {
       if (/E$/.test(nome)) alvo = nome.replace(/E$/, 'D');
       else if (/D$/.test(nome)) alvo = nome.replace(/D$/, 'E');
