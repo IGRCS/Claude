@@ -147,6 +147,7 @@ body.transparente, body.transparente #palco { background: transparent !important
   30% { transform: scale(1.05); }
   100% { transform: scale(1); }
 }
+.cartao > * { flex-shrink: 0; }
 .cartao-nome {
   font-family: var(--titulo);
   font-size: 56px;
@@ -184,7 +185,7 @@ body.transparente, body.transparente #palco { background: transparent !important
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 10px 0 2px;
+  margin: 2px 0 0;
   font-family: var(--titulo);
   font-size: 52px;
   letter-spacing: 1px;
@@ -208,14 +209,20 @@ body.transparente, body.transparente #palco { background: transparent !important
 @keyframes dica-pulso { 50% { transform: scale(1.08); } }
 .cartao-dica .membros { font-family: var(--texto); font-weight: 900; font-size: 28px; opacity: 0.95; text-shadow: none; }
 .cartao-top {
-  display: none;
+  display: block;
+  min-height: 28px;
+  margin-top: 2px;
   font-weight: 800;
-  font-size: 19px;
+  font-size: 23px;
+  line-height: 1.2;
   opacity: 0.92;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
+.cartao-top:empty { visibility: hidden; }
+.cartao-top span { margin-right: 8px; }
+.cartao-top b { color: #ffe066; }
 
 #centro {
   display: flex;

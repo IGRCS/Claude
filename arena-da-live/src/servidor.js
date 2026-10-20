@@ -124,6 +124,7 @@ function estadoParaTela() {
   const e = jogo.estado();
   e.lados.forEach((l, i) => {
     l.top = jogo.topDoadores(i, 3).map((d) => ({ nome: nome(d.usuario), pontos: d.pontos }));
+    l.socadores = jogo.topSocadores(i, 3).map((d) => ({ nome: nome(d.usuario), socos: d.socos }));
   });
   return e;
 }
@@ -268,7 +269,11 @@ jogo.on('novoRound', (ev) => {
   enviarEstado(true);
 });
 jogo.on('conquista', (ev) => io.emit('conquista', { lado: ev.lado, uf: ev.uf, nome: nome(ev.usuario) }));
-jogo.on('entrou', (ev) => io.emit('entrou', { lado: ev.lado, nome: nome(ev.usuario), trocou: ev.trocou, origem: ev.origem }));
+jogo.on('entrou', (ev) => {
+  io.emit('entrou', { lado: ev.lado, nome: nome(ev.usuario), trocou: ev.trocou, origem: ev.origem });
+  publicarFala(narrador.aoEntrar(ev));
+});
+jogo.on('marco', (ev) => publicarFala(narrador.aoMarco(ev)));
 jogo.on('estadoEscolhido', (ev) => io.emit('estadoEscolhido', { uf: ev.uf, nome: nome(ev.usuario) }));
 jogo.on('zerado', () => io.emit('zerado'));
 jogo.on('mudou', () => {
@@ -284,7 +289,28 @@ function receberPresente(ev) {
   const quantidadeCombo = Math.max(quantidade, (ev.repeatCount ?? 1) * grupo);
   if (quantidade > 0) jogo.presente({ usuario: ev.usuario, presente: ev.presente, quantidade, quantidadeCombo });
 }
+// Live parada (ninguém comentando, curtindo ou mandando nada): o narrador convida a galera.
+// Só fala e chama atenção na tela; não mexe no placar.
+let ultimaInteracao = Date.now();
+let ultimoConvite = 0;
+const interagiu = () => {
+  ultimaInteracao = Date.now();
+};
+setInterval(() => {
+  const f = cfg().falas;
+  if (!f.convite || !temaAtual) return;
+  const agora = Date.now();
+  if (agora - ultimaInteracao < (Number(f.conviteAposSeg) || 45) * 1000) return;
+  if (agora - ultimoConvite < (Number(f.conviteIntervaloSeg) || 90) * 1000) return;
+  ultimoConvite = agora;
+  publicarFala(narrador.convite());
+  io.emit('convite');
+}, 5000).unref();
+
 function ligarFonte(fonte) {
+  fonte.on('presente', interagiu);
+  fonte.on('comentario', interagiu);
+  fonte.on('curtida', interagiu);
   fonte.on('presente', receberPresente);
   fonte.on('comentario', (ev) => jogo.comentario(ev));
   fonte.on('curtida', (ev) => jogo.curtidas(ev));

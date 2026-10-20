@@ -384,3 +384,20 @@ test('soco por comentário pode ser desligado', () => {
   jogo.comentario({ usuario: usuario('a'), texto: '13' });
   assert.equal(jogo.lados[1].vida, 100);
 });
+
+test('ranking de socos do round conta curtidas e comentários (não presentes) e avisa os marcos', () => {
+  const { jogo } = montar({ curtidasPorPonto: 1, pontosPorComentario: 1, intervaloComentarioSeg: 0 });
+  const marcos = [];
+  jogo.on('marco', (e) => marcos.push(e.socos));
+  jogo.palavras = [['13'], ['22']];
+  jogo.comentario({ usuario: usuario('a'), texto: '13' });
+  jogo.curtidas({ usuario: usuario('a'), quantidade: 9 });
+  jogo.comentario({ usuario: usuario('b'), texto: '13' });
+  jogo.presente({ usuario: usuario('b'), presente: rosa, quantidade: 50 });
+  const top = jogo.topSocadores(0);
+  assert.deepEqual(top.map((d) => [d.usuario.id, d.socos]), [['a', 10], ['b', 1]]);
+  assert.deepEqual(marcos, [10]);
+  jogo.encerrarRound();
+  jogo.iniciar();
+  assert.equal(jogo.topSocadores(0).length, 0); // zera a cada round
+});

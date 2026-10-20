@@ -174,3 +174,34 @@ test('modo discreto: evita falas que citam presente e tira o nome do balão', as
   const normal = narrador.criarFala(0, { t: 'Toma, {rival}! Valeu, {nome}!', voz: 'Toma, {rival}!' }, { nome: 'Ana', rival: 'B' }, 1);
   assert.equal(normal.texto, 'Toma, B! Valeu, Ana!');
 });
+
+test('narrador chama pelo nome quem entra no time (com intervalo) e fala o nome na voz', () => {
+  const { narrador, avancar } = montar({ chamarNomes: true, intervaloChamadasSeg: 8 });
+  const u = (id) => ({ id, apelido: id, nome: id });
+  const f = narrador.aoEntrar({ usuario: u('Ana'), lado: 0, origem: 'comentario', trocou: false });
+  assert.match(f.texto, /Ana/);
+  assert.match(f.falado, /Ana/);
+  assert.equal(f.quem, 'narrador');
+  assert.equal(narrador.aoEntrar({ usuario: u('Bia'), lado: 1, origem: 'comentario' }), null); // dentro dos 8s
+  avancar(9000);
+  assert.equal(narrador.aoEntrar({ usuario: u('Ana'), lado: 0, origem: 'comentario' }), null); // a mesma pessoa só a cada 2 min
+  assert.ok(narrador.aoEntrar({ usuario: u('Bia'), lado: 1, origem: 'comentario' }));
+  avancar(9000);
+  assert.equal(narrador.aoEntrar({ usuario: u('Caio'), lado: 1, origem: 'presente' }), null); // só quem entra comentando
+});
+
+test('chamadas desligadas e marco de socos', () => {
+  const desligado = montar({ chamarNomes: false }).narrador;
+  assert.equal(desligado.aoEntrar({ usuario: { id: 'a', nome: 'a' }, lado: 0, origem: 'comentario' }), null);
+  const { narrador } = montar({ chamarNomes: true, intervaloChamadasSeg: 0 });
+  const f = narrador.aoMarco({ usuario: { id: 'z', apelido: 'Zeca', nome: 'Zeca' }, lado: 1, socos: 25 });
+  assert.match(f.texto, /Zeca|25/);
+});
+
+test('convite cita os números dos times e não usa nome', () => {
+  const { narrador } = montar();
+  const f = narrador.convite();
+  assert.equal(f.quem, 'narrador');
+  assert.match(f.texto, /1|2/);
+  assert.doesNotMatch(f.texto, /\{/);
+});

@@ -145,6 +145,10 @@
       <label class="check"><input type="checkbox" data-config="falas.ativas"> Bonecos falam quando chega presente (balão com o nome de quem mandou)</label>
       <label class="check"><input type="checkbox" data-config="falas.picantes"> Piadas picantes (desmarque para só as leves)</label>
       <label class="check"><input type="checkbox" data-config="falas.falarNome"> Falar o nome de quem mandou (voz sintética). Desligado: o nome aparece só no balão</label>
+      <label class="check"><input type="checkbox" data-config="falas.chamarNomes"> Narrador chama pelo nome quem entra num time e quem chega a 10, 25, 50… socos</label>
+      <label>Narrador: no máximo 1 chamada a cada (segundos) <input type="number" min="0" data-config="falas.intervaloChamadasSeg" data-tipo="numero"></label>
+      <label class="check"><input type="checkbox" data-config="falas.convite"> Live parada: narrador convida a galera a comentar e curtir</label>
+      <label>Convidar depois de (segundos sem interação) <input type="number" min="10" data-config="falas.conviteAposSeg" data-tipo="numero"></label>
       <label>Voz
         <select data-config="voz.motor">
           <option value="auto">Automática (Edge e, se falhar, Google)</option>

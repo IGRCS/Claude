@@ -384,6 +384,11 @@
       }
       pontosAnteriores[i] = l.pontosRound;
       por($('.cartao-dica', cartao), 'innerHTML', `DIGITE <b>${esc(tema.lados[i].dicaChat)}</b><span class="membros">👥 ${l.membros}</span>`);
+      // ranking de socos do round (curtidas + comentários)
+      const socadores = (l.socadores ?? []).filter((d) => d.socos > 0);
+      por($('.cartao-top', cartao), 'innerHTML', socadores.length
+        ? `🥊 ${socadores.map((d, k) => `<span>${k + 1}º ${esc(d.nome)} <b>${d.socos}</b></span>`).join(' ')}`
+        : '');
       const vida = $(`.vida[data-lado="${i}"]`);
       const pct = l.vidaMax > 0 ? Math.max(0, (l.vida / l.vidaMax) * 100) : 0;
       por($('.vida-cheia', vida), 'transform', `scaleX(${pct / 100})`);
@@ -989,6 +994,16 @@
   socket.on('lembrete', (ev) => {
     if (!tema) return;
     noticia(`🥊 <b>${esc(ev.nome)}</b> soca comentando! ❤️ <b>CURTA a tela</b> pra socar ainda mais!`);
+  });
+  // live parada: o narrador convida e o "DIGITE 13 / 22" chama atenção
+  socket.on('convite', () => {
+    if (!tema) return;
+    document.querySelectorAll('.cartao-dica b').forEach((b) =>
+      b.animate(
+        [{ transform: 'scale(1)' }, { transform: 'scale(1.3) rotate(-4deg)' }, { transform: 'scale(1)' }, { transform: 'scale(1.3) rotate(4deg)' }, { transform: 'scale(1)' }],
+        { duration: 1400, iterations: 2, easing: 'ease-in-out', composite: 'add' },
+      ),
+    );
   });
   socket.on('estadoEscolhido', (ev) => noticia(`📍 <b>${esc(ev.nome)}</b> está jogando por <b>${esc(ev.uf)}</b>`));
   socket.on('social', (ev) => {

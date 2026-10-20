@@ -64,6 +64,28 @@ export function montarFrase(modelo, vars) {
 
 let proximoId = 1;
 
+// Chamadas do narrador (o tema pode trocar em narrador.frases.entrou / marco / convite).
+export const CHAMADAS_PADRAO = {
+  entrou: [
+    '{nome} chegou pra lutar pelo {lutador}!',
+    'Bem-vindo, {nome}! Time {lutador}!',
+    '{nome} tá com o {lutador}! Comenta e curte pra socar!',
+    'Olha o {nome} entrando no time {lutador}!',
+  ],
+  trocou: ['{nome} trocou de lado! Agora é {lutador}!', 'Virou a casaca! {nome} agora luta pelo {lutador}!'],
+  marco: [
+    '{nome} já deu {socos} socos pelo {lutador}!',
+    '{socos} socos do {nome}! Que braço!',
+    'O {nome} não para! {socos} socos pro {lutador}!',
+  ],
+  convite: [
+    'Comente {dicaA} pro {a} ou {dicaB} pro {b} e entre na luta!',
+    'Quem vai socar agora? Comente {dicaA} ou {dicaB}!',
+    'Curta a tela pra dar soco! Comente {dicaA} ou {dicaB} pra escolher seu lado!',
+    'Tá muito parado aqui! Escolha seu lutador: {dicaA} ou {dicaB}!',
+  ],
+};
+
 // falas que citam presente, pagamento ou agradecimento (evitadas no modo discreto)
 export const CITA_PRESENTE = /presente|patroc|\bpix\b|pagando|patr[aã]o|mand(ou|aram|a)\b|obrigad/i;
 
@@ -91,6 +113,8 @@ export class Narrador {
     this.recentes = new Map();
     this.ultimaFalaLado = [-Infinity, -Infinity];
     this.ultimaFalaUsuario = new Map();
+    this.ultimaChamada = -Infinity;
+    this.chamados = new Map();
   }
 
   nome(usuario) {
@@ -132,12 +156,12 @@ export class Narrador {
   }
 
   // texto/partes vão para o balão (com o nome); "falado" é o que a voz diz (sem o nome, salvo se ligado).
-  criarFala(quem, frase, vars, prioridade) {
+  criarFala(quem, frase, vars, prioridade, { falarNome: forcarNome = false } = {}) {
     const f = lerFrase(frase);
     // modo discreto: o balão mostra a fala sem o nome de quem mandou (nada de "valeu, Fulano")
     const modeloBalao = this.discreto && quem !== 'narrador' ? f.voz ?? falaSemNome(f.t) : f.t;
     const { texto, partes } = montarFrase(modeloBalao, vars);
-    const falarNome = Boolean(this.falas.falarNome);
+    const falarNome = forcarNome || Boolean(this.falas.falarNome);
     const modeloFalado = falarNome ? f.t : f.voz ?? falaSemNome(f.t);
     const falado = montarFrase(modeloFalado, { ...vars, nome: vars.nome ?? '' }).texto;
     const perfil = quem === 'narrador' ? this.tema.narrador?.voz : this.tema.lados[quem]?.voz;
@@ -195,5 +219,53 @@ export class Narrador {
       a: this.tema.lados[0]?.nome,
       b: this.tema.lados[1]?.nome,
     }, 2);
+  }
+
+  // ------------------------------------------------------------ chamadas (interação com quem assiste)
+  frasesChamada(tipo) {
+    const doTema = this.tema?.narrador?.frases?.[tipo];
+    return doTema?.length ? doTema : CHAMADAS_PADRAO[tipo];
+  }
+
+  podeChamar() {
+    return Boolean(this.tema && this.falas.ativas && this.falas.chamarNomes !== false) &&
+      this.relogio() - this.ultimaChamada >= (Number(this.falas.intervaloChamadasSeg) || 0) * 1000;
+  }
+
+  // o narrador chama pelo nome (o nome passa pelo filtro de palavrões e vai na voz também)
+  chamar(chave, tipo, usuario, vars) {
+    const modelo = this.sortear(`narrador:${chave}`, this.frasesChamada(tipo));
+    if (!modelo) return null;
+    const agora = this.relogio();
+    this.ultimaChamada = agora;
+    if (usuario) {
+      this.chamados.set(`${tipo}:${usuario.id}`, agora);
+      if (this.chamados.size > 5000) this.chamados.clear();
+    }
+    return this.criarFala('narrador', modelo, { ...vars, nome: usuario ? this.nome(usuario) : '' }, 1, { falarNome: true });
+  }
+
+  aoEntrar(ev) {
+    if (ev.origem !== 'comentario' || !this.podeChamar()) return null;
+    if (this.relogio() - (this.chamados.get(`entrou:${ev.usuario.id}`) ?? -Infinity) < 120_000) return null;
+    const tipo = ev.trocou ? 'trocou' : 'entrou';
+    const fala = this.chamar(tipo, tipo, ev.usuario, this.varsBase(ev.lado));
+    if (fala) this.chamados.set(`entrou:${ev.usuario.id}`, this.relogio());
+    return fala;
+  }
+
+  aoMarco(ev) {
+    if (!this.podeChamar()) return null;
+    return this.chamar('marco', 'marco', ev.usuario, { ...this.varsBase(ev.lado), socos: ev.socos });
+  }
+
+  // ninguém interagindo há um tempo: convida a galera (o servidor decide quando)
+  convite() {
+    if (!this.tema || !this.falas.ativas) return null;
+    const [a, b] = this.tema.lados;
+    const fala = this.sortear('narrador:convite', this.frasesChamada('convite'));
+    if (!fala) return null;
+    const vars = { a: a?.nome, b: b?.nome, dicaA: a?.dicaChat, dicaB: b?.dicaChat };
+    return this.criarFala('narrador', fala, vars, 1);
   }
 }

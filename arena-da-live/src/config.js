@@ -32,6 +32,13 @@ export const CONFIG_PADRAO = {
     intervaloMinimoSeg: 3, // tempo mínimo entre falas do mesmo lutador (golpes comuns)
     falarPresentesAPartirDe: 1, // pontos mínimos de um envio comum para o boneco falar
     maxFila: 2,
+    // O narrador chama pelo nome quem entra num time e quem chega a 10, 25, 50... socos no round.
+    chamarNomes: true,
+    intervaloChamadasSeg: 8, // no máximo 1 chamada a cada N segundos
+    // Live sem ninguém interagindo: o narrador convida a galera (só fala, não mexe no placar)
+    convite: true,
+    conviteAposSeg: 45, // tempo sem comentário/curtida/presente para convidar
+    conviteIntervaloSeg: 90, // e depois repete no máximo a cada N segundos
   },
   voz: {
     motor: 'auto', // 'auto' (Edge e, se falhar, Google) | 'edge' | 'google' | 'navegador' | 'desligado'

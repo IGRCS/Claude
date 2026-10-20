@@ -87,6 +87,13 @@ conecte ele na sua live, e no painel escolha **"Pelo TikFinity aberto no PC"** �
   socos sozinhos, **sempre o mesmo número para cada lado por round** (padrão: 40), em momentos aleatórios. Não usa nomes
   nem presentes e não favorece ninguém: quem decide a luta continua sendo o público.
 - Tudo isso é ajustável no painel, seção **"5. Regras"**.
+- **Ranking de socos:** embaixo do "DIGITE" de cada lutador aparecem os 3 que mais socaram no round
+  (curtidas + comentários; presentes não entram). Zera a cada round.
+- **Narrador chama a galera pelo nome:** "Ana chegou pra lutar pelo LULE!", "Ana já deu 25 socos!" (quem entra
+  comentando e quem chega a 10, 25, 50, 100… socos). No máximo 1 chamada a cada 8 s e a mesma pessoa só a cada 2 min.
+  O nome passa pelo filtro de palavrões. Desliga em **"Falas e voz"**.
+- **Live parada:** se ninguém comentar, curtir ou mandar presente por 45 s, o narrador convida ("Comente 13 ou 22 e
+  entre na luta!") e o "DIGITE" balança. Repete no máximo a cada 90 s. Só fala; não mexe no placar.
 
 ## 5. Falas e voz dos bonecos
 

@@ -25,6 +25,9 @@ export const REGRAS_PADRAO = {
   intervaloComentarioSeg: 2, // por pessoa: quem repete o número muito rápido conta no máx. 1 soco a cada N s
 };
 
+// quem chega nestes números de socos (curtidas + comentários) no round ganha uma chamada do narrador
+export const MARCOS_SOCOS = [10, 25, 50, 100, 200, 500];
+
 const limparPalavra = (p) => normalizarTexto(p).replace(/^[#!/]+/, '').trim();
 
 function ladoNovo(vidaMax) {
@@ -86,6 +89,7 @@ export class Jogo extends EventEmitter {
     this.membros = [0, 0];
     this.estadosUsuarios = new Map();
     this.ultimoComentario = new Map();
+    this.socosRound = [new Map(), new Map()];
     this.doadores = [new Map(), new Map()];
     this.ultimoResultado = null;
     if (emitir) {
@@ -105,6 +109,7 @@ export class Jogo extends EventEmitter {
       l.vida = l.vidaMax;
       l.pontosRound = 0;
     }
+    this.socosRound = [new Map(), new Map()];
     this.fase = 'lutando';
     this.fimRoundEm = this.relogio() + this.regras.duracaoRoundSeg * 1000;
     this.agendarLutaAutomatica();
@@ -378,6 +383,7 @@ export class Jogo extends EventEmitter {
     const alvo = this.lados[1 - lado];
     atacante.total += pontos;
     this.registrarDoador(lado, info.usuario, pontos);
+    if (info.origem === 'curtida' || info.origem === 'comentario') this.contarSocos(lado, info.usuario, pontos);
     const conquistas = this.acumularConquista(lado, pontos, info.usuario);
     let dano = 0;
     let guardado = false;
@@ -407,6 +413,24 @@ export class Jogo extends EventEmitter {
       const menores = [...mapa.entries()].sort((x, y) => x[1].pontos - y[1].pontos).slice(0, 200);
       for (const [id] of menores) mapa.delete(id);
     }
+  }
+
+  // ranking de socos do round (só curtidas e comentários: não aparece quem mandou presente)
+  contarSocos(lado, usuario, socos) {
+    if (!usuario) return;
+    const mapa = this.socosRound[lado];
+    const atual = mapa.get(usuario.id) ?? { usuario, socos: 0 };
+    const antes = atual.socos;
+    atual.usuario = usuario;
+    atual.socos += socos;
+    mapa.set(usuario.id, atual);
+    if (mapa.size > 2000) mapa.delete(mapa.keys().next().value);
+    const marco = MARCOS_SOCOS.filter((m) => antes < m && atual.socos >= m).pop();
+    if (marco) this.emit('marco', { usuario, lado, socos: marco });
+  }
+
+  topSocadores(lado, n = 3) {
+    return [...this.socosRound[lado].values()].sort((x, y) => y.socos - x.socos).slice(0, n);
   }
 
   topDoadores(lado, n = 3) {
