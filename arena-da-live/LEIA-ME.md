@@ -179,6 +179,14 @@ e `pt-BR-ThalitaMultilingualNeural` (femininas). Mude `tom` (ex.: `-14%`) e `vel
 a partir de `ferramentas/personagens.mjs` (cores, cabelo, barba, camisa…). Para gerar de novo:
 `npm i --no-save @resvg/resvg-js` e depois `npm run bonecos`.
 
+**Lutadores e arena em 3D:** os temas Eleição e Clássico usam bonecos 3D estilo jogo de luta, o fundo da
+arena e os retratos das barras de vida, tudo em `temas/<tema>/img/3d/`. São **imagens prontas**: o 3D é
+renderizado uma vez só, na hora de gerar, então o jogo continua leve no PC. Os bonecos são esculpidos por
+código em `ferramentas/3d/` (`personagens3d.js` tem as cores e estilos). Para gerar de novo:
+`npm i --no-save three@0.169.0 playwright` e depois `npm run bonecos3d` (ou `npm run bonecos3d -- eleicao`).
+No `tema.json`, `"fundo"` aponta a imagem da arena, `"cabecas"` diz onde ficam as cabeças (para os efeitos
+de golpe) e cada lado tem `"retrato"`. Tema sem esses campos continua funcionando com os bonecos 2D.
+
 ## 8. Problemas comuns
 
 | Problema | Solução |

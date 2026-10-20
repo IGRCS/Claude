@@ -31,6 +31,9 @@ export function validarTema(id, bruto) {
   t.aviso = String(t.aviso ?? 'Jogo de humor • Personagens fictícios');
   t.avisoIA = String(t.avisoIA ?? '');
   t.mapa = t.mapa !== false;
+  // arena 3D (opcional): imagem de fundo pronta e onde ficam as cabeças dos bonecos na tela [[x, y], [x, y]]
+  t.fundo = t.fundo ? String(t.fundo) : null;
+  t.cabecas = Array.isArray(t.cabecas) && t.cabecas.length === 2 ? t.cabecas.map((c) => [Number(c[0]) || 0, Number(c[1]) || 0]) : null;
   t.cores = { fundo1: '#1a1033', fundo2: '#05060f', destaque: '#ffd400', ...(t.cores ?? {}) };
   t.base = `/temas/${encodeURIComponent(id)}/`;
   if (!Array.isArray(t.lados) || t.lados.length !== 2) throw erroTema(id, 'precisa ter exatamente 2 lados em "lados".');
@@ -102,6 +105,18 @@ export async function carregarTemas(pasta) {
           }
         }
       }
+      // fundo e retratos são opcionais: se o arquivo não existir, a tela usa o visual sem eles
+      if (tema.fundo && !/^https?:/.test(tema.fundo) && !(await existe(join(pasta, id, tema.fundo)))) {
+        avisos.push(`Tema "${id}": fundo não encontrado: ${tema.fundo}`);
+        tema.fundo = null;
+      }
+      for (const lado of tema.lados) {
+        const r = lado.personagem.retrato;
+        if (r && !/^https?:/.test(r) && !(await existe(join(pasta, id, r)))) {
+          avisos.push(`Tema "${id}": retrato não encontrado: ${r}`);
+          delete lado.personagem.retrato;
+        }
+      }
       temas.set(id, tema);
     } catch (erro) {
       avisos.push(erro instanceof SyntaxError ? `Tema "${id}": tema.json com erro de digitação (${erro.message})` : erro.message);
@@ -120,6 +135,8 @@ export function temaParaTela(tema) {
     aviso: tema.aviso,
     avisoIA: tema.avisoIA,
     mapa: tema.mapa,
+    fundo: tema.fundo,
+    cabecas: tema.cabecas,
     cores: tema.cores,
     base: tema.base,
     lados: tema.lados.map((l) => ({

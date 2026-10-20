@@ -10,7 +10,8 @@
     "test": "node --test test/*.test.js",
     "bonecos": "node ferramentas/gerar-bonecos.mjs",
     "roteiro": "node ferramentas/roteiro-falas.mjs",
-    "importar-audios": "node ferramentas/importar-audios.mjs"
+    "importar-audios": "node ferramentas/importar-audios.mjs",
+    "bonecos3d": "node ferramentas/3d/gerar-3d.mjs"
   },
   "engines": {
     "node": ">=20"

@@ -5,12 +5,25 @@
   "aviso": "Jogo de humor • Personagens fictícios • Sem vínculo com clubes",
   "avisoIA": "",
   "mapa": true,
-  "cores": { "fundo1": "#1a0b0d", "fundo2": "#05060f", "destaque": "#ffd400" },
+  "cores": {
+    "fundo1": "#1a0b0d",
+    "fundo2": "#05060f",
+    "destaque": "#ffd400"
+  },
   "narrador": {
     "voz": {
-      "edge": { "voz": "pt-BR-FranciscaNeural", "tom": "+0%", "velocidade": "+8%" },
-      "google": { "taxa": 1 },
-      "navegador": { "tom": 1.1, "velocidade": 1.1 }
+      "edge": {
+        "voz": "pt-BR-FranciscaNeural",
+        "tom": "+0%",
+        "velocidade": "+8%"
+      },
+      "google": {
+        "taxa": 1
+      },
+      "navegador": {
+        "tom": 1.1,
+        "velocidade": 1.1
+      }
     },
     "frases": {
       "inicioRound": [
@@ -29,25 +42,51 @@
       "cor": "#d01f2e",
       "corTexto": "#ffffff",
       "presentes": [
-        { "rotulo": "Rosa", "emoji": "🌹", "nomes": ["Rose", "Rosa"], "ids": ["5655"] }
+        {
+          "rotulo": "Rosa",
+          "emoji": "🌹",
+          "nomes": [
+            "Rose",
+            "Rosa"
+          ],
+          "ids": [
+            "5655"
+          ]
+        }
       ],
-      "palavras": ["1", "rubro", "rubronegro", "rubro-negro", "#rubronegro"],
+      "palavras": [
+        "1",
+        "rubro",
+        "rubronegro",
+        "rubro-negro",
+        "#rubronegro"
+      ],
       "dicaChat": "1",
       "personagem": {
         "escala": 1,
+        "retrato": "img/3d/rubro-retrato.png",
         "imagens": {
-          "parado": "img/rubro-parado.png",
-          "soco": "img/rubro-soco.png",
-          "especial": "img/rubro-especial.png",
-          "apanhando": "img/rubro-apanhando.png",
-          "nocaute": "img/rubro-nocaute.png",
-          "vitoria": "img/rubro-vitoria.png"
+          "parado": "img/3d/rubro-parado.png",
+          "soco": "img/3d/rubro-soco.png",
+          "especial": "img/3d/rubro-especial.png",
+          "apanhando": "img/3d/rubro-apanhando.png",
+          "nocaute": "img/3d/rubro-nocaute.png",
+          "vitoria": "img/3d/rubro-vitoria.png"
         }
       },
       "voz": {
-        "edge": { "voz": "pt-BR-AntonioNeural", "tom": "-6%", "velocidade": "+6%" },
-        "google": { "taxa": 0.85 },
-        "navegador": { "tom": 0.85, "velocidade": 1.05 }
+        "edge": {
+          "voz": "pt-BR-AntonioNeural",
+          "tom": "-6%",
+          "velocidade": "+6%"
+        },
+        "google": {
+          "taxa": 0.85
+        },
+        "navegador": {
+          "tom": 0.85,
+          "velocidade": 1.05
+        }
       },
       "frases": {
         "ataque": [
@@ -77,25 +116,49 @@
       "cor": "#e9e9e9",
       "corTexto": "#111111",
       "presentes": [
-        { "rotulo": "TikTok", "emoji": "🎵", "nomes": ["TikTok"], "ids": ["5269"] }
+        {
+          "rotulo": "TikTok",
+          "emoji": "🎵",
+          "nomes": [
+            "TikTok"
+          ],
+          "ids": [
+            "5269"
+          ]
+        }
       ],
-      "palavras": ["2", "alvi", "alvinegro", "#alvinegro"],
+      "palavras": [
+        "2",
+        "alvi",
+        "alvinegro",
+        "#alvinegro"
+      ],
       "dicaChat": "2",
       "personagem": {
         "escala": 1,
+        "retrato": "img/3d/alvi-retrato.png",
         "imagens": {
-          "parado": "img/alvi-parado.png",
-          "soco": "img/alvi-soco.png",
-          "especial": "img/alvi-especial.png",
-          "apanhando": "img/alvi-apanhando.png",
-          "nocaute": "img/alvi-nocaute.png",
-          "vitoria": "img/alvi-vitoria.png"
+          "parado": "img/3d/alvi-parado.png",
+          "soco": "img/3d/alvi-soco.png",
+          "especial": "img/3d/alvi-especial.png",
+          "apanhando": "img/3d/alvi-apanhando.png",
+          "nocaute": "img/3d/alvi-nocaute.png",
+          "vitoria": "img/3d/alvi-vitoria.png"
         }
       },
       "voz": {
-        "edge": { "voz": "pt-BR-AntonioNeural", "tom": "+2%", "velocidade": "+10%" },
-        "google": { "taxa": 0.9 },
-        "navegador": { "tom": 1, "velocidade": 1.1 }
+        "edge": {
+          "voz": "pt-BR-AntonioNeural",
+          "tom": "+2%",
+          "velocidade": "+10%"
+        },
+        "google": {
+          "taxa": 0.9
+        },
+        "navegador": {
+          "tom": 1,
+          "velocidade": 1.1
+        }
       },
       "frases": {
         "ataque": [
@@ -120,5 +183,16 @@
         ]
       }
     }
+  ],
+  "fundo": "img/3d/fundo.jpg",
+  "cabecas": [
+    [
+      352,
+      619
+    ],
+    [
+      728,
+      619
+    ]
   ]
 }

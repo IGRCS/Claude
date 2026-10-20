@@ -73,13 +73,14 @@
       "dicaChat": "13",
       "personagem": {
         "escala": 1,
+        "retrato": "img/3d/lule-retrato.png",
         "imagens": {
-          "parado": "img/lule-parado.png",
-          "soco": "img/lule-soco.png",
-          "especial": "img/lule-especial.png",
-          "apanhando": "img/lule-apanhando.png",
-          "nocaute": "img/lule-nocaute.png",
-          "vitoria": "img/lule-vitoria.png"
+          "parado": "img/3d/lule-parado.png",
+          "soco": "img/3d/lule-soco.png",
+          "especial": "img/3d/lule-especial.png",
+          "apanhando": "img/3d/lule-apanhando.png",
+          "nocaute": "img/3d/lule-nocaute.png",
+          "vitoria": "img/3d/lule-vitoria.png"
         }
       },
       "voz": {
@@ -299,13 +300,14 @@
       "dicaChat": "22",
       "personagem": {
         "escala": 1,
+        "retrato": "img/3d/flabio-retrato.png",
         "imagens": {
-          "parado": "img/flabio-parado.png",
-          "soco": "img/flabio-soco.png",
-          "especial": "img/flabio-especial.png",
-          "apanhando": "img/flabio-apanhando.png",
-          "nocaute": "img/flabio-nocaute.png",
-          "vitoria": "img/flabio-vitoria.png"
+          "parado": "img/3d/flabio-parado.png",
+          "soco": "img/3d/flabio-soco.png",
+          "especial": "img/3d/flabio-especial.png",
+          "apanhando": "img/3d/flabio-apanhando.png",
+          "nocaute": "img/3d/flabio-nocaute.png",
+          "vitoria": "img/3d/flabio-vitoria.png"
         }
       },
       "voz": {
@@ -494,5 +496,16 @@
         ]
       }
     }
+  ],
+  "fundo": "img/3d/fundo.jpg",
+  "cabecas": [
+    [
+      352,
+      619
+    ],
+    [
+      728,
+      619
+    ]
   ]
 }

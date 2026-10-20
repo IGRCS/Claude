@@ -144,10 +144,12 @@
     };
   }
   const lutadores = [criarLutador(0), criarLutador(1)];
-  const LARGURA_CABO = 1080 - 80 - 8; // #cabo: 1080 - margens (40+40) - bordas (4+4)
+  const LARGURA_CABO = 588 - 6; // #cabo-trilho: largura - bordas (3+3)
+  const TOPO_ARENA = 560; // #arena top
   const dirDe = (lado) => (lado === 0 ? 1 : -1);
-  // posição aproximada da cabeça de cada lutador dentro da arena
-  const CABECA = [{ x: 280, y: 268 }, { x: 800, y: 268 }];
+  // posição da cabeça de cada lutador dentro da arena (temas 3D trazem a posição exata em "cabecas")
+  const CABECA_2D = [{ x: 280, y: 268 }, { x: 800, y: 268 }];
+  let CABECA = CABECA_2D;
 
   // ---------------------------------------------------------------- efeitos (partículas)
   const canvas = $('#efeitos');
@@ -306,9 +308,30 @@
       raiz.setProperty(`--texto${i}`, l.corTexto);
       raiz.setProperty(`--cor${i}-claro`, misturar(l.cor, '#ffffff', 0.42));
       raiz.setProperty(`--cor${i}-escuro`, misturar(l.cor, '#000000', 0.48));
-      $(`.cartao[data-lado="${i}"] .cartao-nome`).textContent = l.nome;
+      // nomes compridos ("RUBRO-NEGRO") encolhem em vez de virar "RUBRO-..."
+      const encolher = (el, base, cabe) => {
+        el.style.fontSize = l.nome.length > cabe ? `${Math.max(base * 0.55, Math.round((base * cabe) / l.nome.length))}px` : '';
+      };
+      const nome = $(`.plaqueta[data-lado="${i}"] .cartao-nome`);
+      nome.textContent = l.nome;
+      encolher(nome, 38, 7);
+      encolher($(`#cabo .cabo-lado[data-lado="${i}"]`), 44, 7);
+      $(`.mapa-conta[data-lado="${i}"]`).style.setProperty('--tam-nome', l.nome.length > 9 ? `${Math.max(18, Math.round((30 * 9) / l.nome.length))}px` : '30px');
       lutadores[i].definir(t.base, l.personagem?.imagens, l.personagem?.escala, l.cor);
+      // retrato da barra de vida: o 3D pronto ou, sem ele, a cabeça do boneco "parado"
+      const caixa = $(`.plaqueta[data-lado="${i}"] .retrato`);
+      const rel = l.personagem?.retrato || l.personagem?.imagens?.parado;
+      caixa.classList.toggle('recorte', !l.personagem?.retrato);
+      const img = $('img', caixa);
+      if (rel) img.src = /^(https?:|data:)/.test(rel) ? rel : t.base + rel;
+      else img.removeAttribute('src');
     });
+    // arena 3D: fundo pronto + posição das cabeças medida na hora de gerar as imagens
+    document.body.classList.toggle('tema3d', Boolean(t.fundo));
+    if (t.fundo) $('#fundo-3d').src = /^(https?:|data:)/.test(t.fundo) ? t.fundo : t.base + t.fundo;
+    CABECA = Array.isArray(t.cabecas) && t.cabecas.length === 2
+      ? t.cabecas.map(([x, y]) => ({ x, y: y - TOPO_ARENA }))
+      : CABECA_2D;
     raiz.setProperty('--fundo1', t.cores.fundo1);
     raiz.setProperty('--fundo2', t.cores.fundo2);
     raiz.setProperty('--destaque', t.cores.destaque);
@@ -377,13 +400,14 @@
     const somaRound = e.lados[0].pontosRound + e.lados[1].pontosRound;
     e.lados.forEach((l, i) => {
       const cartao = $(`.cartao[data-lado="${i}"]`);
-      por($('.cartao-pontos .num', cartao), 'textContent', String(l.pontosRound));
+      por($(`.plaqueta[data-lado="${i}"] .cartao-pontos .num`), 'textContent', String(l.pontosRound));
       if (l.pontosRound > pontosAnteriores[i]) {
         // pulso só com transform, sem forçar o navegador a recalcular o layout
         cartao.animate([{ transform: 'scale(1)' }, { transform: 'scale(1.05)', offset: 0.3 }, { transform: 'scale(1)' }], { duration: 420, easing: 'ease-out' });
       }
       pontosAnteriores[i] = l.pontosRound;
-      por($('.cartao-dica', cartao), 'innerHTML', `DIGITE <b>${esc(tema.lados[i].dicaChat)}</b><span class="membros">👥 ${l.membros}</span>`);
+      por($('.cartao-dica', cartao), 'innerHTML', `<span>DIGITE</span><b>${esc(tema.lados[i].dicaChat)}</b>`);
+      por($('.cartao-membros', cartao), 'textContent', `👥 ${l.membros} no time`);
       // ranking de socos do round (curtidas + comentários)
       const socadores = (l.socadores ?? []).filter((d) => d.socos > 0);
       por($('.cartao-top', cartao), 'innerHTML', socadores.length
@@ -395,7 +419,7 @@
       por($('.vida-rastro', vida), 'transform', `scaleX(${pct / 100})`);
       por($('.vida-num', vida), 'textContent', String(l.vida));
       vida.classList.toggle('baixa', e.fase === 'lutando' && pct <= 25);
-      por($(`.mapa-conta[data-lado="${i}"]`), 'textContent', `${tema.lados[i].nome} ${l.estados}`);
+      por($(`.mapa-conta[data-lado="${i}"]`), 'innerHTML', `<b>${l.estados}</b><span>estados</span><em>${esc(tema.lados[i].nome)}</em>`);
       por($(`#cabo .cabo-lado[data-lado="${i}"] .cabo-texto`), 'textContent',
         i === 0 ? `${tema.lados[0].nome} ${l.pontosRound}` : `${l.pontosRound} ${tema.lados[1].nome}`);
     });

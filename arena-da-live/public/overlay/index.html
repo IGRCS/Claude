@@ -11,6 +11,7 @@
 <body>
   <div id="palco">
     <div id="fundo">
+      <img id="fundo-3d" alt="">
       <div class="holofote h1"></div>
       <div class="holofote h2"></div>
       <div id="plateia"></div>
@@ -21,34 +22,44 @@
       <div id="subtitulo"></div>
     </header>
 
-    <section id="cartoes">
-      <div class="cartao" data-lado="0">
-        <div class="cartao-nome"></div>
-        <div class="cartao-pontos"><span class="num">0</span><small>PTS</small></div>
-        <div class="cartao-presentes"></div>
-        <div class="cartao-dica"></div>
-        <div class="cartao-top"></div>
+    <!-- barras de vida estilo jogo de luta, com o retrato de cada lutador -->
+    <section id="barras">
+      <div class="plaqueta" data-lado="0">
+        <div class="retrato"><img alt=""></div>
+        <div class="vida" data-lado="0"><div class="vida-rastro"></div><div class="vida-cheia"></div><span class="vida-num"></span></div>
+        <div class="plaqueta-nome"><b class="cartao-nome"></b><span class="cartao-pontos"><span class="num">0</span><small>PTS</small></span></div>
       </div>
       <div id="centro">
         <div id="round">ROUND 1</div>
         <div id="tempo">03:00</div>
-        <div id="placar"><span class="p0">0</span><em>x</em><span class="p1">0</span></div>
-        <div id="fase"></div>
+        <div id="placar"><span class="p0">0</span><em>VITÓRIAS</em><span class="p1">0</span></div>
+      </div>
+      <div class="plaqueta" data-lado="1">
+        <div class="retrato"><img alt=""></div>
+        <div class="vida" data-lado="1"><div class="vida-rastro"></div><div class="vida-cheia"></div><span class="vida-num"></span></div>
+        <div class="plaqueta-nome"><b class="cartao-nome"></b><span class="cartao-pontos"><span class="num">0</span><small>PTS</small></span></div>
+      </div>
+    </section>
+
+    <!-- "DIGITE 13 / 22": a instrução mais importante do jogo -->
+    <section id="cartoes">
+      <div class="cartao" data-lado="0">
+        <div class="cartao-dica"></div>
+        <div class="cartao-info"><span class="cartao-membros"></span><div class="cartao-presentes"></div></div>
+        <div class="cartao-top"></div>
       </div>
       <div class="cartao" data-lado="1">
-        <div class="cartao-nome"></div>
-        <div class="cartao-pontos"><span class="num">0</span><small>PTS</small></div>
-        <div class="cartao-presentes"></div>
         <div class="cartao-dica"></div>
+        <div class="cartao-info"><span class="cartao-membros"></span><div class="cartao-presentes"></div></div>
         <div class="cartao-top"></div>
       </div>
     </section>
 
-    <section id="vidas">
-      <div class="vida" data-lado="0"><div class="vida-rastro"></div><div class="vida-cheia"></div><span class="vida-num"></span></div>
-      <div id="vs">VS</div>
-      <div class="vida" data-lado="1"><div class="vida-rastro"></div><div class="vida-cheia"></div><span class="vida-num"></span></div>
-    </section>
+    <div id="instrucoes">
+      <span class="instrucao curtir">❤️ CURTIU = <b>SOCO</b></span>
+      <span class="instrucao especial">💥 <span class="valor-especial">99</span>+🪙 = <b>ESPECIAL</b></span>
+      <span class="instrucao super">⚡ <span class="valor-super">299</span>+🪙 = <b>SUPER</b></span>
+    </div>
 
     <section id="arena">
       <div id="ringue">
@@ -58,39 +69,38 @@
       </div>
       <div class="lutador" data-lado="0"><div class="lutador-bob"><div class="lutador-corpo"><img class="lutador-img" alt=""></div></div></div>
       <div class="lutador" data-lado="1"><div class="lutador-bob"><div class="lutador-corpo"><img class="lutador-img" alt=""></div></div></div>
-      <div id="instrucoes">
-        <span class="instrucao curtir">❤️ CURTIU = <b>SOCO</b></span>
-        <span class="instrucao especial">💥 <span class="valor-especial">99</span>+🪙 = <b>ESPECIAL</b></span>
-        <span class="instrucao super">⚡ <span class="valor-super">299</span>+🪙 = <b>SUPER</b></span>
-      </div>
       <canvas id="efeitos" width="540" height="390"></canvas>
       <div id="numeros"></div>
       <div class="balao" data-quem="0"><div class="balao-texto"></div></div>
       <div class="balao" data-quem="1"><div class="balao-texto"></div></div>
       <div class="balao" data-quem="narrador"><div class="balao-texto"></div></div>
+      <div id="fase"></div>
       <div id="anuncio"><div class="anuncio-titulo"></div><div class="anuncio-sub"></div></div>
       <div id="guardado"></div>
     </section>
 
+    <div id="baixo-fundo"></div>
     <section id="cabo">
-      <div id="cabo-fundo1"></div>
-      <div id="cabo-barra0"></div>
       <div class="cabo-lado" data-lado="0"><span class="cabo-texto"></span></div>
+      <div id="cabo-trilho">
+        <div id="cabo-fundo1"></div>
+        <div id="cabo-barra0"></div>
+        <div id="cabo-no">⚡</div>
+      </div>
       <div class="cabo-lado" data-lado="1"><span class="cabo-texto"></span></div>
-      <div id="cabo-no"></div>
     </section>
 
     <div id="ticker"><div id="ticker-texto"></div></div>
 
     <section id="baixo">
       <div id="mapa-box">
-        <div id="mapa-cabecalho">
-          <span class="mapa-conta" data-lado="0"></span>
-          <span class="mapa-titulo">CONQUISTA DO BRASIL</span>
-          <span class="mapa-conta" data-lado="1"></span>
+        <div class="mapa-conta" data-lado="0"></div>
+        <div id="mapa-centro">
+          <div class="mapa-titulo">CONQUISTA DO BRASIL</div>
+          <div id="mapa-dica">Comente a sigla do seu estado (ex.: <b>SP</b>)</div>
+          <svg id="mapa"></svg>
         </div>
-        <svg id="mapa"></svg>
-        <div id="mapa-dica">Comente a sigla do seu estado (ex.: <b>SP</b>) e conquiste ele!</div>
+        <div class="mapa-conta" data-lado="1"></div>
       </div>
     </section>
 
