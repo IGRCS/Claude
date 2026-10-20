@@ -20,6 +20,9 @@ export const REGRAS_PADRAO = {
   // para cada lado (sem favorecer ninguém) e espalhados ao acaso no tempo. Sem nomes, sem presentes.
   lutaAutomatica: false,
   socosAutomaticosPorRound: 40, // por lado, por round (1 ponto cada)
+  // Comentar o número do time (13 / 22) também dá soco, como a curtida. 0 desliga.
+  pontosPorComentario: 1,
+  intervaloComentarioSeg: 2, // por pessoa: quem repete o número muito rápido conta no máx. 1 soco a cada N s
 };
 
 const limparPalavra = (p) => normalizarTexto(p).replace(/^[#!/]+/, '').trim();
@@ -82,6 +85,7 @@ export class Jogo extends EventEmitter {
     this.times = new Map();
     this.membros = [0, 0];
     this.estadosUsuarios = new Map();
+    this.ultimoComentario = new Map();
     this.doadores = [new Map(), new Map()];
     this.ultimoResultado = null;
     if (emitir) {
@@ -329,13 +333,25 @@ export class Jogo extends EventEmitter {
         // já é do time e mandou o número de novo: lembra que curtida é que dá soco
         if (this.times.get(usuario.id) === lado) {
           this.emit('repetiu', { usuario, lado });
+          this.socoDeComentario(usuario, lado);
           return { tipo: 'repetiu', usuario, lado };
         }
         const ev = this.entrarNoTime(usuario, lado, 'comentario');
+        this.socoDeComentario(usuario, lado);
         return ev ? { tipo: 'time', ...ev } : null;
       }
     }
     return null;
+  }
+
+  socoDeComentario(usuario, lado) {
+    const pontos = Number(this.regras.pontosPorComentario) || 0;
+    if (pontos <= 0) return null;
+    const agora = this.relogio();
+    if (agora - (this.ultimoComentario.get(usuario.id) ?? -Infinity) < (Number(this.regras.intervaloComentarioSeg) || 0) * 1000) return null;
+    this.ultimoComentario.set(usuario.id, agora);
+    if (this.ultimoComentario.size > 20000) this.ultimoComentario.delete(this.ultimoComentario.keys().next().value);
+    return this.aplicarPontos(lado, pontos, { usuario, presente: null, quantidade: 0, golpe: 'jab', origem: 'comentario' });
   }
 
   entrarNoTime(usuario, lado, origem) {
@@ -357,7 +373,7 @@ export class Jogo extends EventEmitter {
 
   // ------------------------------------------------------------ pontos, dano e mapa
   aplicarPontos(lado, pontos, info) {
-    if (this.fase === 'aguardando' && this.regras.autoIniciar && (info.origem === 'presente' || info.origem === 'curtida')) this.iniciarRound();
+    if (this.fase === 'aguardando' && this.regras.autoIniciar && ['presente', 'curtida', 'comentario'].includes(info.origem)) this.iniciarRound();
     const atacante = this.lados[lado];
     const alvo = this.lados[1 - lado];
     atacante.total += pontos;

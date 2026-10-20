@@ -14,7 +14,7 @@ function montar(regras = {}, temaExtra = {}) {
     sorteio = (sorteio + 0.37) % 1;
     return sorteio;
   };
-  const jogo = new Jogo({ regras: { duracaoRoundSeg: 60, intervaloSeg: 5, vidaMax: 100, danoPorMoeda: 1, ...regras }, relogio, aleatorio });
+  const jogo = new Jogo({ regras: { duracaoRoundSeg: 60, intervaloSeg: 5, vidaMax: 100, danoPorMoeda: 1, pontosPorComentario: 0, ...regras }, relogio, aleatorio });
   const tema = validarTema('teste', {
     mapa: true,
     ...temaExtra,
@@ -358,4 +358,29 @@ test('combo de rosas: o envio que passa de 99 moedas no total solta o golpe espe
   assert.deepEqual(golpes, ['soco', 'soco', 'especial', 'soco']);
   // um presente único caro continua soltando super direto
   assert.equal(jogo.presente({ usuario: usuario('c'), presente: presente(300), quantidade: 1 }).golpe, 'super');
+});
+
+test('comentar o número do time dá soco (como curtida), com intervalo por pessoa', () => {
+  const { jogo, avancar, eventos } = montar({ pontosPorComentario: 1, intervaloComentarioSeg: 2 });
+  jogo.palavras = [['13'], ['22']];
+  jogo.comentario({ usuario: usuario('a'), texto: '13' }); // entra no time, começa o round e já soca
+  assert.equal(jogo.fase, 'lutando');
+  assert.equal(jogo.lados[1].vida, 99);
+  jogo.comentario({ usuario: usuario('a'), texto: '13 13 13' }); // rápido demais: não conta
+  assert.equal(jogo.lados[1].vida, 99);
+  avancar(2000);
+  jogo.comentario({ usuario: usuario('a'), texto: '13' });
+  assert.equal(jogo.lados[1].vida, 98);
+  jogo.comentario({ usuario: usuario('b'), texto: '22' });
+  assert.equal(jogo.lados[0].vida, 99);
+  const socos = eventos.filter((e) => e.nome === 'ataque' && e.origem === 'comentario');
+  assert.equal(socos.length, 3);
+  assert.ok(socos.every((e) => e.golpe === 'jab'));
+});
+
+test('soco por comentário pode ser desligado', () => {
+  const { jogo } = montar({ pontosPorComentario: 0 });
+  jogo.palavras = [['13'], ['22']];
+  jogo.comentario({ usuario: usuario('a'), texto: '13' });
+  assert.equal(jogo.lados[1].vida, 100);
 });

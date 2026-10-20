@@ -73,7 +73,7 @@ conecte ele na sua live, e no painel escolha **"Pelo TikFinity aberto no PC"** �
 | O que o público faz | O que acontece |
 |---|---|
 | Manda o presente do lado (ex.: **Rosa** = LULE, **TikTok** = FLABIO) | Soco do lutador, dano no rival, e a pessoa entra no time |
-| Comenta **13** (LULE) ou **22** (FLABIO), ou o nome do lutador (ex.: `lule`, `#flabio`) | Entra no time. A partir daí **qualquer presente** dela ajuda esse lado. Quem repete o número recebe na tela o lembrete "agora CURTA a tela pra socar!" |
+| Comenta **13** (LULE) ou **22** (FLABIO), ou o nome do lutador (ex.: `lule`, `#flabio`) | Entra no time e já dá **1 soco** (1 ponto de dano). Cada vez que comentar o número de novo, mais 1 soco, no máximo 1 a cada 2 segundos por pessoa (ajustável em Regras: "Soco por comentário" e "Comentário: 1 soco a cada"; 0 desliga). A partir daí **qualquer presente** dela também ajuda esse lado. |
 | Manda presente de **99+ moedas** de uma vez | **Golpe especial** (tela treme) |
 | Manda presente de **299+ moedas** de uma vez | **SUPER GOLPE** com anúncio na tela |
 | Dá **curtidas** (já tendo time) | Cada pacote de curtidas vira uma rajada de soquinhos na hora; a cada 10 curtidas, 1 ponto de dano |
